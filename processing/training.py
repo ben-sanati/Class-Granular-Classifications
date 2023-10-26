@@ -25,6 +25,10 @@ class Trainer(ABC):
         optimizer (_type_): _description_
         args (_type_): _description_
         device (_type_): _description_
+        epochs (_type_): _description_
+        losses (_type_): _description_
+        val1_acc (_type_): _description_
+        val5_acc (_type_): _description_
     """
     model: nn.Module
     train_loader: DataLoader
@@ -39,13 +43,13 @@ class Trainer(ABC):
     val1_acc: List[float] = field(default_factory=list)
     val5_acc: List[float] = field(default_factory=list)
 
-    def train(self):
+    def train(self, filepath: str):
         """
         _summary_
         """
         num_iterations = len(self.train_loader)
 
-        print(f"# Training iterations : {num_iterations}\n")
+        print(f"\n# Training iterations per epoch : {num_iterations}\n")
         print("-"*30 + "\n|" + " "*10 + "Training" + " "*10 + "|\n" + "-"*30 + "\n")
         for epoch in range(self.args.num_epochs):
             for index, (images, labels) in enumerate(self.train_loader):
@@ -73,6 +77,9 @@ class Trainer(ABC):
                     self.val5_acc.append(top5_val)
 
         print("-" * 30)
+
+        # save model
+        torch.save(self.model.state_dict(), filepath)
 
     @abstractmethod
     def _get_output(self, images, labels):

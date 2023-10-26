@@ -1,0 +1,3 @@
+,Model,Top-1 Accuracy (%),Top-5 Accuracy (%),Average MACs,Number Params,Memory Size (MB)
+0,AlexNet Model,2.92,12.59,90.321M,7,218.9553098678589
+1,Branchy-AlexNet Model,5.54,21.54,118.511M,3,280.34213161468506

@@ -108,8 +108,8 @@ def dataloader(train_data, val_data, test_data, batch_size):
     """
     # set up DataLoader
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True,
-                              num_workers=16)
-    val_loader = DataLoader(dataset=val_data, batch_size=1, shuffle=False, num_workers=16)
-    test_loader = DataLoader(dataset=test_data, batch_size=1, shuffle=False, num_workers=16)
+                              num_workers=8)
+    val_loader = DataLoader(dataset=val_data, batch_size=batch_size, shuffle=False, num_workers=8)
+    test_loader = DataLoader(dataset=test_data, batch_size=batch_size, shuffle=False, num_workers=8)
 
     return train_loader, val_loader, test_loader
