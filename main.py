@@ -9,10 +9,10 @@ import torch.nn as nn
 import numpy as np
 from torchinfo import summary
 
-# models
 from models.alexnet import AlexNet
 from models.b_alexnet import BranchyAlexNet
-from processing.training import AlexNetTrainer, BranchyNetTrainer
+from models.super_hbn import SuperHBN
+from processing.training import AlexNetTrainer, BranchyNetTrainer, SuperNetTrainer
 from processing.testing import ModelComparator
 from utils.load_data import dataset, split_data, g0_classes, g1_classes, dataloader
 
@@ -41,7 +41,7 @@ def get_data(batch_size: int):
                                                        test_data=test_data,
                                                        batch_size=batch_size)
 
-    return train, val, test
+    return train, val, test, g1
 
 def training(_data: tuple, _models: dict, _trainer: dict,
              _args: argparse.Namespace, _model_path: str):
@@ -55,14 +55,14 @@ def training(_data: tuple, _models: dict, _trainer: dict,
         _args (argparse.Namespace): _description_
         _model_path (str): _description_
     """
-    train_loader, val_loader, test_loader = _data
+    train_loader, val_loader, test_loader, g1 = _data
     for model_name, model_def in _models.items():
         # initialize the model and summarise it
         device = torch.device(_args.device)
         model = model_def().to(device)
         print(f"Model == {model_name}\n")
 
-        _temp_train, _, _ = _data
+        _temp_train, _, _, _, = _data
         images, _ = next(iter(_temp_train))
         summary(model, input_size=[images.shape], dtypes=[torch.float32])
 
@@ -73,7 +73,8 @@ def training(_data: tuple, _models: dict, _trainer: dict,
 
         # train and plot results
         trainer = _trainer[model_name](model, train_loader, val_loader, test_loader,
-                                       loss_fn, optimizer, _args, device)
+                                       loss_fn, optimizer, _args, device, g1)
+        trainer.init_param()  # Kaiming initialization
         trainer.train(filepath=f'{_model_path}/{model_name}.pth')
         trainer.plot_and_save(model_name=model_name,
                               save_folder=f'../results/training_plots/{model_name}')
@@ -95,7 +96,7 @@ def testing(_data: tuple, _models: dict, _model_paths: dict,
 
     # load models
     device = torch.device(_args.device)
-    train_loader, val_loader, test_loader = _data
+    train_loader, val_loader, test_loader, g1 = _data
     models, model_names = [], []
     for model_name, model_path in _model_paths.items():
         model = _models[model_name]().to(device)
@@ -103,7 +104,7 @@ def testing(_data: tuple, _models: dict, _model_paths: dict,
         model_names.append(model_name)
         models.append(model)
 
-    model_tester = ModelComparator(models, model_names, test_loader, device)
+    model_tester = ModelComparator(models, model_names, test_loader, g1, device)
     model_tester.perform_tests(folder)
 
 if __name__ == '__main__':
@@ -120,9 +121,13 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet}  # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Super-HBN': Super_HBN}
-    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer}  # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer, 'Super-HBN': super_train}
-    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth', 'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth'}
+    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
+              'Super-HBN': SuperHBN}
+    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+               'Super-HBN': SuperNetTrainer}
+    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()

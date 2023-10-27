@@ -38,10 +38,28 @@ class Trainer(ABC):
     optimizer: torch.optim.Optimizer
     args: argparse.Namespace
     device: torch.device
+    g1_identifiers: list
     epochs: List[float] = field(default_factory=list)
     losses: List[float] = field(default_factory=list)
     val1_acc: List[float] = field(default_factory=list)
     val5_acc: List[float] = field(default_factory=list)
+
+    def init_param(self):
+        """
+        Kaiming Normal parameter initialization
+        -------------------------------------------------------------------------------
+        Ref:
+        He, K., Zhang, X., Ren, S. and Sun, J., 2015. Delving deep into rectifiers:
+        Surpassing human-level performance on imagenet classification. In Proceedings
+        of the IEEE international conference on computer vision (pp. 1026-1034)
+        -------------------------------------------------------------------------------
+        """
+        if isinstance(self.model, nn.Conv2d):
+            nn.init.kaiming_normal_(self.model.weight.data, nonlinearity='relu')
+            nn.init.constant_(self.model.bias.data, 0)
+        elif isinstance(self.model, nn.Linear):
+            nn.init.xavier_normal_(self.model.weight.data, gain=nn.init.calculate_gain('relu'))
+            nn.init.constant_(self.model.bias.data, 0)
 
     def train(self, filepath: str):
         """
@@ -68,13 +86,20 @@ class Trainer(ABC):
                 if (index + 1) % num_iterations == 0:
                     top1_val, top5_val = self.validate()
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]: \
-                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc  = {top5_val}%\n")
+                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}%\n")
 
                     # add data to lists
                     self.epochs.append(epoch+1)
                     self.losses.append(loss.item())
                     self.val1_acc.append(top1_val)
                     self.val5_acc.append(top5_val)
+
+                    # clear variables that are no longer needed
+                    del images
+                    del labels
+                    del loss
+                    del top1_val
+                    del top5_val
 
         print("-" * 30)
 
@@ -104,7 +129,16 @@ class Trainer(ABC):
                 images = images.to(self.device)
                 labels = labels.to(self.device)
 
-                outputs = self.model(images)
+                # get new labels
+                new_labels = [self.g1_identifiers[i.item()] for i in labels]
+                new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
+
+                outputs, exits = self._get_output(images, labels)
+
+                print(exits)
+                if exits and 'coarse' in exits:
+                    labels = new_labels
+
                 # top-1 accuracy
                 _, prediction = torch.max(outputs, dim=1)
                 n_samples += labels.shape[0]
@@ -176,10 +210,14 @@ class AlexNetTrainer(Trainer):
             images (_type_): _description_
             labels (_type_): _description_
         """
-        y_hat = self.model(images)
-        loss = self.loss_fn(y_hat, labels)
+        if self.model.training:
+            y_hat, _ = self.model(images)
+            loss = self.loss_fn(y_hat, labels)
 
-        return loss
+            return loss
+        elif not self.model.training:
+            y_hat, exits = self.model(images)
+            return y_hat, exits
 
 
 @dataclass
@@ -190,8 +228,8 @@ class BranchyNetTrainer(Trainer):
     Args:
         Trainer (_type_): _description_
     """
-
-    weights: List[float] = field(default_factory=lambda: [1.0, 1.0, 1.0])
+    # want to maximize early exits, therefore, they have higher weights in the loss
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
 
     def _get_output(self, images, labels):
         """
@@ -201,9 +239,58 @@ class BranchyNetTrainer(Trainer):
             images (_type_): _description_
             labels (_type_): _description_
         """
-        y_hats = self.model(images)
-        loss = 0
-        for weight, y_branch in zip(self.weights, y_hats):
-            loss += (weight * self.loss_fn(y_branch, labels))
+        if self.model.training:
+            loss = 0
+            y_hats = self.model(images)
+            for weight, y_branch in zip(self.weights, y_hats):
+                loss += weight * self.loss_fn(y_branch, labels)
 
-        return loss
+            return loss
+        elif not self.model.training:
+            y_hat, exits = self.model(images)
+            return y_hat, exits
+
+
+@dataclass
+class SuperNetTrainer(Trainer):
+    """
+    _summary_
+
+    Args:
+        Trainer (_type_): _description_
+    """
+
+    # branch weights are the same as in BranchyNet
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
+    # semantic weights vary on what we prefer -> fine classes
+    fine_class_weighting: float = 1.5
+    coarse_class_weighting: float = 0.75
+
+    def _get_output(self, images, labels):
+        """
+        _summary_
+
+        Args:
+            images (_type_): _description_
+            labels (_type_): _description_
+        """
+
+        if self.model.training:
+            # get new labels
+            new_labels = [self.g1_identifiers[i.item()] for i in labels]
+            new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
+
+            y_hats = self.model(images)
+            loss = 0
+            for idx, (y_branch) in enumerate(y_hats):
+                if y_branch.size(1) == 20:
+                    loss += (self.weights[idx//2] * self.coarse_class_weighting *
+                             self.loss_fn(y_branch, new_labels))
+                elif y_branch.size(1) == 100:
+                    loss += (self.weights[idx//2] * self.fine_class_weighting *
+                             self.loss_fn(y_branch, labels))
+
+            return loss
+        elif not self.model.training:
+            y_hat, exits = self.model(images)
+            return y_hat, exits

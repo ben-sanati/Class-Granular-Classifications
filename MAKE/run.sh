@@ -3,7 +3,7 @@
 # Define default values
 mode="training"
 batch_size=256
-lr=0.001
+lr=0.0005
 weight_decay=0.0001
 device="cuda"
 num_epochs=2

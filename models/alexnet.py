@@ -41,13 +41,6 @@ class AlexNet(nn.Module):
             nn.Linear(4096, num_classes),
         )
 
-        # Kaiming initialization
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-            elif isinstance(m, nn.Linear):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         _summary_
@@ -61,4 +54,4 @@ class AlexNet(nn.Module):
         x = self.features(x)
         x = x.view(x.size(0), -1)
         x = self.classifier(x)
-        return x
+        return x, None  # outputting None as well to modularise the code with other models

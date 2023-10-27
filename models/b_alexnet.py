@@ -33,7 +33,7 @@ class BranchyAlexNet(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(in_channels=256, out_channels=128, kernel_size=3, padding=1),
             nn.MaxPool2d(kernel_size=2),
-            nn.ReLU(inplace=True)
+            nn.ReLU(inplace=True),
         )
 
         self.exit1 = nn.Sequential(
@@ -63,8 +63,7 @@ class BranchyAlexNet(nn.Module):
 
         self.exit2 = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(256 * 6 * 6, 100),
-            nn.ReLU(inplace=True)
+            nn.Linear(256 * 6 * 6, 100)
         )
 
         # b3
@@ -86,13 +85,6 @@ class BranchyAlexNet(nn.Module):
             nn.Linear(4096, num_classes),
         )
 
-        # Kaiming initialization
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-            elif isinstance(m, nn.Linear):
-                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-
     def forward(self, x: torch.Tensor, threshold: list = None):
         """
         _summary_
@@ -103,37 +95,37 @@ class BranchyAlexNet(nn.Module):
         Returns:
             torch.Tensor: _description_
         """
-        # Set default threshold values if not provided
+        # set default threshold values if not provided
         if threshold is None:
             threshold = [0.5, 0.5, 0.5]
 
-        # Pass input through the first set of layers
+        # pass input through the first set of layers
         a1 = self.features1(x)
         z1_ = self.branch1(a1)
         z1_ = self.adaptivepool(z1_)
         z1 = self.exit1(z1_.view(z1_.size(0), -1))
 
-        # Calculate entropy and check for early exit
+        # calculate entropy and check for early exit
         z1_probs = F.softmax(z1, dim=1)
         z1_entropy = Categorical(z1_probs).entropy()
 
         if not self.training and z1_entropy.mean() < threshold[0]:
-            return z1
+            return z1, 'exit 1'
 
-        # Pass input through the second set of layers
+        # pass input through the second set of layers
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
         z2_ = self.adaptivepool(z2_)
         z2 = self.exit2(z2_.view(z2_.size(0), -1))
 
-        # Calculate entropy and check for early exit
+        # calculate entropy and check for early exit
         z2_probs = F.softmax(z2, dim=1)
         z2_entropy = Categorical(z2_probs).entropy()
 
         if not self.training and z2_entropy.mean() < threshold[1]:
-            return z2
+            return z2, 'exit 2'
 
-        # Pass input through the third set of layers and return the final output
+        # pass input through the third set of layers and return the final output
         a3 = self.features3(a2)
         a3 = self.adaptivepool(a3)
         z3 = self.classifier(a3.view(a3.size(0), -1))
@@ -141,4 +133,4 @@ class BranchyAlexNet(nn.Module):
         if self.training:
             return z1, z2, z3
         else:
-            return z3
+            return z3, 'exit 3'
