@@ -4,787 +4,15 @@ Args:
 	lr: 0.0005
 	weight_decay: 0.0001
 	device: cuda
-	num_epochs: 2
+	num_epochs: 150
 
 
-Model == AlexNet
-
-==========================================================================================
-Layer (type:depth-idx)                   Output Shape              Param #
-==========================================================================================
-AlexNet                                  [256, 100]                --
-├─Sequential: 1-1                        [256, 256, 6, 6]          --
-│    └─Conv2d: 2-1                       [256, 64, 15, 15]         4,864
-│    └─ReLU: 2-2                         [256, 64, 15, 15]         --
-│    └─MaxPool2d: 2-3                    [256, 64, 7, 7]           --
-│    └─Conv2d: 2-4                       [256, 192, 7, 7]          307,392
-│    └─ReLU: 2-5                         [256, 192, 7, 7]          --
-│    └─MaxPool2d: 2-6                    [256, 192, 3, 3]          --
-│    └─Conv2d: 2-7                       [256, 384, 3, 3]          663,936
-│    └─ReLU: 2-8                         [256, 384, 3, 3]          --
-│    └─Conv2d: 2-9                       [256, 256, 3, 3]          884,992
-│    └─ReLU: 2-10                        [256, 256, 3, 3]          --
-│    └─Conv2d: 2-11                      [256, 256, 3, 3]          590,080
-│    └─ReLU: 2-12                        [256, 256, 3, 3]          --
-│    └─MaxPool2d: 2-13                   [256, 256, 1, 1]          --
-│    └─AdaptiveAvgPool2d: 2-14           [256, 256, 6, 6]          --
-├─Sequential: 1-2                        [256, 100]                --
-│    └─Dropout: 2-15                     [256, 9216]               --
-│    └─Linear: 2-16                      [256, 4096]               37,752,832
-│    └─ReLU: 2-17                        [256, 4096]               --
-│    └─Dropout: 2-18                     [256, 4096]               --
-│    └─Linear: 2-19                      [256, 4096]               16,781,312
-│    └─ReLU: 2-20                        [256, 4096]               --
-│    └─Linear: 2-21                      [256, 100]                409,700
-==========================================================================================
-Total params: 57,395,108
-Trainable params: 57,395,108
-Non-trainable params: 0
-Total mult-adds (G): 23.13
-==========================================================================================
-Input size (MB): 3.15
-Forward/backward pass size (MB): 82.26
-Params size (MB): 229.58
-Estimated Total Size (MB): 314.98
-==========================================================================================
-
-# Training iterations per epoch : 176
-
-------------------------------
-|          Training          |
-------------------------------
-
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-Epoch [1/2]:                             
-		Top 1 Acc = 3.34%
-		Top 5 Acc = 15.8%
-
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-None
-Epoch [2/2]:                             
-		Top 1 Acc = 7.28%
-		Top 5 Acc = 25.2%
-
-------------------------------
-
-||========================================||
-
-Model == Branchy-AlexNet
+Model == TD-HBN
 
 ==========================================================================================
 Layer (type:depth-idx)                   Output Shape              Param #
 ==========================================================================================
-BranchyAlexNet                           [256, 100]                --
-├─Sequential: 1-1                        [256, 64, 7, 7]           --
-│    └─Conv2d: 2-1                       [256, 64, 15, 15]         4,864
-│    └─ReLU: 2-2                         [256, 64, 15, 15]         --
-│    └─MaxPool2d: 2-3                    [256, 64, 7, 7]           --
-├─Sequential: 1-2                        [256, 128, 1, 1]          --
-│    └─Conv2d: 2-4                       [256, 256, 7, 7]          147,712
-│    └─MaxPool2d: 2-5                    [256, 256, 3, 3]          --
-│    └─ReLU: 2-6                         [256, 256, 3, 3]          --
-│    └─Conv2d: 2-7                       [256, 128, 3, 3]          295,040
-│    └─MaxPool2d: 2-8                    [256, 128, 1, 1]          --
-│    └─ReLU: 2-9                         [256, 128, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-3                 [256, 128, 6, 6]          --
-├─Sequential: 1-4                        [256, 100]                --
-│    └─Dropout: 2-10                     [256, 4608]               --
-│    └─Linear: 2-11                      [256, 2048]               9,439,232
-│    └─ReLU: 2-12                        [256, 2048]               --
-│    └─Dropout: 2-13                     [256, 2048]               --
-│    └─Linear: 2-14                      [256, 2048]               4,196,352
-│    └─ReLU: 2-15                        [256, 2048]               --
-│    └─Linear: 2-16                      [256, 100]                204,900
-├─Sequential: 1-5                        [256, 384, 3, 3]          --
-│    └─Conv2d: 2-17                      [256, 192, 7, 7]          307,392
-│    └─ReLU: 2-18                        [256, 192, 7, 7]          --
-│    └─MaxPool2d: 2-19                   [256, 192, 3, 3]          --
-│    └─Conv2d: 2-20                      [256, 384, 3, 3]          663,936
-│    └─ReLU: 2-21                        [256, 384, 3, 3]          --
-├─Sequential: 1-6                        [256, 256, 1, 1]          --
-│    └─Conv2d: 2-22                      [256, 256, 2, 2]          884,992
-│    └─MaxPool2d: 2-23                   [256, 256, 1, 1]          --
-│    └─ReLU: 2-24                        [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-7                 [256, 256, 6, 6]          --
-├─Sequential: 1-8                        [256, 100]                --
-│    └─Dropout: 2-25                     [256, 9216]               --
-│    └─Linear: 2-26                      [256, 100]                921,700
-├─Sequential: 1-9                        [256, 256, 1, 1]          --
-│    └─Conv2d: 2-27                      [256, 256, 3, 3]          884,992
-│    └─ReLU: 2-28                        [256, 256, 3, 3]          --
-│    └─Conv2d: 2-29                      [256, 256, 3, 3]          590,080
-│    └─ReLU: 2-30                        [256, 256, 3, 3]          --
-│    └─MaxPool2d: 2-31                   [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-10                [256, 256, 6, 6]          --
-├─Sequential: 1-11                       [256, 100]                --
-│    └─Dropout: 2-32                     [256, 9216]               --
-│    └─Linear: 2-33                      [256, 4096]               37,752,832
-│    └─ReLU: 2-34                        [256, 4096]               --
-│    └─Dropout: 2-35                     [256, 4096]               --
-│    └─Linear: 2-36                      [256, 4096]               16,781,312
-│    └─ReLU: 2-37                        [256, 4096]               --
-│    └─Linear: 2-38                      [256, 100]                409,700
-==========================================================================================
-Total params: 73,485,036
-Trainable params: 73,485,036
-Non-trainable params: 0
-Total mult-adds (G): 30.35
-==========================================================================================
-Input size (MB): 3.15
-Forward/backward pass size (MB): 121.20
-Params size (MB): 293.94
-Estimated Total Size (MB): 418.29
-==========================================================================================
-
-# Training iterations per epoch : 176
-
-------------------------------
-|          Training          |
-------------------------------
-
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-Epoch [1/2]:                             
-		Top 1 Acc = 7.64%
-		Top 5 Acc = 25.34%
-
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-exit 3
-Epoch [2/2]:                             
-		Top 1 Acc = 12.04%
-		Top 5 Acc = 37.48%
-
-------------------------------
-
-||========================================||
-
-Model == Super-HBN
-
-==========================================================================================
-Layer (type:depth-idx)                   Output Shape              Param #
-==========================================================================================
-SuperHBN                                 [256, 20]                 --
+TD_HBN                                   [256, 100]                --
 ├─Sequential: 1-1                        [256, 64, 7, 7]           --
 │    └─Conv2d: 2-1                       [256, 64, 15, 15]         4,864
 │    └─ReLU: 2-2                         [256, 64, 15, 15]         --
@@ -808,58 +36,67 @@ SuperHBN                                 [256, 20]                 --
 │    └─Linear: 2-16                      [256, 100]                204,900
 ├─Sequential: 1-6                        [256, 20]                 --
 │    └─Linear: 2-17                      [256, 20]                 40,980
-├─Sequential: 1-7                        [256, 384, 3, 3]          --
-│    └─Conv2d: 2-18                      [256, 192, 7, 7]          307,392
-│    └─ReLU: 2-19                        [256, 192, 7, 7]          --
-│    └─MaxPool2d: 2-20                   [256, 192, 3, 3]          --
-│    └─Conv2d: 2-21                      [256, 384, 3, 3]          663,936
-│    └─ReLU: 2-22                        [256, 384, 3, 3]          --
-├─Sequential: 1-8                        [256, 256, 1, 1]          --
-│    └─Conv2d: 2-23                      [256, 256, 2, 2]          884,992
-│    └─MaxPool2d: 2-24                   [256, 256, 1, 1]          --
-│    └─ReLU: 2-25                        [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-9                 [256, 256, 6, 6]          --
-├─Sequential: 1-10                       [256, 2048]               --
-│    └─Dropout: 2-26                     [256, 9216]               --
-│    └─Linear: 2-27                      [256, 2048]               18,876,416
-│    └─ReLU: 2-28                        [256, 2048]               --
-│    └─Dropout: 2-29                     [256, 2048]               --
-│    └─Linear: 2-30                      [256, 2048]               4,196,352
-│    └─ReLU: 2-31                        [256, 2048]               --
-├─Sequential: 1-11                       [256, 100]                --
-│    └─Dropout: 2-32                     [256, 2048]               --
-│    └─Linear: 2-33                      [256, 100]                204,900
-├─Sequential: 1-12                       [256, 20]                 --
-│    └─Dropout: 2-34                     [256, 2048]               --
-│    └─Linear: 2-35                      [256, 20]                 40,980
-├─Sequential: 1-13                       [256, 256, 1, 1]          --
-│    └─Conv2d: 2-36                      [256, 256, 3, 3]          884,992
-│    └─ReLU: 2-37                        [256, 256, 3, 3]          --
-│    └─Conv2d: 2-38                      [256, 256, 3, 3]          590,080
-│    └─ReLU: 2-39                        [256, 256, 3, 3]          --
-│    └─MaxPool2d: 2-40                   [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-14                [256, 256, 6, 6]          --
-├─Sequential: 1-15                       [256, 2048]               --
-│    └─Dropout: 2-41                     [256, 9216]               --
-│    └─Linear: 2-42                      [256, 2048]               18,876,416
-│    └─ReLU: 2-43                        [256, 2048]               --
-│    └─Dropout: 2-44                     [256, 2048]               --
-│    └─Linear: 2-45                      [256, 2048]               4,196,352
-│    └─ReLU: 2-46                        [256, 2048]               --
-├─Sequential: 1-16                       [256, 100]                --
-│    └─Linear: 2-47                      [256, 100]                204,900
-├─Sequential: 1-17                       [256, 20]                 --
-│    └─Linear: 2-48                      [256, 20]                 40,980
+├─AdaptiveAvgPool2d: 1-7                 [256, 64, 6, 6]           --
+├─Sequential: 1-8                        [256, 1]                  --
+│    └─Dropout: 2-18                     [256, 2304]               --
+│    └─Linear: 2-19                      [256, 128]                295,040
+│    └─ReLU: 2-20                        [256, 128]                --
+│    └─Dropout: 2-21                     [256, 128]                --
+│    └─LayerNorm: 2-22                   [256, 128]                256
+│    └─Linear: 2-23                      [256, 1]                  129
+│    └─Softmax: 2-24                     [256, 1]                  --
+├─Sequential: 1-9                        [256, 384, 3, 3]          --
+│    └─Conv2d: 2-25                      [256, 192, 7, 7]          307,392
+│    └─ReLU: 2-26                        [256, 192, 7, 7]          --
+│    └─MaxPool2d: 2-27                   [256, 192, 3, 3]          --
+│    └─Conv2d: 2-28                      [256, 384, 3, 3]          663,936
+│    └─ReLU: 2-29                        [256, 384, 3, 3]          --
+├─Sequential: 1-10                       [256, 256, 1, 1]          --
+│    └─Conv2d: 2-30                      [256, 256, 2, 2]          884,992
+│    └─MaxPool2d: 2-31                   [256, 256, 1, 1]          --
+│    └─ReLU: 2-32                        [256, 256, 1, 1]          --
+├─AdaptiveAvgPool2d: 1-11                [256, 256, 6, 6]          --
+├─Sequential: 1-12                       [256, 2048]               --
+│    └─Dropout: 2-33                     [256, 9216]               --
+│    └─Linear: 2-34                      [256, 2048]               18,876,416
+│    └─ReLU: 2-35                        [256, 2048]               --
+│    └─Dropout: 2-36                     [256, 2048]               --
+│    └─Linear: 2-37                      [256, 2048]               4,196,352
+│    └─ReLU: 2-38                        [256, 2048]               --
+├─Sequential: 1-13                       [256, 100]                --
+│    └─Dropout: 2-39                     [256, 2048]               --
+│    └─Linear: 2-40                      [256, 100]                204,900
+├─Sequential: 1-14                       [256, 20]                 --
+│    └─Dropout: 2-41                     [256, 2048]               --
+│    └─Linear: 2-42                      [256, 20]                 40,980
+├─Sequential: 1-15                       [256, 256, 1, 1]          --
+│    └─Conv2d: 2-43                      [256, 256, 3, 3]          884,992
+│    └─ReLU: 2-44                        [256, 256, 3, 3]          --
+│    └─Conv2d: 2-45                      [256, 256, 3, 3]          590,080
+│    └─ReLU: 2-46                        [256, 256, 3, 3]          --
+│    └─MaxPool2d: 2-47                   [256, 256, 1, 1]          --
+├─AdaptiveAvgPool2d: 1-16                [256, 256, 6, 6]          --
+├─Sequential: 1-17                       [256, 2048]               --
+│    └─Dropout: 2-48                     [256, 9216]               --
+│    └─Linear: 2-49                      [256, 2048]               18,876,416
+│    └─ReLU: 2-50                        [256, 2048]               --
+│    └─Dropout: 2-51                     [256, 2048]               --
+│    └─Linear: 2-52                      [256, 2048]               4,196,352
+│    └─ReLU: 2-53                        [256, 2048]               --
+├─Sequential: 1-18                       [256, 100]                --
+│    └─Linear: 2-54                      [256, 100]                204,900
+├─Sequential: 1-19                       [256, 20]                 --
+│    └─Linear: 2-55                      [256, 20]                 40,980
 ==========================================================================================
-Total params: 64,297,768
-Trainable params: 64,297,768
+Total params: 64,593,193
+Trainable params: 64,593,193
 Non-trainable params: 0
-Total mult-adds (G): 28.00
+Total mult-adds (G): 28.07
 ==========================================================================================
 Input size (MB): 3.15
-Forward/backward pass size (MB): 121.32
-Params size (MB): 257.19
-Estimated Total Size (MB): 381.66
+Forward/backward pass size (MB): 121.85
+Params size (MB): 258.37
+Estimated Total Size (MB): 383.37
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -868,329 +105,373 @@ Estimated Total Size (MB): 381.66
 |          Training          |
 ------------------------------
 
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-Epoch [1/2]:                             
-		Top 1 Acc = 15.94%
-		Top 5 Acc = 53.6%
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+fine exit 3
+Epoch [1/150]:                             
+		Top 1 Acc = 5.24%
+		Top 5 Acc = 23.4%
 
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-coarse exit 3
-Epoch [2/2]:                             
-		Top 1 Acc = 25.2%
-		Top 5 Acc = 62.42%
-
-------------------------------
-
-||========================================||
-
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Average Semantic Value: 0.5
+Traceback (most recent call last):
+  File "/home/phoenix/base/active/Class-Granular-Classifications/MAKE/../main.py", line 158, in <module>
+    MODE_MAP[args.mode](data, MODELS, TRAINER, args, MODEL_PATH)
+  File "/home/phoenix/base/active/Class-Granular-Classifications/MAKE/../main.py", line 80, in training
+    trainer.train(filepath=f'{_model_path}/{model_name}.pth')
+  File "/home/phoenix/base/active/Class-Granular-Classifications/processing/training.py", line 80, in train
+    loss = self._get_output(images, labels)
+  File "/home/phoenix/base/active/Class-Granular-Classifications/processing/training.py", line 327, in _get_output
+    output = self.model(images)
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/phoenix/base/active/Class-Granular-Classifications/models/td_hbn.py", line 167, in forward
+    z2_fine, z2_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z2_lin,
+  File "/home/phoenix/base/active/Class-Granular-Classifications/models/td_hbn.py", line 213, in evaluate_output
+    z_fine_entropy = Categorical(z_fine_probs).entropy()
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/distributions/categorical.py", line 66, in __init__
+    super().__init__(batch_shape, validate_args=validate_args)
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/distributions/distribution.py", line 61, in __init__
+    if not valid.all():
+KeyboardInterrupt
