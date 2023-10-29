@@ -12,7 +12,8 @@ from torchinfo import summary
 from models.alexnet import AlexNet
 from models.b_alexnet import BranchyAlexNet
 from models.super_hbn import SuperHBN
-from processing.training import AlexNetTrainer, BranchyNetTrainer, SuperNetTrainer
+from models.td_hbn import TD_HBN
+from processing.training import AlexNetTrainer, BranchyNetTrainer, SuperNetTrainer, TD_HBNTrainer
 from processing.testing import ModelComparator
 from utils.load_data import dataset, split_data, g0_classes, g1_classes, dataloader
 
@@ -68,12 +69,13 @@ def training(_data: tuple, _models: dict, _trainer: dict,
 
         # definitions
         loss_fn = nn.CrossEntropyLoss()
+        value_loss_fn = nn.MSELoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=_args.lr,
                                      weight_decay=_args.weight_decay)
 
         # train and plot results
         trainer = _trainer[model_name](model, train_loader, val_loader, test_loader,
-                                       loss_fn, optimizer, _args, device, g1)
+                                       loss_fn, value_loss_fn, optimizer, _args, device, g1)
         trainer.init_param()  # Kaiming initialization
         trainer.train(filepath=f'{_model_path}/{model_name}.pth')
         trainer.plot_and_save(model_name=model_name,
@@ -121,13 +123,16 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
-              'Super-HBN': SuperHBN}
-    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
-               'Super-HBN': SuperNetTrainer}
-    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
-                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth'}
+    MODELS = {'TD-HBN': TD_HBN}
+            # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
+             #  'Super-HBN': SuperHBN}
+    TRAINER = {'TD-HBN': TD_HBNTrainer}
+            # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+             #  'Super-HBN': SuperNetTrainer}
+    MODEL_PATHS = {'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
+                  # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+                   # 'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+                   # 'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()

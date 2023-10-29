@@ -97,7 +97,7 @@ class BranchyAlexNet(nn.Module):
         """
         # set default threshold values if not provided
         if threshold is None:
-            threshold = [0.5, 0.5, 0.5]
+            threshold = [0.5, 0.5]
 
         # pass input through the first set of layers
         a1 = self.features1(x)

@@ -35,6 +35,7 @@ class Trainer(ABC):
     val_loader: DataLoader
     test_loader: DataLoader
     loss_fn: nn.Module
+    value_loss_fn: nn.Module
     optimizer: torch.optim.Optimizer
     args: argparse.Namespace
     device: torch.device
@@ -134,8 +135,8 @@ class Trainer(ABC):
                 new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
 
                 outputs, exits = self._get_output(images, labels)
-
                 print(exits)
+
                 if exits and 'coarse' in exits:
                     labels = new_labels
 
@@ -274,7 +275,6 @@ class SuperNetTrainer(Trainer):
             images (_type_): _description_
             labels (_type_): _description_
         """
-
         if self.model.training:
             # get new labels
             new_labels = [self.g1_identifiers[i.item()] for i in labels]
@@ -294,3 +294,92 @@ class SuperNetTrainer(Trainer):
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
+
+
+@dataclass
+class TD_HBNTrainer(Trainer):
+    """
+    _summary_
+
+    Args:
+        Trainer (_type_): _description_
+    """
+
+    # branch weights are the same as in BranchyNet
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
+    # semantic weights vary on what we prefer -> fine classes
+    fine_class_weighting: float = 0.75  # weight now < coarse as being used with -loss
+    coarse_class_weighting: float = 1.5
+
+    def _get_output(self, images, labels):
+        """
+        _summary_
+
+        Args:
+            images (_type_): _description_
+            labels (_type_): _description_
+        """
+        if self.model.training:
+            # get new labels
+            new_labels = [self.g1_identifiers[i.item()] for i in labels]
+            new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
+
+            output = self.model(images)
+            y_hats = output[:-1]
+            sem_value = output[-1]
+
+            # get branch loss
+            branch_loss = 0
+            rewards, fine_rewards, coarse_rewards = [], [], []
+            for idx, (y_branch) in enumerate(y_hats):
+                if y_branch.size(1) == 20:
+                    coarse_loss = (self.weights[idx//2] *
+                                     self.loss_fn(y_branch, new_labels))
+                    branch_loss += coarse_loss
+
+                    # get reward
+                    reward = - self.coarse_class_weighting * coarse_loss
+                    coarse_rewards.append(reward)
+                    rewards.append(reward)
+                elif y_branch.size(1) == 100:
+                    fine_loss = (self.weights[idx//2] *
+                                     self.loss_fn(y_branch, labels))
+                    branch_loss += fine_loss
+
+                    # get reward
+                    reward = - self.fine_class_weighting * fine_loss
+                    fine_rewards.append(reward)
+                    rewards.append(reward)
+
+            # get semantic loss
+            semantic_loss = self._get_sem_loss(sem_value, fine_rewards, coarse_rewards)
+
+            # get bootstrapped loss
+            max_reward = max(rewards)
+            rewards.remove(max_reward)
+            bootstrapped_loss = self._get_bootstrapped_loss(rewards, max_reward)
+
+            loss = branch_loss + semantic_loss + bootstrapped_loss
+
+            print(f"Average Semantic Value: {sem_value.mean()}")
+
+            return loss
+        elif not self.model.training:
+            y_hat, exits = self.model(images)
+            return y_hat, exits
+
+    def _get_sem_loss(self, sem_value, fine_rewards, coarse_rewards):
+        fine_loss, coarse_loss = 0, 0
+        for fine_reward, coarse_reward in zip(fine_rewards, coarse_rewards):
+            fine_loss += self.value_loss_fn(sem_value.mean(), fine_reward)
+            coarse_loss += self.value_loss_fn(1 - sem_value.mean(), coarse_reward)
+
+        return fine_loss + coarse_loss
+
+    def _get_bootstrapped_loss(self, rewards, max_reward):
+        bootstrapped_loss = 0
+        for reward in rewards:
+            bootstrapped_loss += self.value_loss_fn(torch.Tensor([reward]),
+                                                    torch.Tensor([max_reward]))
+
+        return bootstrapped_loss

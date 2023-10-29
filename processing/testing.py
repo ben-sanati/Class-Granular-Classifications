@@ -98,6 +98,7 @@ class ModelComparator(ABC):
                     new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
 
                     outputs, exits = model(inputs)
+                    print(exits)
                     _, predicted = outputs.topk(k, 1, largest=True, sorted=True)
 
                     if exits and 'coarse' in exits:
@@ -155,7 +156,7 @@ class ModelComparator(ABC):
             # Set custom labels on x and y axes
             ax.set_xticks(np.arange(len(label_names)) + 0.5)
             ax.set_yticks(np.arange(len(label_names)) + 0.5)
-            ax.set_xticklabels(label_names, rotation=90, fontsize=10)
+            ax.set_xticklabels(label_names, rotation=270, fontsize=10)
             ax.set_yticklabels(label_names, rotation=0, fontsize=10)
 
             plt.xlabel('Predicted', fontsize=14)

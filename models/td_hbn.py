@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from torch.distributions import Categorical
 
 
-class SuperHBN(nn.Module):
+class TD_HBN(nn.Module):
     """
     _summary_
 
@@ -23,6 +23,16 @@ class SuperHBN(nn.Module):
             nn.Conv2d(3, 64, kernel_size=5, stride=2, padding=1),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2),
+        )
+
+        self.sem_complexity = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Linear(64 * 6 * 6, 128),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.5),
+            nn.LayerNorm(128),
+            nn.Linear(128, 1),
+            nn.Softmax(dim=1),
         )
 
         # branch 1
@@ -114,7 +124,7 @@ class SuperHBN(nn.Module):
             nn.Linear(2048, 20),
         )
 
-    def forward(self, x: torch.Tensor, threshold: list = None, fine_tolerance: float = 0.5):
+    def forward(self, x: torch.Tensor, threshold: list = None):
         """
         _summary_
 
@@ -135,46 +145,52 @@ class SuperHBN(nn.Module):
         z1_ = self.branch1(a1)
         z1_ = self.adaptivepool(z1_)
         z1_lin = self.lin1(z1_.view(z1_.size(0), -1))
-        z1_fine, z1_coarse, z_fine_entropy, z_coarse_entropy = \
-                        self.evaluate_output(z1_lin, self.exit1a, self.exit1b)
+        z1_fine, z1_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z1_lin,
+                                                  self.exit1a, self.exit1b)
+
+        # get image semantic complexity
+        sem = self.adaptivepool(a1)
+        sem_complexity = self.sem_complexity(sem.view(sem.size(0), -1)) / 2 # /2 to start at 0.5
 
         if not self.training:
-            if (z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean() and
-                    z_fine_entropy.mean() < threshold[0]):
+            if (sem_complexity.mean() <= 0.5) and (z_fine_entropy.mean() < threshold[0]):
+                # -> fine classification
                 return z1_fine, 'fine exit 1'
-            elif (z_coarse_entropy.mean() < z_fine_entropy.mean() - fine_tolerance and
-                    z_coarse_entropy.mean() < threshold[0]):
+            elif (sem_complexity.mean() > 0.5) and (z_coarse_entropy.mean() < threshold[0]):
+                # -> coarse classification
                 return z1_coarse, 'coarse exit 1'
 
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
         z2_ = self.adaptivepool(z2_)
         z2_lin = self.lin2(z2_.view(z2_.size(0), -1))
-        z2_fine, z2_coarse, z_fine_entropy, z_coarse_entropy = \
-                        self.evaluate_output(z2_lin, self.exit2a, self.exit2b)
+        z2_fine, z2_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z2_lin,
+                                                  self.exit2a, self.exit2b)
 
         if not self.training:
-            if (z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean() and
-                    z_fine_entropy.mean() < threshold[1]):
+            if (sem_complexity.mean() <= 0.5) and (z_fine_entropy.mean() < threshold[1]):
+                # -> fine classification
                 return z2_fine, 'fine exit 2'
-            elif (z_coarse_entropy.mean() < z_fine_entropy.mean() - fine_tolerance and
-                    z_coarse_entropy.mean() < threshold[1]):
+            elif (sem_complexity.mean() > 0.5) and (z_coarse_entropy.mean() < threshold[1]):
+                # -> coarse classification
                 return z2_coarse, 'coarse exit 2'
 
         a3 = self.features3(a2)
         z3_ = self.adaptivepool(a3)
         z3_lin = self.classifier(z3_.view(z3_.size(0), -1))
-        z3_fine, z3_coarse, z_fine_entropy, z_coarse_entropy = \
-                            self.evaluate_output(z3_lin, self.exit3a, self.exit3b)
+        z3_fine, z3_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z3_lin,
+                                                  self.exit3a, self.exit3b)
 
         if not self.training:
-            if z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean():
+            if sem_complexity.mean() <= 0.5:
+                # -> fine classification
                 return z3_fine, 'fine exit 3'
             else:
+                # -> coarse classification
                 return z3_coarse, 'coarse exit 3'
 
         # return training data
-        return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse
+        return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse, sem_complexity
 
     def evaluate_output(self, x, exit_a, exit_b):
         """
