@@ -31,8 +31,7 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
             nn.LayerNorm(128),
-            nn.Linear(128, 1),
-            nn.Softmax(dim=1),
+            nn.Linear(128, 2),
         )
 
         # branch 1
@@ -150,15 +149,18 @@ class TD_HBN(nn.Module):
 
         # get image semantic complexity
         sem = self.adaptivepool(a1)
-        sem_complexity = self.sem_complexity(sem.view(sem.size(0), -1)) / 2 # /2 to start at 0.5
+        sem_granularity = self.sem_complexity(sem.view(sem.size(0), -1))
 
         if not self.training:
-            if (sem_complexity.mean() <= 0.5) and (z_fine_entropy.mean() < threshold[0]):
-                # -> fine classification
-                return z1_fine, 'fine exit 1'
-            elif (sem_complexity.mean() > 0.5) and (z_coarse_entropy.mean() < threshold[0]):
-                # -> coarse classification
-                return z1_coarse, 'coarse exit 1'
+            _, granularities = torch.max(sem_granularity, 1)
+            for granularity, z_fine_ent, z_coarse_ent in zip(granularities,
+                                                            z_fine_entropy, z_coarse_entropy):
+                if (granularity == 1) and (z_fine_ent < threshold[0]):
+                    # -> fine classification
+                    return z1_fine, 'fine exit 1'
+                elif (granularity == 0) and (z_coarse_ent < threshold[0]):
+                    # -> coarse classification
+                    return z1_coarse, 'coarse exit 1'
 
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
@@ -168,12 +170,14 @@ class TD_HBN(nn.Module):
                                                   self.exit2a, self.exit2b)
 
         if not self.training:
-            if (sem_complexity.mean() <= 0.5) and (z_fine_entropy.mean() < threshold[1]):
-                # -> fine classification
-                return z2_fine, 'fine exit 2'
-            elif (sem_complexity.mean() > 0.5) and (z_coarse_entropy.mean() < threshold[1]):
-                # -> coarse classification
-                return z2_coarse, 'coarse exit 2'
+            for granularity, z_fine_ent, z_coarse_ent in zip(granularities,
+                                                            z_fine_entropy, z_coarse_entropy):
+                if (granularity == 1) and (z_fine_ent < threshold[1]):
+                    # -> fine classification
+                    return z2_fine, 'fine exit 2'
+                elif (granularity == 0) and (z_coarse_ent < threshold[1]):
+                    # -> coarse classification
+                    return z2_coarse, 'coarse exit 2'
 
         a3 = self.features3(a2)
         z3_ = self.adaptivepool(a3)
@@ -182,15 +186,17 @@ class TD_HBN(nn.Module):
                                                   self.exit3a, self.exit3b)
 
         if not self.training:
-            if sem_complexity.mean() <= 0.5:
-                # -> fine classification
-                return z3_fine, 'fine exit 3'
-            else:
-                # -> coarse classification
-                return z3_coarse, 'coarse exit 3'
+            for granularity, z_fine_ent, z_coarse_ent in zip(granularities,
+                                                            z_fine_entropy, z_coarse_entropy):
+                if granularity == 1:
+                    # -> fine classification
+                    return z3_fine, 'fine exit 3'
+                else:
+                    # -> coarse classification
+                    return z3_coarse, 'coarse exit 3'
 
         # return training data
-        return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse, sem_complexity
+        return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse, sem_granularity
 
     def evaluate_output(self, x, exit_a, exit_b):
         """

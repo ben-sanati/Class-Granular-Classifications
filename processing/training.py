@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
+import torch.nn.functional as F
+from torch.distributions import Categorical
 
 
 @dataclass
@@ -35,13 +37,14 @@ class Trainer(ABC):
     val_loader: DataLoader
     test_loader: DataLoader
     loss_fn: nn.Module
-    value_loss_fn: nn.Module
     optimizer: torch.optim.Optimizer
     args: argparse.Namespace
     device: torch.device
     g1_identifiers: list
     epochs: List[float] = field(default_factory=list)
     losses: List[float] = field(default_factory=list)
+    branch_losses: List[float] = field(default_factory=list)
+    sem_losses: List[float] = field(default_factory=list)
     val1_acc: List[float] = field(default_factory=list)
     val5_acc: List[float] = field(default_factory=list)
 
@@ -71,27 +74,36 @@ class Trainer(ABC):
         print(f"\n# Training iterations per epoch : {num_iterations}\n")
         print("-"*30 + "\n|" + " "*10 + "Training" + " "*10 + "|\n" + "-"*30 + "\n")
         for epoch in range(self.args.num_epochs):
+            loss_temp, branch_temp, semantic_temp = [], [], []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
                 images = images.to(self.device)
                 labels = labels.to(self.device)
 
                 # forward pass
-                loss = self._get_output(images, labels)
+                loss, branch_loss, semantic_loss = self._get_output(images, labels)
 
                 # backward pass
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
+                loss_temp.append(loss.item())
+                branch_temp.append(branch_loss.item())
+                semantic_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
                     top1_val, top5_val = self.validate()
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]: \
-                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}%\n")
+                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
+                                \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)} \
+                                    \n\t\tBranch Loss: {sum(branch_temp) / len(branch_temp)} \
+                                        \n\t\tSemantic Loss: {sum(semantic_temp) / len(semantic_temp)}\n")
 
                     # add data to lists
                     self.epochs.append(epoch+1)
-                    self.losses.append(loss.item())
+                    self.losses.append(sum(loss_temp) / len(loss_temp))
+                    self.branch_losses.append(sum(branch_temp) / len(branch_temp))
+                    self.sem_losses.append(sum(semantic_temp) / len(semantic_temp))
                     self.val1_acc.append(top1_val)
                     self.val5_acc.append(top5_val)
 
@@ -135,7 +147,6 @@ class Trainer(ABC):
                 new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
 
                 outputs, exits = self._get_output(images, labels)
-                print(exits)
 
                 if exits and 'coarse' in exits:
                     labels = new_labels
@@ -168,6 +179,12 @@ class Trainer(ABC):
         # Plot losses
         plt.figure(figsize=(8, 6))
         plt.plot(self.epochs, self.losses, label='Loss', color='blue')
+
+        if self.branch_losses:
+            plt.plot(self.epochs, self.branch_losses, label='Branch Loss', color='green')
+        if self.sem_losses:
+            plt.plot(self.epochs, self.sem_losses, label='Semantic Loss', color='red')
+
         plt.xlabel('Epochs')
         plt.ylabel('Loss')
         plt.title(f'{model_name} Training Loss')
@@ -307,9 +324,8 @@ class TD_HBNTrainer(Trainer):
 
     # branch weights are the same as in BranchyNet
     weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
-    # semantic weights vary on what we prefer -> fine classes
-    fine_class_weighting: float = 0.75  # weight now < coarse as being used with -loss
-    coarse_class_weighting: float = 1.5
+    # semantic weighting to equalise the value of the losses
+    sem_weighting: float = 20.0
 
     def _get_output(self, images, labels):
         """
@@ -326,60 +342,71 @@ class TD_HBNTrainer(Trainer):
 
             output = self.model(images)
             y_hats = output[:-1]
-            sem_value = output[-1]
+            sem_granularity = output[-1]
 
             # get branch loss
             branch_loss = 0
-            rewards, fine_rewards, coarse_rewards = [], [], []
+            losses = {'coarse': [], 'fine': []}
             for idx, (y_branch) in enumerate(y_hats):
                 if y_branch.size(1) == 20:
                     coarse_loss = (self.weights[idx//2] *
                                      self.loss_fn(y_branch, new_labels))
                     branch_loss += coarse_loss
 
-                    # get reward
-                    reward = - self.coarse_class_weighting * coarse_loss
-                    coarse_rewards.append(reward)
-                    rewards.append(reward)
+                    losses['coarse'].append(coarse_loss)
                 elif y_branch.size(1) == 100:
                     fine_loss = (self.weights[idx//2] *
                                      self.loss_fn(y_branch, labels))
                     branch_loss += fine_loss
 
-                    # get reward
-                    reward = - self.fine_class_weighting * fine_loss
-                    fine_rewards.append(reward)
-                    rewards.append(reward)
+                    losses['fine'].append(fine_loss)
 
             # get semantic loss
-            semantic_loss = self._get_sem_loss(sem_value, fine_rewards, coarse_rewards)
+            semantic_loss = self._get_sem_loss(sem_granularity,
+                                               y_hats, labels, new_labels) * self.sem_weighting
 
-            # get bootstrapped loss
-            max_reward = max(rewards)
-            rewards.remove(max_reward)
-            bootstrapped_loss = self._get_bootstrapped_loss(rewards, max_reward)
-
-            loss = branch_loss + semantic_loss + bootstrapped_loss
-
-            print(f"Average Semantic Value: {sem_value.mean()}")
-
-            return loss
+            # sum total losses
+            loss = branch_loss + semantic_loss
+            return loss, branch_loss, semantic_loss
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
 
-    def _get_sem_loss(self, sem_value, fine_rewards, coarse_rewards):
-        fine_loss, coarse_loss = 0, 0
-        for fine_reward, coarse_reward in zip(fine_rewards, coarse_rewards):
-            fine_loss += self.value_loss_fn(sem_value.mean(), fine_reward)
-            coarse_loss += self.value_loss_fn(1 - sem_value.mean(), coarse_reward)
+    def _get_sem_loss(self, sem_granularity, y_hats, labels, new_labels):
+        # get the best granularity based the fine and coarse losses
+        coarse_entropies, fine_entropies = [], []
+        for y_hat in y_hats:
+            if y_hat.size(1) == 20:
+                pred_probs = F.softmax(y_hat, dim=1)
+                pred_entropy = Categorical(pred_probs).entropy()
+                coarse_entropies.append(pred_entropy)
+            if y_hat.size(1) == 100:
+                pred_probs = F.softmax(y_hat, dim=1)
+                pred_entropy = Categorical(pred_probs).entropy()
+                fine_entropies.append(pred_entropy)
 
-        return fine_loss + coarse_loss
+        coarse_entropies = torch.stack(coarse_entropies)
+        coarse_entropies_ave = torch.mean(coarse_entropies, dim=0)
+        fine_entropies = torch.stack(fine_entropies)
+        fine_entropies_ave = torch.mean(fine_entropies, dim=0)
 
-    def _get_bootstrapped_loss(self, rewards, max_reward):
-        bootstrapped_loss = 0
-        for reward in rewards:
-            bootstrapped_loss += self.value_loss_fn(torch.Tensor([reward]),
-                                                    torch.Tensor([max_reward]))
+        # get the optimal granularity based on the current image
+        # leads to varying fine-tolerance values based on the current difference in entropies
+        fine_tolerance = (fine_entropies_ave - coarse_entropies_ave).mean()
 
-        return bootstrapped_loss
+        # we can now define the optimal sem_granularity matrix
+        opt_sem_granularity = fine_entropies_ave - coarse_entropies_ave - fine_tolerance
+
+        # if opt_sem_granularity is positive -> fine entropy is large -> uncertain -> use coarse
+        # if opt_sem_granularity is negative -> fine entropy is small -> certain -> use fine
+        # if opt_sem_granularity is positive -> set matrix element to 0
+        # if opt_sem_granularity is negative -> set matrix element to 1
+        positive_mask = opt_sem_granularity > 0
+        negative_mask = opt_sem_granularity < 0
+        opt_sem_granularity[positive_mask] = 0
+        opt_sem_granularity[negative_mask] = 1
+        opt_sem_granularity = opt_sem_granularity.type(torch.long)
+
+        # cross-entropy loss between the opt_granularity and the sem_granularity
+        sem_loss = self.loss_fn(sem_granularity, opt_sem_granularity)
+        return sem_loss

@@ -69,13 +69,12 @@ def training(_data: tuple, _models: dict, _trainer: dict,
 
         # definitions
         loss_fn = nn.CrossEntropyLoss()
-        value_loss_fn = nn.MSELoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=_args.lr,
                                      weight_decay=_args.weight_decay)
 
         # train and plot results
         trainer = _trainer[model_name](model, train_loader, val_loader, test_loader,
-                                       loss_fn, value_loss_fn, optimizer, _args, device, g1)
+                                       loss_fn, optimizer, _args, device, g1)
         trainer.init_param()  # Kaiming initialization
         trainer.train(filepath=f'{_model_path}/{model_name}.pth')
         trainer.plot_and_save(model_name=model_name,
