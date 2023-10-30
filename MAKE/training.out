@@ -7,95 +7,45 @@ Args:
 	num_epochs: 5
 
 
-Model == TD-HBN
+Model == AlexNet
 
+torch.Size([1, 3, 32, 32])
 ==========================================================================================
 Layer (type:depth-idx)                   Output Shape              Param #
 ==========================================================================================
-TD_HBN                                   [256, 100]                --
-├─Sequential: 1-1                        [256, 64, 7, 7]           --
-│    └─Conv2d: 2-1                       [256, 64, 15, 15]         4,864
-│    └─ReLU: 2-2                         [256, 64, 15, 15]         --
-│    └─MaxPool2d: 2-3                    [256, 64, 7, 7]           --
-├─Sequential: 1-2                        [256, 128, 1, 1]          --
-│    └─Conv2d: 2-4                       [256, 256, 7, 7]          147,712
-│    └─MaxPool2d: 2-5                    [256, 256, 3, 3]          --
-│    └─ReLU: 2-6                         [256, 256, 3, 3]          --
-│    └─Conv2d: 2-7                       [256, 128, 3, 3]          295,040
-│    └─MaxPool2d: 2-8                    [256, 128, 1, 1]          --
-│    └─ReLU: 2-9                         [256, 128, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-3                 [256, 128, 6, 6]          --
-├─Sequential: 1-4                        [256, 2048]               --
-│    └─Dropout: 2-10                     [256, 4608]               --
-│    └─Linear: 2-11                      [256, 2048]               9,439,232
-│    └─ReLU: 2-12                        [256, 2048]               --
-│    └─Dropout: 2-13                     [256, 2048]               --
-│    └─Linear: 2-14                      [256, 2048]               4,196,352
-│    └─ReLU: 2-15                        [256, 2048]               --
-├─Sequential: 1-5                        [256, 100]                --
-│    └─Linear: 2-16                      [256, 100]                204,900
-├─Sequential: 1-6                        [256, 20]                 --
-│    └─Linear: 2-17                      [256, 20]                 40,980
-├─AdaptiveAvgPool2d: 1-7                 [256, 64, 6, 6]           --
-├─Sequential: 1-8                        [256, 2]                  --
-│    └─Dropout: 2-18                     [256, 2304]               --
-│    └─Linear: 2-19                      [256, 128]                295,040
-│    └─ReLU: 2-20                        [256, 128]                --
-│    └─Dropout: 2-21                     [256, 128]                --
-│    └─LayerNorm: 2-22                   [256, 128]                256
-│    └─Linear: 2-23                      [256, 2]                  258
-├─Sequential: 1-9                        [256, 384, 3, 3]          --
-│    └─Conv2d: 2-24                      [256, 192, 7, 7]          307,392
-│    └─ReLU: 2-25                        [256, 192, 7, 7]          --
-│    └─MaxPool2d: 2-26                   [256, 192, 3, 3]          --
-│    └─Conv2d: 2-27                      [256, 384, 3, 3]          663,936
-│    └─ReLU: 2-28                        [256, 384, 3, 3]          --
-├─Sequential: 1-10                       [256, 256, 1, 1]          --
-│    └─Conv2d: 2-29                      [256, 256, 2, 2]          884,992
-│    └─MaxPool2d: 2-30                   [256, 256, 1, 1]          --
-│    └─ReLU: 2-31                        [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-11                [256, 256, 6, 6]          --
-├─Sequential: 1-12                       [256, 2048]               --
-│    └─Dropout: 2-32                     [256, 9216]               --
-│    └─Linear: 2-33                      [256, 2048]               18,876,416
-│    └─ReLU: 2-34                        [256, 2048]               --
-│    └─Dropout: 2-35                     [256, 2048]               --
-│    └─Linear: 2-36                      [256, 2048]               4,196,352
-│    └─ReLU: 2-37                        [256, 2048]               --
-├─Sequential: 1-13                       [256, 100]                --
-│    └─Dropout: 2-38                     [256, 2048]               --
-│    └─Linear: 2-39                      [256, 100]                204,900
-├─Sequential: 1-14                       [256, 20]                 --
-│    └─Dropout: 2-40                     [256, 2048]               --
-│    └─Linear: 2-41                      [256, 20]                 40,980
-├─Sequential: 1-15                       [256, 256, 1, 1]          --
-│    └─Conv2d: 2-42                      [256, 256, 3, 3]          884,992
-│    └─ReLU: 2-43                        [256, 256, 3, 3]          --
-│    └─Conv2d: 2-44                      [256, 256, 3, 3]          590,080
-│    └─ReLU: 2-45                        [256, 256, 3, 3]          --
-│    └─MaxPool2d: 2-46                   [256, 256, 1, 1]          --
-├─AdaptiveAvgPool2d: 1-16                [256, 256, 6, 6]          --
-├─Sequential: 1-17                       [256, 2048]               --
-│    └─Dropout: 2-47                     [256, 9216]               --
-│    └─Linear: 2-48                      [256, 2048]               18,876,416
-│    └─ReLU: 2-49                        [256, 2048]               --
-│    └─Dropout: 2-50                     [256, 2048]               --
-│    └─Linear: 2-51                      [256, 2048]               4,196,352
-│    └─ReLU: 2-52                        [256, 2048]               --
-├─Sequential: 1-18                       [256, 100]                --
-│    └─Linear: 2-53                      [256, 100]                204,900
-├─Sequential: 1-19                       [256, 20]                 --
-│    └─Linear: 2-54                      [256, 20]                 40,980
+AlexNet                                  [1, 100]                  --
+├─Sequential: 1-1                        [1, 256, 2, 2]            --
+│    └─Conv2d: 2-1                       [1, 64, 16, 16]           1,792
+│    └─MaxPool2d: 2-2                    [1, 64, 8, 8]             --
+│    └─ReLU: 2-3                         [1, 64, 8, 8]             --
+│    └─Conv2d: 2-4                       [1, 192, 8, 8]            110,784
+│    └─MaxPool2d: 2-5                    [1, 192, 4, 4]            --
+│    └─ReLU: 2-6                         [1, 192, 4, 4]            --
+│    └─Conv2d: 2-7                       [1, 384, 4, 4]            663,936
+│    └─ReLU: 2-8                         [1, 384, 4, 4]            --
+│    └─Conv2d: 2-9                       [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-10                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-11                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-12                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-13                        [1, 256, 2, 2]            --
+├─Sequential: 1-2                        [1, 100]                  --
+│    └─Dropout: 2-14                     [1, 1024]                 --
+│    └─Linear: 2-15                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-16                        [1, 4096]                 --
+│    └─Dropout: 2-17                     [1, 4096]                 --
+│    └─Linear: 2-18                      [1, 4096]                 16,781,312
+│    └─ReLU: 2-19                        [1, 4096]                 --
+│    └─Linear: 2-20                      [1, 100]                  409,700
 ==========================================================================================
-Total params: 64,593,322
-Trainable params: 64,593,322
+Total params: 23,640,996
+Trainable params: 23,640,996
 Non-trainable params: 0
-Total mult-adds (G): 28.07
+Total mult-adds (M): 63.16
 ==========================================================================================
-Input size (MB): 3.15
-Forward/backward pass size (MB): 121.85
-Params size (MB): 258.37
-Estimated Total Size (MB): 383.37
+Input size (MB): 0.01
+Forward/backward pass size (MB): 0.41
+Params size (MB): 94.56
+Estimated Total Size (MB): 94.99
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -105,41 +55,56 @@ Estimated Total Size (MB): 383.37
 ------------------------------
 
 Epoch [1/5]:                             
-		Top 1 Acc = 18.68%
-		Top 5 Acc = 55.6%                                 
-		Loss/Iteration: 27.473674384030428                                     
-		Branch Loss: 14.414388884197582                                         
-		Semantic Loss: 13.059285532344472
+		Top 1 Acc = 4.58%
+		Top 5 Acc = 21.86%                                 
+		Loss/Iteration: 4.2969317178834565
 
 Epoch [2/5]:                             
-		Top 1 Acc = 22.76%
-		Top 5 Acc = 56.78%                                 
-		Loss/Iteration: 23.659468856724825                                     
-		Branch Loss: 12.773401336236434                                         
-		Semantic Loss: 10.886067542162808
+		Top 1 Acc = 10.16%
+		Top 5 Acc = 31.82%                                 
+		Loss/Iteration: 3.89165639470924
 
 Epoch [3/5]:                             
-		Top 1 Acc = 32.58%
-		Top 5 Acc = 69.2%                                 
-		Loss/Iteration: 22.388385209170256                                     
-		Branch Loss: 11.839287741617722                                         
-		Semantic Loss: 10.54909747838974
+		Top 1 Acc = 13.62%
+		Top 5 Acc = 39.6%                                 
+		Loss/Iteration: 3.649808932434429
 
 Epoch [4/5]:                             
-		Top 1 Acc = 34.06%
-		Top 5 Acc = 69.98%                                 
-		Loss/Iteration: 22.064842440865256                                     
-		Branch Loss: 11.124933031472294                                         
-		Semantic Loss: 10.939909490672024
+		Top 1 Acc = 16.08%
+		Top 5 Acc = 44.68%                                 
+		Loss/Iteration: 3.4593643031337042
 
-Epoch [5/5]:                             
-		Top 1 Acc = 39.64%
-		Top 5 Acc = 76.44%                                 
-		Loss/Iteration: 21.86914163286036                                     
-		Branch Loss: 10.614900030873038                                         
-		Semantic Loss: 11.254241607405923
-
-------------------------------
-
-||========================================||
-
+Traceback (most recent call last):
+  File "/home/phoenix/base/active/Class-Granular-Classifications/MAKE/../main.py", line 163, in <module>
+    MODE_MAP[args.mode](data, MODELS, TRAINER, args, MODEL_PATH)
+  File "/home/phoenix/base/active/Class-Granular-Classifications/MAKE/../main.py", line 81, in training
+    trainer.train(filepath=f'{_model_path}/{model_name}.pth')
+  File "/home/phoenix/base/active/Class-Granular-Classifications/processing/training.py", line 79, in train
+    for index, (images, labels) in enumerate(self.train_loader):
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1328, in _next_data
+    idx, data = self._get_data()
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1294, in _get_data
+    success, data = self._try_get_data()
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1132, in _try_get_data
+    data = self._data_queue.get(timeout=timeout)
+  File "/usr/lib/python3.10/multiprocessing/queues.py", line 122, in get
+    return _ForkingPickler.loads(res)
+  File "/home/phoenix/base/py3_venv/lib/python3.10/site-packages/torch/multiprocessing/reductions.py", line 307, in rebuild_storage_fd
+    fd = df.detach()
+  File "/usr/lib/python3.10/multiprocessing/resource_sharer.py", line 57, in detach
+    with _resource_sharer.get_connection(self._id) as conn:
+  File "/usr/lib/python3.10/multiprocessing/resource_sharer.py", line 86, in get_connection
+    c = Client(address, authkey=process.current_process().authkey)
+  File "/usr/lib/python3.10/multiprocessing/connection.py", line 509, in Client
+    deliver_challenge(c, authkey)
+  File "/usr/lib/python3.10/multiprocessing/connection.py", line 738, in deliver_challenge
+    connection.send_bytes(CHALLENGE + message)
+  File "/usr/lib/python3.10/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/usr/lib/python3.10/multiprocessing/connection.py", line 411, in _send_bytes
+    self._send(header + buf)
+  File "/usr/lib/python3.10/multiprocessing/connection.py", line 368, in _send
+    n = write(self._handle, buf)
+KeyboardInterrupt
