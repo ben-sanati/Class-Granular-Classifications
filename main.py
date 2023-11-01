@@ -65,7 +65,6 @@ def training(_data: tuple, _models: dict, _trainer: dict,
 
         _temp_train, _, _, _, = _data
         images, _ = next(iter(_temp_train))
-        print(images[0].unsqueeze(0).size())
         summary(model, input_size=[images[0].unsqueeze(0).size()], dtypes=[torch.float32])
 
         # definitions
@@ -77,11 +76,11 @@ def training(_data: tuple, _models: dict, _trainer: dict,
         # train and plot results
         trainer = _trainer[model_name](model, train_loader, val_loader, test_loader,
                                        loss_fn, sem_loss_fn, optimizer, _args, device, g1)
-        trainer.init_param()  # Kaiming initialization
-        trainer.train(filepath=f'{_model_path}/{model_name}.pth')
-        trainer.plot_and_save(model_name=model_name,
-                              save_folder=f'../results/training_plots/{model_name}')
-        # trainer.investigating_post_trainer()
+        # trainer.init_param()  # Kaiming initialization
+        # trainer.train(filepath=f'{_model_path}/{model_name}.pth')
+        # trainer.plot_and_save(model_name=model_name,
+        #                       save_folder=f'../results/training_plots/{model_name}')
+        trainer.investigating_post_trainer()
         print("\n" + "||" + "="*40 + "||" + "\n")
 
 def testing(_data: tuple, _models: dict, _model_paths: dict,
@@ -125,19 +124,14 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'AlexNet': AlexNet}
-            # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
-             #  'Super-HBN': SuperHBN}
-             # 'TD-HBN': TD_HBN
-    TRAINER = {'AlexNet': AlexNetTrainer}
-            # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
-             #  'Super-HBN': SuperNetTrainer}
-             # 'TD-HBN': TD_HBNTrainer
-    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth'}
-                  # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-                   # 'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
-                   # 'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth'}
-                   # 'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'
+    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
+              'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
+    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+              'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
+    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
+                   'TD-HBN': f'{MODEL_PATH}/TD-HBN-post-trained.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()

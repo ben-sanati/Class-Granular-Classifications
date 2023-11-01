@@ -158,7 +158,7 @@ class SuperHBN(nn.Module):
                 return z2_coarse, 'coarse exit 2'
 
         a3 = self.features3(a2)
-        z3_lin = self.classifier(z3_.view(z3_.size(0), -1))
+        z3_lin = self.classifier(a3.view(a3.size(0), -1))
         z3_fine, z3_coarse, z_fine_entropy, z_coarse_entropy = \
                             self.evaluate_output(z3_lin, self.exit3a, self.exit3b)
 

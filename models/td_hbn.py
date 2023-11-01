@@ -24,15 +24,6 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        self.sem_complexity = nn.Sequential(
-            nn.Dropout(0.5),
-            nn.Linear(64 * 6 * 6, 128),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.5),
-            nn.LayerNorm(128),
-            nn.Linear(128, 2),
-        )
-
         # branch 1
         self.branch1 = nn.Sequential(
             nn.Conv2d(in_channels=64, out_channels=256, kernel_size=3, padding=1),
@@ -50,6 +41,15 @@ class TD_HBN(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
+        )
+
+        self.sem_complexity = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Linear(2048 * 1 * 1, 128),
+            nn.ReLU(inplace=True),
+            nn.Dropout(0.5),
+            nn.LayerNorm(128),
+            nn.Linear(128, 2),
         )
 
         # exit 1
@@ -141,11 +141,8 @@ class TD_HBN(nn.Module):
         a1 = self.features1(x)
         z1_ = self.branch1(a1)
         z1_lin = self.lin1(z1_.view(z1_.size(0), -1))
-        z1_fine, z1_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z1_lin,
-                                                  self.exit1a, self.exit1b)
-
-        # get image semantic complexity
-        sem_granularity = self.sem_complexity(sem.view(sem.size(0), -1))
+        z1_fine, z1_coarse, sem_granularity, z_fine_entropy, z_coarse_entropy = \
+                        self.evaluate_output(z1_lin, self.exit1a, self.exit1b, layer=1)
 
         if not self.training:
             _, granularity = torch.max(sem_granularity, 1)
@@ -160,8 +157,8 @@ class TD_HBN(nn.Module):
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
         z2_lin = self.lin2(z2_.view(z2_.size(0), -1))
-        z2_fine, z2_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z2_lin,
-                                                  self.exit2a, self.exit2b)
+        z2_fine, z2_coarse, _, z_fine_entropy, z_coarse_entropy = \
+                            self.evaluate_output(z2_lin, self.exit2a, self.exit2b, layer=2)
 
         if not self.training:
             mean_coarse_entropy, mean_fine_entropy = z_coarse_entropy.mean(), z_fine_entropy.mean()
@@ -173,9 +170,9 @@ class TD_HBN(nn.Module):
                 return z2_coarse, 'coarse exit 2'
 
         a3 = self.features3(a2)
-        z3_lin = self.classifier(z3_.view(z3_.size(0), -1))
-        z3_fine, z3_coarse, z_fine_entropy, z_coarse_entropy = self.evaluate_output(z3_lin,
-                                                  self.exit3a, self.exit3b)
+        z3_lin = self.classifier(a3.view(a3.size(0), -1))
+        z3_fine, z3_coarse, _, z_fine_entropy, z_coarse_entropy = \
+                            self.evaluate_output(z3_lin, self.exit3a, self.exit3b, layer=3)
 
         if not self.training:
             if granularity == 1:
@@ -188,7 +185,7 @@ class TD_HBN(nn.Module):
         # return training data
         return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse, sem_granularity
 
-    def evaluate_output(self, x, exit_a, exit_b):
+    def evaluate_output(self, x, exit_a, exit_b, layer):
         """
         _summary_
 
@@ -203,10 +200,16 @@ class TD_HBN(nn.Module):
         z_fine = exit_a(x)
         z_coarse = exit_b(x)
 
+        # get image semantic complexity
+        if layer == 1:
+            sem_granularity = self.sem_complexity(x.view(x.size(0), -1))
+        else:
+            sem_granularity = None
+
         z_fine_probs = F.softmax(z_fine, dim=1)
         z_coarse_probs = F.softmax(z_coarse, dim=1)
 
         z_fine_entropy = Categorical(z_fine_probs).entropy()
         z_coarse_entropy = Categorical(z_coarse_probs).entropy()
 
-        return z_fine, z_coarse, z_fine_entropy, z_coarse_entropy
+        return z_fine, z_coarse, sem_granularity, z_fine_entropy, z_coarse_entropy

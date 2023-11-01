@@ -45,20 +45,21 @@ class ModelComparator(ABC):
         results = []
         for model in self.models:
             model.eval()
-        print("Testing for Top 1 Accuracies", flush=True)
-        top1_accuracies = self._topk_accuracy(k=1)
-
-        print("Testing for Top 5 Accuracies", flush=True)
-        top5_accuracies = self._topk_accuracy(k=5)
-        
-        print("Making Confusion Matrices")
-        self._get_confusion_matrix(save_path='../results/confusion_matrix')
 
         print("Testing for model FLOPS", flush=True)
         macs, params = self._average_flops()
 
         print("Testing average memory size", flush=True)
         memory_sizes = self._memory_size()
+
+        print("Testing for Top 1 Accuracies", flush=True)
+        top1_accuracies = self._topk_accuracy(k=1)
+
+        print("Testing for Top 5 Accuracies", flush=True)
+        top5_accuracies = self._topk_accuracy(k=5)
+
+        print("Making Confusion Matrices")
+        self._get_confusion_matrix(save_path='../results/confusion_matrix')
 
         print("Structuring Results", flush=True)
         for i, (model_name, _) in enumerate(zip(self.model_names, self.models)):
@@ -175,7 +176,7 @@ class ModelComparator(ABC):
         macs, params = [], []
         for model in self.models:
             model.to(self.device)
-            x = torch.randn(256, 3, 32, 32).to(self.device)
+            x = torch.randn(1, 3, 32, 32).to(self.device)
             mac, params = profile(model, inputs=(x, ))
             mac, params = clever_format([mac, params], "%.3f")
             macs.append(mac)
