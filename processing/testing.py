@@ -46,6 +46,8 @@ class ModelComparator(ABC):
         for model in self.models:
             model.eval()
 
+        # self._temp_func()
+
         print("Testing for model FLOPS", flush=True)
         macs, params = self._average_flops()
 
@@ -73,6 +75,61 @@ class ModelComparator(ABC):
             })
         model_results = pd.DataFrame(results)
         model_results.to_csv(f'{filepath}/comparisons.csv')
+
+    def _temp_func(self):
+        epoch_values = []
+        specificity_values = []
+        top1_acc_values = []
+
+        with open('./training.out', 'r') as file:
+            lines = file.readlines()
+
+            i = 0
+            current_epoch = None
+            while i < len(lines):
+                line = lines[i]
+                if 'Epoch' in line:
+                    current_epoch = int(line.split('[')[1].split('/')[0])
+                    epoch_values.append(current_epoch)
+
+                if 'Specificity' in line:
+                    specificity = float(line.split(':')[-1].strip())
+                    specificity_values.append(specificity)
+
+                if 'Top 1 Acc' in line:
+                    top1_acc = float(line.split('=')[-1].replace('%', '').strip())
+                    top1_acc_values.append(top1_acc)
+
+                i += 1
+
+        # plot 1
+        fig, ax1 = plt.subplots()
+
+        ax1.set_xlabel('Epochs')
+        ax1.set_ylabel('Top 1 Accuracy (%)', color='tab:blue')
+        ax1.plot(epoch_values, top1_acc_values, color='tab:blue', label='Top 1 Accuracy')
+        ax1.tick_params(axis='y', labelcolor='tab:blue')
+
+        ax2 = ax1.twinx()
+        ax2.set_ylabel('Specificity', color='tab:red')
+        ax2.plot(epoch_values, specificity_values, color='tab:red', label='Specificity')
+        ax2.tick_params(axis='y', labelcolor='tab:red')
+
+        fig.tight_layout()
+        plt.title('Accuracy and Specificity over Epochs\nduring Post-Training')
+        plt.legend(loc='upper right')
+
+        plt.savefig('../results/accuracy-specificity/fine_weighting=1.5.png')
+
+        # plot 2
+        fig1, ax = plt.subplots()
+
+        ax.plot(epoch_values, [x * y for x, y in zip(top1_acc_values, specificity_values)])
+        ax.set_xlabel('Epochs')
+        ax.set_ylabel('Accuracy * Specificity', color='tab:blue')
+        plt.title('Accuracy * Specificity over Epochs\nduring Post-Training')
+
+        plt.savefig('../results/accuracy-specificity/fine_weighting_summary=1.5.png')
 
     def _topk_accuracy(self, k=1):
         """

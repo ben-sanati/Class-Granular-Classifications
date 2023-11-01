@@ -349,7 +349,7 @@ class TD_HBNTrainer(Trainer):
     weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
     # semantic weighting to equalise the value of the losses
     sem_weighting: float = 20.0
-    fine_weighting: float = 1.2
+    fine_weighting: float = 1.35
 
     def _get_output(self, images, labels):
         """
