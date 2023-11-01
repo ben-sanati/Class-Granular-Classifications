@@ -37,6 +37,7 @@ class Trainer(ABC):
     val_loader: DataLoader
     test_loader: DataLoader
     loss_fn: nn.Module
+    sem_loss_fn: nn.Module
     optimizer: torch.optim.Optimizer
     args: argparse.Namespace
     device: torch.device
@@ -74,36 +75,30 @@ class Trainer(ABC):
         print(f"\n# Training iterations per epoch : {num_iterations}\n")
         print("-"*30 + "\n|" + " "*10 + "Training" + " "*10 + "|\n" + "-"*30 + "\n")
         for epoch in range(self.args.num_epochs):
-            loss_temp, branch_temp, semantic_temp = [], [], []
+            loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
                 images = images.to(self.device)
                 labels = labels.to(self.device)
 
                 # forward pass
-                loss, branch_loss, semantic_loss = self._get_output(images, labels)
+                loss, branch_loss, _ = self._get_output(images, labels)
 
                 # backward pass
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
                 loss_temp.append(loss.item())
-                branch_temp.append(branch_loss.item())
-                semantic_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
                     top1_val, top5_val = self.validate()
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]: \
                             \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
-                                \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)} \
-                                    \n\t\tBranch Loss: {sum(branch_temp) / len(branch_temp)} \
-                                        \n\t\tSemantic Loss: {sum(semantic_temp) / len(semantic_temp)}\n")
+                                \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
 
                     # add data to lists
                     self.epochs.append(epoch+1)
                     self.losses.append(sum(loss_temp) / len(loss_temp))
-                    self.branch_losses.append(sum(branch_temp) / len(branch_temp))
-                    self.sem_losses.append(sum(semantic_temp) / len(semantic_temp))
                     self.val1_acc.append(top1_val)
                     self.val5_acc.append(top5_val)
 
@@ -113,6 +108,8 @@ class Trainer(ABC):
                     del loss
                     del top1_val
                     del top5_val
+
+        self._post_training()
 
         print("-" * 30)
 
@@ -168,6 +165,12 @@ class Trainer(ABC):
         top5_accuracy = 100 * n_correct_top5 / n_samples_top5
 
         return top1_accuracy, top5_accuracy
+
+    @abstractmethod
+    def _post_training(self):
+        """
+        _summary_
+        """
 
     def plot_and_save(self, model_name, save_folder):
         """
@@ -232,10 +235,13 @@ class AlexNetTrainer(Trainer):
             y_hat, _ = self.model(images)
             loss = self.loss_fn(y_hat, labels)
 
-            return loss
+            return loss, _, _
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
+
+    def _post_training(self):
+        pass
 
 
 @dataclass
@@ -263,10 +269,13 @@ class BranchyNetTrainer(Trainer):
             for weight, y_branch in zip(self.weights, y_hats):
                 loss += weight * self.loss_fn(y_branch, labels)
 
-            return loss
+            return loss, _, _
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
+
+    def _post_training(self):
+        pass
 
 
 @dataclass
@@ -307,10 +316,13 @@ class SuperNetTrainer(Trainer):
                     loss += (self.weights[idx//2] * self.fine_class_weighting *
                              self.loss_fn(y_branch, labels))
 
-            return loss
+            return loss, loss, _
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
+
+    def _post_training(self):
+        pass
 
 
 @dataclass
@@ -326,6 +338,7 @@ class TD_HBNTrainer(Trainer):
     weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
     # semantic weighting to equalise the value of the losses
     sem_weighting: float = 20.0
+    fine_weighting: float = 1.2
 
     def _get_output(self, images, labels):
         """
@@ -365,48 +378,118 @@ class TD_HBNTrainer(Trainer):
             semantic_loss = self._get_sem_loss(sem_granularity,
                                                y_hats, labels, new_labels) * self.sem_weighting
 
-            # sum total losses
-            loss = branch_loss + semantic_loss
+            # use branch loss during training and semantic loss during post-training
+            loss = branch_loss
             return loss, branch_loss, semantic_loss
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
 
     def _get_sem_loss(self, sem_granularity, y_hats, labels, new_labels):
-        # get the best granularity based the fine and coarse losses
-        coarse_entropies, fine_entropies = [], []
+        # GET THE BEST GRANULARITY BASED ON THE FINE AND COARSE LOSSES #
+        coarse_right, fine_right = [], []
         for y_hat in y_hats:
+            _, prediction = torch.max(y_hat, axis=1)
             if y_hat.size(1) == 20:
-                pred_probs = F.softmax(y_hat, dim=1)
-                pred_entropy = Categorical(pred_probs).entropy()
-                coarse_entropies.append(pred_entropy)
-            if y_hat.size(1) == 100:
-                pred_probs = F.softmax(y_hat, dim=1)
-                pred_entropy = Categorical(pred_probs).entropy()
-                fine_entropies.append(pred_entropy)
+                coarse_right.append(prediction == new_labels)
+            elif y_hat.size(1) == 100:
+                fine_right.append(prediction == labels)
 
-        coarse_entropies = torch.stack(coarse_entropies)
-        coarse_entropies_ave = torch.mean(coarse_entropies, dim=0)
-        fine_entropies = torch.stack(fine_entropies)
-        fine_entropies_ave = torch.mean(fine_entropies, dim=0)
+        # find the optimal granularity
+        fine_right_value = torch.stack(fine_right).int().sum(dim=0) * self.fine_weighting
+        coarse_right_value = torch.stack(coarse_right).int().sum(dim=0)
 
-        # get the optimal granularity based on the current image
-        # leads to varying fine-tolerance values based on the current difference in entropies
-        fine_tolerance = (fine_entropies_ave - coarse_entropies_ave).mean()
+        opt_value = (fine_right_value > coarse_right_value).type(torch.long)
 
-        # we can now define the optimal sem_granularity matrix
-        opt_sem_granularity = fine_entropies_ave - coarse_entropies_ave - fine_tolerance
-
-        # if opt_sem_granularity is positive -> fine entropy is large -> uncertain -> use coarse
-        # if opt_sem_granularity is negative -> fine entropy is small -> certain -> use fine
-        # if opt_sem_granularity is positive -> set matrix element to 0
-        # if opt_sem_granularity is negative -> set matrix element to 1
-        positive_mask = opt_sem_granularity > 0
-        negative_mask = opt_sem_granularity < 0
-        opt_sem_granularity[positive_mask] = 0
-        opt_sem_granularity[negative_mask] = 1
-        opt_sem_granularity = opt_sem_granularity.type(torch.long)
-
-        # cross-entropy loss between the opt_granularity and the sem_granularity
-        sem_loss = self.loss_fn(sem_granularity, opt_sem_granularity)
+        # get classificaiton error
+        sem_loss = self.loss_fn(sem_granularity, opt_value)
         return sem_loss
+
+        # # GET THE BEST GRANULARITY BASED ON THE FINE AND COARSE LOSSES #
+        # coarse_entropies, fine_entropies = [], []
+        # for y_hat in y_hats:
+        #     if y_hat.size(1) == 20:
+        #         pred_probs = F.softmax(y_hat, dim=1)
+        #         pred_entropy = Categorical(pred_probs).entropy()
+        #         coarse_entropies.append(pred_entropy)
+        #     if y_hat.size(1) == 100:
+        #         pred_probs = F.softmax(y_hat, dim=1)
+        #         pred_entropy = Categorical(pred_probs).entropy()
+        #         fine_entropies.append(pred_entropy)
+
+        # coarse_entropies = torch.stack(coarse_entropies)
+        # coarse_entropies_ave = torch.mean(coarse_entropies, dim=0)
+        # fine_entropies = torch.stack(fine_entropies)
+        # fine_entropies_ave = torch.mean(fine_entropies, dim=0)
+
+        # # get the optimal granularity based on the current image
+        # # leads to varying fine-tolerance values based on the current difference in entropies
+        # fine_tolerance = (fine_entropies_ave - coarse_entropies_ave).mean()
+
+        # # we can now define the optimal sem_granularity matrix
+        # opt_sem_granularity = fine_entropies_ave - fine_tolerance < coarse_entropies_ave
+        # opt_sem_granularity = opt_sem_granularity.type(torch.long)
+
+        # # CROSS-ENTROPY LOSS BETWEEN THE OPT_GRANULARITY AND THE SEM_GRANULARITY #
+        # sem_loss = self.loss_fn(sem_granularity, opt_sem_granularity)
+        # return sem_loss
+
+    def _post_training(self):
+        num_iterations = len(self.train_loader)
+
+        print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
+        print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
+        for epoch in range(self.args.num_epochs // 5):
+            loss_temp = []
+            for index, (images, labels) in enumerate(self.train_loader):
+                self.model.train()
+                images = images.to(self.device)
+                labels = labels.to(self.device)
+
+                # forward pass
+                _, _, semantic_loss = self._get_output(images, labels)
+
+                # backward pass
+                self.optimizer.zero_grad()
+                semantic_loss.backward()
+                self.optimizer.step()
+                loss_temp.append(semantic_loss.item())
+
+                if (index + 1) % num_iterations == 0:
+                    top1_val, top5_val = self.validate()
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs//5}]: \
+                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
+                                \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
+
+    def investigating_post_trainer(self):
+        """
+        _summary_
+        """
+        # load the model
+        self.model.load_state_dict(torch.load('../results/models/TD-HBN.pth'))
+
+        num_iterations = len(self.train_loader)
+
+        print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
+        print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
+        for epoch in range(self.args.num_epochs):
+            loss_temp = []
+            for index, (images, labels) in enumerate(self.train_loader):
+                self.model.train()
+                images = images.to(self.device)
+                labels = labels.to(self.device)
+
+                # forward pass
+                _, _, semantic_loss = self._get_output(images, labels)
+
+                # backward pass
+                self.optimizer.zero_grad()
+                semantic_loss.backward()
+                self.optimizer.step()
+                loss_temp.append(semantic_loss.item())
+
+                if (index + 1) % num_iterations == 0:
+                    top1_val, top5_val = self.validate()
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]: \
+                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
+                                \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")

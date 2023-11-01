@@ -16,24 +16,23 @@ class AlexNet(nn.Module):
         super().__init__()
 
         self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=5, stride=2, padding=1),
+            nn.Conv2d(in_channels=3, out_channels=64, kernel_size=3, stride=2, padding=1),
+            nn.MaxPool2d(kernel_size=2),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.Conv2d(64, 192, kernel_size=5, padding=2),
+            nn.Conv2d(in_channels=64, out_channels=192, kernel_size=3, padding=1),
+            nn.MaxPool2d(kernel_size=2),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.Conv2d(192, 384, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=192, out_channels=384, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
-            nn.Conv2d(384, 256, kernel_size=3, padding=1),
+            nn.Conv2d(in_channels=384, out_channels=256, kernel_size=3, padding=1),
             nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=3, stride=2),
-            nn.AdaptiveAvgPool2d((6, 6)),
+            nn.Conv2d(in_channels=256, out_channels=256, kernel_size=3, padding=1),
+            nn.MaxPool2d(kernel_size=2),
+            nn.ReLU(inplace=True)
         )
         self.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
-            nn.Linear(256*6*6, 4096),
+            nn.Linear(256 * 2 * 2, 4096),
             nn.ReLU(inplace=True),
             nn.Dropout(p=dropout),
             nn.Linear(4096, 4096),
