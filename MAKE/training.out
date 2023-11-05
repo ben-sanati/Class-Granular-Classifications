@@ -1,18 +1,19 @@
 Args:
 	mode: training
 	batch_size: 256
-	lr: 1e-05
+	lr: 0.00015
+	pt_lr: 1e-05
 	weight_decay: 0.0005
 	device: cuda
-	num_epochs: 250
+	num_epochs: 1
 
 
-Model == TD-HBN
+Model == Sem-HBN
 
 ==========================================================================================
 Layer (type:depth-idx)                   Output Shape              Param #
 ==========================================================================================
-TD_HBN                                   [1, 20]                   --
+SemHBN                                   [1, 100]                  --
 ├─Sequential: 1-1                        [1, 64, 8, 8]             --
 │    └─Conv2d: 2-1                       [1, 64, 16, 16]           1,792
 │    └─MaxPool2d: 2-2                    [1, 64, 8, 8]             --
@@ -24,381 +25,72 @@ TD_HBN                                   [1, 20]                   --
 │    └─Conv2d: 2-7                       [1, 128, 4, 4]            295,040
 │    └─MaxPool2d: 2-8                    [1, 128, 2, 2]            --
 │    └─ReLU: 2-9                         [1, 128, 2, 2]            --
-├─Sequential: 1-3                        [1, 2048]                 --
+├─Sequential: 1-3                        [1, 20]                   --
 │    └─Dropout: 2-10                     [1, 512]                  --
 │    └─Linear: 2-11                      [1, 2048]                 1,050,624
 │    └─ReLU: 2-12                        [1, 2048]                 --
 │    └─Dropout: 2-13                     [1, 2048]                 --
 │    └─Linear: 2-14                      [1, 2048]                 4,196,352
 │    └─ReLU: 2-15                        [1, 2048]                 --
-├─Sequential: 1-4                        [1, 100]                  --
-│    └─Linear: 2-16                      [1, 100]                  204,900
-├─Sequential: 1-5                        [1, 20]                   --
-│    └─Linear: 2-17                      [1, 20]                   40,980
-├─Sequential: 1-6                        [1, 2]                    --
-│    └─Dropout: 2-18                     [1, 2048]                 --
-│    └─Linear: 2-19                      [1, 128]                  262,272
-│    └─ReLU: 2-20                        [1, 128]                  --
-│    └─Dropout: 2-21                     [1, 128]                  --
-│    └─LayerNorm: 2-22                   [1, 128]                  256
-│    └─Linear: 2-23                      [1, 2]                    258
-├─Sequential: 1-7                        [1, 384, 4, 4]            --
-│    └─Conv2d: 2-24                      [1, 192, 8, 8]            110,784
-│    └─MaxPool2d: 2-25                   [1, 192, 4, 4]            --
-│    └─ReLU: 2-26                        [1, 192, 4, 4]            --
-│    └─Conv2d: 2-27                      [1, 384, 4, 4]            663,936
-│    └─ReLU: 2-28                        [1, 384, 4, 4]            --
-├─Sequential: 1-8                        [1, 256, 1, 1]            --
-│    └─Conv2d: 2-29                      [1, 256, 2, 2]            884,992
-│    └─MaxPool2d: 2-30                   [1, 256, 1, 1]            --
-│    └─ReLU: 2-31                        [1, 256, 1, 1]            --
-├─Sequential: 1-9                        [1, 2048]                 --
-│    └─Dropout: 2-32                     [1, 256]                  --
-│    └─Linear: 2-33                      [1, 2048]                 526,336
-│    └─ReLU: 2-34                        [1, 2048]                 --
-│    └─Dropout: 2-35                     [1, 2048]                 --
-│    └─Linear: 2-36                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-37                        [1, 2048]                 --
-│    └─Dropout: 2-38                     [1, 2048]                 --
-├─Sequential: 1-10                       [1, 100]                  --
-│    └─Linear: 2-39                      [1, 100]                  204,900
-├─Sequential: 1-11                       [1, 20]                   --
-│    └─Linear: 2-40                      [1, 20]                   40,980
-├─Sequential: 1-12                       [1, 256, 2, 2]            --
-│    └─Conv2d: 2-41                      [1, 256, 4, 4]            884,992
-│    └─ReLU: 2-42                        [1, 256, 4, 4]            --
-│    └─Conv2d: 2-43                      [1, 256, 4, 4]            590,080
-│    └─MaxPool2d: 2-44                   [1, 256, 2, 2]            --
-│    └─ReLU: 2-45                        [1, 256, 2, 2]            --
-├─Sequential: 1-13                       [1, 4096]                 --
-│    └─Dropout: 2-46                     [1, 1024]                 --
-│    └─Linear: 2-47                      [1, 4096]                 4,198,400
-│    └─ReLU: 2-48                        [1, 4096]                 --
-│    └─Dropout: 2-49                     [1, 4096]                 --
-│    └─Linear: 2-50                      [1, 4096]                 16,781,312
-│    └─ReLU: 2-51                        [1, 4096]                 --
-├─Sequential: 1-14                       [1, 100]                  --
-│    └─Linear: 2-52                      [1, 100]                  409,700
-├─Sequential: 1-15                       [1, 20]                   --
-│    └─Linear: 2-53                      [1, 20]                   81,940
+│    └─Linear: 2-16                      [1, 20]                   40,980
+├─Sequential: 1-4                        [1, 384, 4, 4]            --
+│    └─Conv2d: 2-17                      [1, 192, 8, 8]            110,784
+│    └─MaxPool2d: 2-18                   [1, 192, 4, 4]            --
+│    └─ReLU: 2-19                        [1, 192, 4, 4]            --
+│    └─Conv2d: 2-20                      [1, 384, 4, 4]            663,936
+│    └─ReLU: 2-21                        [1, 384, 4, 4]            --
+├─Sequential: 1-5                        [1, 256, 1, 1]            --
+│    └─Conv2d: 2-22                      [1, 256, 2, 2]            884,992
+│    └─MaxPool2d: 2-23                   [1, 256, 1, 1]            --
+│    └─ReLU: 2-24                        [1, 256, 1, 1]            --
+├─Sequential: 1-6                        [1, 20]                   --
+│    └─Dropout: 2-25                     [1, 256]                  --
+│    └─Linear: 2-26                      [1, 2048]                 526,336
+│    └─ReLU: 2-27                        [1, 2048]                 --
+│    └─Dropout: 2-28                     [1, 2048]                 --
+│    └─Linear: 2-29                      [1, 2048]                 4,196,352
+│    └─ReLU: 2-30                        [1, 2048]                 --
+│    └─Dropout: 2-31                     [1, 2048]                 --
+│    └─Linear: 2-32                      [1, 20]                   40,980
+├─Sequential: 1-7                        [1, 256, 2, 2]            --
+│    └─Conv2d: 2-33                      [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-34                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-35                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-36                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-37                        [1, 256, 2, 2]            --
+├─Sequential: 1-8                        [1, 100]                  --
+│    └─Dropout: 2-38                     [1, 1024]                 --
+│    └─Linear: 2-39                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-40                        [1, 4096]                 --
+│    └─Dropout: 2-41                     [1, 4096]                 --
+│    └─Linear: 2-42                      [1, 4096]                 16,781,312
+│    └─ReLU: 2-43                        [1, 4096]                 --
+│    └─Linear: 2-44                      [1, 100]                  409,700
 ==========================================================================================
-Total params: 35,774,890
-Trainable params: 35,774,890
+Total params: 35,020,364
+Trainable params: 35,020,364
 Non-trainable params: 0
-Total mult-adds (M): 91.68
+Total mult-adds (M): 90.93
 ==========================================================================================
 Input size (MB): 0.01
-Forward/backward pass size (MB): 0.64
-Params size (MB): 143.10
-Estimated Total Size (MB): 143.75
+Forward/backward pass size (MB): 0.63
+Params size (MB): 140.08
+Estimated Total Size (MB): 140.73
 ==========================================================================================
 
-# Post-Training iterations per epoch : 176
+# Training iterations per epoch : 176
 
-----------------------------------------
-|             Post-Training            |
-----------------------------------------
+------------------------------
+|          Training          |
+------------------------------
 
-Epoch [1/50]:
-		Specificity: 0.96
-		Top 1 Acc = 49.98%
-		Top 5 Acc = 76.42%                                 
-		Loss/Iteration: 14.180843158201737
+Epoch [1/1]:
+		Specificity: 1.0
+		Top 1 Acc = 6.04%
+		Top 5 Acc = 21.1%                                 
+		Loss/Iteration: 8.55685549161651
 
-Epoch [2/50]:
-		Specificity: 0.9444
-		Top 1 Acc = 50.54%
-		Top 5 Acc = 76.4%                                 
-		Loss/Iteration: 13.675291055982763
-
-Epoch [3/50]:
-		Specificity: 0.9466
-		Top 1 Acc = 49.48%
-		Top 5 Acc = 75.88%                                 
-		Loss/Iteration: 13.521432340145111
-
-Epoch [4/50]:
-		Specificity: 0.9258
-		Top 1 Acc = 49.46%
-		Top 5 Acc = 76.96%                                 
-		Loss/Iteration: 13.396635890007019
-
-Epoch [5/50]:
-		Specificity: 0.9334
-		Top 1 Acc = 50.44%
-		Top 5 Acc = 76.32%                                 
-		Loss/Iteration: 13.341119771653956
-
-Epoch [6/50]:
-		Specificity: 0.914
-		Top 1 Acc = 50.7%
-		Top 5 Acc = 76.24%                                 
-		Loss/Iteration: 13.305939864028584
-
-Epoch [7/50]:
-		Specificity: 0.8856
-		Top 1 Acc = 51.22%
-		Top 5 Acc = 78.04%                                 
-		Loss/Iteration: 13.296364518729122
-
-Epoch [8/50]:
-		Specificity: 0.8812
-		Top 1 Acc = 51.08%
-		Top 5 Acc = 77.2%                                 
-		Loss/Iteration: 13.277392571622675
-
-Epoch [9/50]:
-		Specificity: 0.8844
-		Top 1 Acc = 51.56%
-		Top 5 Acc = 77.58%                                 
-		Loss/Iteration: 13.220610418102957
-
-Epoch [10/50]:
-		Specificity: 0.832
-		Top 1 Acc = 52.44%
-		Top 5 Acc = 78.0%                                 
-		Loss/Iteration: 13.216503555124456
-
-Epoch [11/50]:
-		Specificity: 0.8228
-		Top 1 Acc = 52.4%
-		Top 5 Acc = 78.24%                                 
-		Loss/Iteration: 13.153455436229706
-
-Epoch [12/50]:
-		Specificity: 0.8418
-		Top 1 Acc = 52.96%
-		Top 5 Acc = 78.62%                                 
-		Loss/Iteration: 13.132248910990628
-
-Epoch [13/50]:
-		Specificity: 0.838
-		Top 1 Acc = 52.52%
-		Top 5 Acc = 77.84%                                 
-		Loss/Iteration: 13.133794215592472
-
-Epoch [14/50]:
-		Specificity: 0.7574
-		Top 1 Acc = 53.72%
-		Top 5 Acc = 80.12%                                 
-		Loss/Iteration: 13.079339639707046
-
-Epoch [15/50]:
-		Specificity: 0.8212
-		Top 1 Acc = 53.12%
-		Top 5 Acc = 78.56%                                 
-		Loss/Iteration: 13.110945918343283
-
-Epoch [16/50]:
-		Specificity: 0.7928
-		Top 1 Acc = 53.12%
-		Top 5 Acc = 78.56%                                 
-		Loss/Iteration: 13.07120762088082
-
-Epoch [17/50]:
-		Specificity: 0.8064
-		Top 1 Acc = 53.24%
-		Top 5 Acc = 78.26%                                 
-		Loss/Iteration: 13.090643335472453
-
-Epoch [18/50]:
-		Specificity: 0.7986
-		Top 1 Acc = 52.92%
-		Top 5 Acc = 78.88%                                 
-		Loss/Iteration: 13.074082824316891
-
-Epoch [19/50]:
-		Specificity: 0.7618
-		Top 1 Acc = 54.38%
-		Top 5 Acc = 79.46%                                 
-		Loss/Iteration: 13.088984717022289
-
-Epoch [20/50]:
-		Specificity: 0.7548
-		Top 1 Acc = 53.88%
-		Top 5 Acc = 79.26%                                 
-		Loss/Iteration: 13.031621981750835
-
-Epoch [21/50]:
-		Specificity: 0.7472
-		Top 1 Acc = 54.5%
-		Top 5 Acc = 79.5%                                 
-		Loss/Iteration: 13.080313487486405
-
-Epoch [22/50]:
-		Specificity: 0.7682
-		Top 1 Acc = 53.96%
-		Top 5 Acc = 79.0%                                 
-		Loss/Iteration: 13.019436012614857
-
-Epoch [23/50]:
-		Specificity: 0.7536
-		Top 1 Acc = 53.06%
-		Top 5 Acc = 79.46%                                 
-		Loss/Iteration: 13.01326881755482
-
-Epoch [24/50]:
-		Specificity: 0.7416
-		Top 1 Acc = 54.62%
-		Top 5 Acc = 79.9%                                 
-		Loss/Iteration: 12.970736384391785
-
-Epoch [25/50]:
-		Specificity: 0.7146
-		Top 1 Acc = 54.14%
-		Top 5 Acc = 80.94%                                 
-		Loss/Iteration: 12.964661099693991
-
-Epoch [26/50]:
-		Specificity: 0.7536
-		Top 1 Acc = 53.7%
-		Top 5 Acc = 79.78%                                 
-		Loss/Iteration: 12.944284493272955
-
-Epoch [27/50]:
-		Specificity: 0.7312
-		Top 1 Acc = 54.32%
-		Top 5 Acc = 80.08%                                 
-		Loss/Iteration: 12.96439254283905
-
-Epoch [28/50]:
-		Specificity: 0.7086
-		Top 1 Acc = 54.94%
-		Top 5 Acc = 80.7%                                 
-		Loss/Iteration: 12.960837017406117
-
-Epoch [29/50]:
-		Specificity: 0.7744
-		Top 1 Acc = 52.92%
-		Top 5 Acc = 78.52%                                 
-		Loss/Iteration: 12.935055716471238
-
-Epoch [30/50]:
-		Specificity: 0.744
-		Top 1 Acc = 54.34%
-		Top 5 Acc = 79.24%                                 
-		Loss/Iteration: 12.906874076886611
-
-Epoch [31/50]:
-		Specificity: 0.7302
-		Top 1 Acc = 54.88%
-		Top 5 Acc = 79.88%                                 
-		Loss/Iteration: 12.928252702409571
-
-Epoch [32/50]:
-		Specificity: 0.701
-		Top 1 Acc = 55.26%
-		Top 5 Acc = 81.22%                                 
-		Loss/Iteration: 12.930343221534383
-
-Epoch [33/50]:
-		Specificity: 0.7152
-		Top 1 Acc = 55.54%
-		Top 5 Acc = 80.88%                                 
-		Loss/Iteration: 12.923479134386236
-
-Epoch [34/50]:
-		Specificity: 0.6862
-		Top 1 Acc = 54.94%
-		Top 5 Acc = 81.12%                                 
-		Loss/Iteration: 12.838772616603158
-
-Epoch [35/50]:
-		Specificity: 0.67
-		Top 1 Acc = 55.34%
-		Top 5 Acc = 81.34%                                 
-		Loss/Iteration: 12.879720617424358
-
-Epoch [36/50]:
-		Specificity: 0.6672
-		Top 1 Acc = 55.0%
-		Top 5 Acc = 81.32%                                 
-		Loss/Iteration: 12.842543591152538
-
-Epoch [37/50]:
-		Specificity: 0.731
-		Top 1 Acc = 54.3%
-		Top 5 Acc = 79.96%                                 
-		Loss/Iteration: 12.882103025913239
-
-Epoch [38/50]:
-		Specificity: 0.6988
-		Top 1 Acc = 55.64%
-		Top 5 Acc = 80.1%                                 
-		Loss/Iteration: 12.855514515529979
-
-Epoch [39/50]:
-		Specificity: 0.6862
-		Top 1 Acc = 55.14%
-		Top 5 Acc = 80.96%                                 
-		Loss/Iteration: 12.887466571547769
-
-Epoch [40/50]:
-		Specificity: 0.6826
-		Top 1 Acc = 55.26%
-		Top 5 Acc = 80.66%                                 
-		Loss/Iteration: 12.850247339768844
-
-Epoch [41/50]:
-		Specificity: 0.6508
-		Top 1 Acc = 55.38%
-		Top 5 Acc = 81.5%                                 
-		Loss/Iteration: 12.800158040090041
-
-Epoch [42/50]:
-		Specificity: 0.7174
-		Top 1 Acc = 54.3%
-		Top 5 Acc = 79.78%                                 
-		Loss/Iteration: 12.86761040579189
-
-Epoch [43/50]:
-		Specificity: 0.7012
-		Top 1 Acc = 55.14%
-		Top 5 Acc = 80.82%                                 
-		Loss/Iteration: 12.80499655008316
-
-Epoch [44/50]:
-		Specificity: 0.7048
-		Top 1 Acc = 54.8%
-		Top 5 Acc = 80.76%                                 
-		Loss/Iteration: 12.791751471432773
-
-Epoch [45/50]:
-		Specificity: 0.6962
-		Top 1 Acc = 55.74%
-		Top 5 Acc = 80.52%                                 
-		Loss/Iteration: 12.771875527772037
-
-Epoch [46/50]:
-		Specificity: 0.6758
-		Top 1 Acc = 55.26%
-		Top 5 Acc = 81.24%                                 
-		Loss/Iteration: 12.819045256484639
-
-Epoch [47/50]:
-		Specificity: 0.6576
-		Top 1 Acc = 56.64%
-		Top 5 Acc = 81.42%                                 
-		Loss/Iteration: 12.828390354459936
-
-Epoch [48/50]:
-		Specificity: 0.673
-		Top 1 Acc = 55.42%
-		Top 5 Acc = 81.44%                                 
-		Loss/Iteration: 12.802140550179915
-
-Epoch [49/50]:
-		Specificity: 0.688
-		Top 1 Acc = 55.88%
-		Top 5 Acc = 80.9%                                 
-		Loss/Iteration: 12.829675728624517
-
-Epoch [50/50]:
-		Specificity: 0.6684
-		Top 1 Acc = 55.88%
-		Top 5 Acc = 81.24%                                 
-		Loss/Iteration: 12.83615613525564
-
+------------------------------
 
 ||========================================||
 
