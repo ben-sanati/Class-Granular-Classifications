@@ -48,7 +48,6 @@ class TD_HBN(nn.Module):
             nn.Linear(2048 * 1 * 1, 128),
             nn.ReLU(inplace=True),
             nn.Dropout(0.5),
-            nn.LayerNorm(128),
             nn.Linear(128, 2),
         )
 

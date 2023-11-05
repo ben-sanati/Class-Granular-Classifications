@@ -81,24 +81,31 @@ class ModelComparator(ABC):
         specificity_values = []
         top1_acc_values = []
 
-        with open('./training.out', 'r') as file:
+        with open('./TD-HBN-training.out', 'r') as file:
             lines = file.readlines()
 
             i = 0
             current_epoch = None
+            processing = False  # flag to control processing
+
             while i < len(lines):
                 line = lines[i]
-                if 'Epoch' in line:
-                    current_epoch = int(line.split('[')[1].split('/')[0])
-                    epoch_values.append(current_epoch)
 
-                if 'Specificity' in line:
-                    specificity = float(line.split(':')[-1].strip())
-                    specificity_values.append(specificity)
+                if 'Post-Training' in line:
+                    processing = True  # set flag to start processing
 
-                if 'Top 1 Acc' in line:
-                    top1_acc = float(line.split('=')[-1].replace('%', '').strip())
-                    top1_acc_values.append(top1_acc)
+                if processing:
+                    if 'Epoch' in line:
+                        current_epoch = int(line.split('[')[1].split('/')[0])
+                        epoch_values.append(current_epoch)
+
+                    if 'Specificity' in line:
+                        specificity = float(line.split(':')[-1].strip())
+                        specificity_values.append(specificity)
+
+                    if 'Top 1 Acc' in line:
+                        top1_acc = float(line.split('=')[-1].replace('%', '').strip())
+                        top1_acc_values.append(top1_acc)
 
                 i += 1
 
@@ -115,9 +122,13 @@ class ModelComparator(ABC):
         ax2.plot(epoch_values, specificity_values, color='tab:red', label='Specificity')
         ax2.tick_params(axis='y', labelcolor='tab:red')
 
+        lines, labels = ax1.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax1.legend(lines + lines2, labels + labels2, loc='upper right')
+
         fig.tight_layout()
+        plt.subplots_adjust(top=0.9)
         plt.title('Accuracy and Specificity over Epochs\nduring Post-Training')
-        plt.legend(loc='upper right')
 
         plt.savefig('../results/accuracy-specificity/fine_weighting=1.5.png')
 

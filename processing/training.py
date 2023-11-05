@@ -37,8 +37,8 @@ class Trainer(ABC):
     val_loader: DataLoader
     test_loader: DataLoader
     loss_fn: nn.Module
-    sem_loss_fn: nn.Module
     optimizer: torch.optim.Optimizer
+    pt_optimizer: torch.optim.Optimizer
     args: argparse.Namespace
     device: torch.device
     g1_identifiers: list
@@ -48,6 +48,7 @@ class Trainer(ABC):
     sem_losses: List[float] = field(default_factory=list)
     val1_acc: List[float] = field(default_factory=list)
     val5_acc: List[float] = field(default_factory=list)
+    specificities: List[float] = field(default_factory=list)
 
     def init_param(self):
         """
@@ -82,7 +83,7 @@ class Trainer(ABC):
                 labels = labels.to(self.device)
 
                 # forward pass
-                loss, branch_loss, _ = self._get_output(images, labels)
+                loss, _, _ = self._get_output(images, labels)
 
                 # backward pass
                 self.optimizer.zero_grad()
@@ -91,9 +92,9 @@ class Trainer(ABC):
                 loss_temp.append(loss.item())
 
                 if (index + 1) % num_iterations == 0:
-                    top1_val, top5_val = self.validate()
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]: \
-                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs}]:")
+                    top1_val, top5_val, specificity = self.validate()
+                    print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
 
                     # add data to lists
@@ -101,6 +102,7 @@ class Trainer(ABC):
                     self.losses.append(sum(loss_temp) / len(loss_temp))
                     self.val1_acc.append(top1_val)
                     self.val5_acc.append(top5_val)
+                    self.specificities.append(sum(specificity) / len(specificity))
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
@@ -112,6 +114,7 @@ class Trainer(ABC):
                     del loss
                     del top1_val
                     del top5_val
+                    del specificity
 
         self._post_training()
 
@@ -175,7 +178,7 @@ class Trainer(ABC):
         top1_accuracy = 100 * n_correct / n_samples
         top5_accuracy = 100 * n_correct_top5 / n_samples_top5
 
-        return top1_accuracy, top5_accuracy
+        return top1_accuracy, top5_accuracy, specificity
 
     @abstractmethod
     def _post_training(self):
@@ -190,37 +193,38 @@ class Trainer(ABC):
         Args:
             save_folder (_type_): _description_
         """
-        # Plot losses
-        plt.figure(figsize=(8, 6))
-        plt.plot(self.epochs, self.losses, label='Loss', color='blue')
 
-        if self.branch_losses:
-            plt.plot(self.epochs, self.branch_losses, label='Branch Loss', color='green')
-        if self.sem_losses:
-            plt.plot(self.epochs, self.sem_losses, label='Semantic Loss', color='red')
+        # plot loss and save
+        fig, ax1 = plt.subplots()
 
-        plt.xlabel('Epochs')
-        plt.ylabel('Loss')
+        ax1.set_xlabel('Epochs')
+        ax1.set_ylabel('Loss')
+        ax1.plot(self.epochs, self.losses, label='Loss', color='blue')
+
+        ax2 = ax1.twinx()
+        ax2.set_ylabel('Specificity')
+        ax2.plot(self.epochs, self.specificities, label='Specificity', color='red')
+
         plt.title(f'{model_name} Training Loss')
-        plt.legend()
-        plt.grid(True)
 
-        # Save the loss figure
+        lines, labels = ax1.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax1.legend(lines + lines2, labels + labels2, loc='upper right')
+
+        fig.tight_layout()
         loss_figure_path = f"{save_folder}/training_loss.png"
         plt.savefig(loss_figure_path)
         plt.close()
 
-        # Plot accuracy
+        # plot accuracy and save
         plt.figure(figsize=(8, 6))
         plt.plot(self.epochs, self.val1_acc, label='Top-1 Accuracy', color='green')
         plt.plot(self.epochs, self.val5_acc, label='Top-5 Accuracy', color='orange')
         plt.xlabel('Epochs')
         plt.ylabel('Accuracy')
         plt.title(f'{model_name} Validation Accuracy')
-        plt.legend()
         plt.grid(True)
 
-        # Save the accuracy figure
         accuracy_figure_path = f"{save_folder}/validation_accuracy.png"
         plt.savefig(accuracy_figure_path)
         plt.close()
@@ -281,6 +285,47 @@ class BranchyNetTrainer(Trainer):
                 loss += weight * self.loss_fn(y_branch, labels)
 
             return loss, None, None
+        elif not self.model.training:
+            y_hat, exits = self.model(images)
+            return y_hat, exits
+
+    def _post_training(self):
+        pass
+
+
+@dataclass
+class SemHBNTrainer(Trainer):
+    """
+    _summary_
+
+    Args:
+        Trainer (_type_): _description_
+    """
+    # want to maximize early exits, therefore, they have higher weights in the loss
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
+
+    def _get_output(self, images, labels):
+        """
+        _summary_
+
+        Args:
+            images (_type_): _description_
+            labels (_type_): _description_
+        """
+        if self.model.training:
+            # get new labels
+            new_labels = [self.g1_identifiers[i.item()] for i in labels]
+            new_labels = torch.Tensor(new_labels).type(torch.LongTensor).to(self.device)
+
+            y_hats = self.model(images)
+            loss = 0
+            for idx, (y_branch) in enumerate(y_hats):
+                if y_branch.size(1) == 20:
+                    loss += self.weights[idx//2] * self.loss_fn(y_branch, new_labels)
+                elif y_branch.size(1) == 100:
+                    loss += self.weights[idx//2] * self.loss_fn(y_branch, labels)
+
+            return loss, loss, None
         elif not self.model.training:
             y_hat, exits = self.model(images)
             return y_hat, exits
@@ -421,7 +466,7 @@ class TD_HBNTrainer(Trainer):
 
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 5):
+        for epoch in range(self.args.num_epochs // 3):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -432,15 +477,15 @@ class TD_HBNTrainer(Trainer):
                 _, _, semantic_loss = self._get_output(images, labels)
 
                 # backward pass
-                self.optimizer.zero_grad()
+                self.pt_optimizer.zero_grad()
                 semantic_loss.backward()
-                self.optimizer.step()
+                self.pt_optimizer.step()
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-                    top1_val, top5_val = self.validate()
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs//5}]: \
-                            \n\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    top1_val, top5_val, specificity = self.validate()
+                    print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
 
     def investigating_post_trainer(self):
@@ -454,7 +499,7 @@ class TD_HBNTrainer(Trainer):
 
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 5):
+        for epoch in range(self.args.num_epochs // 3):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -465,14 +510,14 @@ class TD_HBNTrainer(Trainer):
                 _, _, semantic_loss = self._get_output(images, labels)
 
                 # backward pass
-                self.optimizer.zero_grad()
+                self.pt_optimizer.zero_grad()
                 semantic_loss.backward()
-                self.optimizer.step()
+                self.pt_optimizer.step()
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 5}]:")
-                    top1_val, top5_val = self.validate()
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
                     # save checkpoint

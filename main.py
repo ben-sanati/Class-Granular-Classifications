@@ -11,9 +11,10 @@ from torchinfo import summary
 
 from models.alexnet import AlexNet
 from models.b_alexnet import BranchyAlexNet
+from models.sem_hbn import SemHBN
 from models.super_hbn import SuperHBN
 from models.td_hbn import TD_HBN
-from processing.training import AlexNetTrainer, BranchyNetTrainer, SuperNetTrainer, TD_HBNTrainer
+from processing.training import AlexNetTrainer, BranchyNetTrainer, SemHBNTrainer, SuperNetTrainer, TD_HBNTrainer
 from processing.testing import ModelComparator
 from utils.load_data import dataset, split_data, g0_classes, g1_classes, dataloader
 
@@ -69,18 +70,19 @@ def training(_data: tuple, _models: dict, _trainer: dict,
 
         # definitions
         loss_fn = nn.CrossEntropyLoss()
-        sem_loss_fn = nn.MSELoss()
         optimizer = torch.optim.Adam(model.parameters(), lr=_args.lr,
+                                     weight_decay=_args.weight_decay)
+        pt_optimizer = torch.optim.Adam(model.parameters(), lr=_args.pt_lr,
                                      weight_decay=_args.weight_decay)
 
         # train and plot results
         trainer = _trainer[model_name](model, train_loader, val_loader, test_loader,
-                                       loss_fn, sem_loss_fn, optimizer, _args, device, g1)
-        # trainer.init_param()  # Kaiming initialization
-        # trainer.train(filepath=f'{_model_path}/{model_name}.pth')
-        # trainer.plot_and_save(model_name=model_name,
-        #                       save_folder=f'../results/training_plots/{model_name}')
-        trainer.investigating_post_trainer()
+                                       loss_fn, optimizer, pt_optimizer, _args, device, g1)
+        trainer.init_param()  # Kaiming initialization
+        trainer.train(filepath=f'{_model_path}/{model_name}.pth')
+        trainer.plot_and_save(model_name=model_name,
+                              save_folder=f'../results/training_plots/{model_name}')
+        # trainer.investigating_post_trainer()
         print("\n" + "||" + "="*40 + "||" + "\n")
 
 def testing(_data: tuple, _models: dict, _model_paths: dict,
@@ -124,20 +126,25 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet,
-              'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
-    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
-              'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
-    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
-                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
-                   'TD-HBN': f'{MODEL_PATH}/TD-HBN-post-trained.pth'}
+    MODELS = {'Sem-HBN': SemHBN}
+    # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
+    #           'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
+    TRAINER = {'Sem-HBN': SemHBNTrainer}
+    # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer, 'Sem-HBN': SemHBNTrainer,
+    #           'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
+    MODEL_PATHS = {'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth'}
+    # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+    #                'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+    #                'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
+    #                'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
+    #                'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=MODE_MAP.keys(), type=str, default='training')
     parser.add_argument('--batch_size', type=int, default=256)
     parser.add_argument('--lr', type=float, default=1e-3)
+    parser.add_argument('--pt_lr', type=float, default=1e-5)
     parser.add_argument('--weight_decay', type=float, default=1e-4)
     parser.add_argument('--device', type=str, default='cuda')
     parser.add_argument('--num_epochs', type=int, default=2)
