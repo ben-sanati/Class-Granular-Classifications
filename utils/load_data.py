@@ -93,7 +93,7 @@ def g1_classes():
     return coarse_classes, coarse_labels, len(coarse_labels)
 
 # define dataloader
-def dataloader(train_data, val_data, test_data, batch_size):
+def dataloader(train_data, val_data, test_data, batch_size, test_batch_size):
     """
     _summary_
 
@@ -109,9 +109,9 @@ def dataloader(train_data, val_data, test_data, batch_size):
     # set up DataLoader
     train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True,
                               num_workers=8)
-    val_loader = DataLoader(dataset=val_data, batch_size=1, shuffle=False,
+    val_loader = DataLoader(dataset=val_data, batch_size=test_batch_size, shuffle=False,
                             num_workers=8)
-    test_loader = DataLoader(dataset=test_data, batch_size=1, shuffle=False,
+    test_loader = DataLoader(dataset=test_data, batch_size=test_batch_size, shuffle=False,
                              num_workers=8)
 
     return train_loader, val_loader, test_loader

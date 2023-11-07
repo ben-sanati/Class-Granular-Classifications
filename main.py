@@ -18,7 +18,7 @@ from processing.training import AlexNetTrainer, BranchyNetTrainer, SemHBNTrainer
 from processing.testing import ModelComparator
 from utils.load_data import dataset, split_data, g0_classes, g1_classes, dataloader
 
-def get_data(batch_size: int):
+def get_data(batch_size: int, test_batch_size: int = None):
     """
     _summary_
 
@@ -28,6 +28,9 @@ def get_data(batch_size: int):
     Returns:
         _type_: _description_
     """
+    if test_batch_size is None:
+        test_batch_size = batch_size
+
     # get data
     train_data, test_data = dataset()
 
@@ -41,11 +44,12 @@ def get_data(batch_size: int):
     # put data into dataloader
     train, val, test = dataloader(train_data=train_data, val_data=val_data,
                                                        test_data=test_data,
-                                                       batch_size=batch_size)
+                                                       batch_size=batch_size,
+                                                       test_batch_size=test_batch_size)
 
     return train, val, test, g1
 
-def training(_data: tuple, _models: dict, _trainer: dict,
+def training(_data: tuple, _td_data: tuple, _models: dict, _trainer: dict,
              _args: argparse.Namespace, _model_path: str):
     """
     _summary_
@@ -57,12 +61,18 @@ def training(_data: tuple, _models: dict, _trainer: dict,
         _args (argparse.Namespace): _description_
         _model_path (str): _description_
     """
-    train_loader, val_loader, test_loader, g1 = _data
     for model_name, model_def in _models.items():
+        print(model_name)
+        if model_name == 'TD-HBN':
+            train_loader, val_loader, test_loader, g1 = _td_data
+        else:
+            train_loader, val_loader, test_loader, g1 = _data
+
         # initialize the model and summarise it
         device = torch.device(_args.device)
         model = model_def().to(device)
-        print(f"Model == {model_name}\n")
+        print(f"Model == {model_name}")
+        print(f"Batch sizes: ({train_loader.batch_size}, {val_loader.batch_size}, {test_loader.batch_size})\n")
 
         _temp_train, _, _, _, = _data
         images, _ = next(iter(_temp_train))
@@ -85,7 +95,7 @@ def training(_data: tuple, _models: dict, _trainer: dict,
         # trainer.investigating_post_trainer()
         print("\n" + "||" + "="*40 + "||" + "\n")
 
-def testing(_data: tuple, _models: dict, _model_paths: dict,
+def testing(_data: tuple, _td_data: tuple, _models: dict, _model_paths: dict,
             _args: argparse.Namespace, folder: str):
     """
     _summary_
@@ -101,9 +111,13 @@ def testing(_data: tuple, _models: dict, _model_paths: dict,
 
     # load models
     device = torch.device(_args.device)
-    train_loader, val_loader, test_loader, g1 = _data
     models, model_names = [], []
     for model_name, model_path in _model_paths.items():
+        if model_name == 'TD-HBN':
+            _, _, test_loader, g1 = _data
+        else:
+            _, _, test_loader, g1 = _td_data
+
         model = _models[model_name]().to(device)
         model.load_state_dict(torch.load(model_path))
         model_names.append(model_name)
@@ -126,18 +140,15 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'Sem-HBN': SemHBN}
-    # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
-    #           'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
-    TRAINER = {'Sem-HBN': SemHBNTrainer}
-    # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer, 'Sem-HBN': SemHBNTrainer,
-    #           'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
-    MODEL_PATHS = {'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth'}
-    # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-    #                'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
-    #                'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
-    #                'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
-    #                'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
+    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
+              'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
+    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+               'Sem-HBN': SemHBNTrainer, 'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
+    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+                   'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
+                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
+                   'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()
@@ -158,9 +169,10 @@ if __name__ == '__main__':
 
     # get data
     data = get_data(args.batch_size)
+    td_data = get_data(args.batch_size, test_batch_size=1)
 
     # train/test models
     if args.mode == 'training':
-        MODE_MAP[args.mode](data, MODELS, TRAINER, args, MODEL_PATH)
+        MODE_MAP[args.mode](data, td_data, MODELS, TRAINER, args, MODEL_PATH)
     else:
-        MODE_MAP[args.mode](data, MODELS, MODEL_PATHS, args, COMPARATOR_PATH)
+        MODE_MAP[args.mode](data, td_data, MODELS, MODEL_PATHS, args, COMPARATOR_PATH)

@@ -113,7 +113,7 @@ class SemHBN(nn.Module):
         z1_entropy = Categorical(z1_probs).entropy()
 
         if not self.training and z1_entropy.mean() < threshold[0]:
-            return z1, 'exit 1'
+            return z1, 'coarse exit 1'
 
         # pass input through the second set of layers
         a2 = self.features2(a1)
@@ -125,7 +125,7 @@ class SemHBN(nn.Module):
         z2_entropy = Categorical(z2_probs).entropy()
 
         if not self.training and z2_entropy.mean() < threshold[1]:
-            return z2, 'exit 2'
+            return z2, 'coarse exit 2'
 
         # pass input through the third set of layers and return the final output
         a3 = self.features3(a2)
@@ -134,4 +134,4 @@ class SemHBN(nn.Module):
         if self.training:
             return z1, z2, z3
         else:
-            return z3, 'exit 3'
+            return z3, 'fine exit 3'

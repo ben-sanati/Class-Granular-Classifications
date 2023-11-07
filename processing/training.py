@@ -49,6 +49,8 @@ class Trainer(ABC):
     val1_acc: List[float] = field(default_factory=list)
     val5_acc: List[float] = field(default_factory=list)
     specificities: List[float] = field(default_factory=list)
+    # want to maximize early exits, therefore, they have higher weights in the loss
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.9, 0.8])
 
     def init_param(self):
         """
@@ -267,9 +269,6 @@ class BranchyNetTrainer(Trainer):
     Args:
         Trainer (_type_): _description_
     """
-    # want to maximize early exits, therefore, they have higher weights in the loss
-    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
-
     def _get_output(self, images, labels):
         """
         _summary_
@@ -301,9 +300,6 @@ class SemHBNTrainer(Trainer):
     Args:
         Trainer (_type_): _description_
     """
-    # want to maximize early exits, therefore, they have higher weights in the loss
-    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
-
     def _get_output(self, images, labels):
         """
         _summary_
@@ -342,9 +338,6 @@ class SuperNetTrainer(Trainer):
     Args:
         Trainer (_type_): _description_
     """
-
-    # branch weights are the same as in BranchyNet
-    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
     # semantic weights vary on what we prefer -> fine classes
     fine_class_weighting: float = 1.5
     coarse_class_weighting: float = 0.75
@@ -389,9 +382,6 @@ class TD_HBNTrainer(Trainer):
     Args:
         Trainer (_type_): _description_
     """
-
-    # branch weights are the same as in BranchyNet
-    weights: List[float] = field(default_factory=lambda: [1.0, 0.7, 0.4])
     # semantic weighting to equalise the value of the losses
     sem_weighting: float = 20.0
     fine_weighting: float = 1.35
