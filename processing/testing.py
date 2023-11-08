@@ -46,42 +46,42 @@ class ModelComparator(ABC):
         for model in self.models:
             model.eval()
 
-        # self._temp_func()
+        self._temp_func()
 
-        print("Testing for model FLOPS", flush=True)
-        macs, params = self._average_flops()
+        # print("Testing for model FLOPS", flush=True)
+        # macs, params = self._average_flops()
 
-        print("Testing average memory size", flush=True)
-        memory_sizes = self._memory_size()
+        # print("Testing average memory size", flush=True)
+        # memory_sizes = self._memory_size()
 
-        print("Testing for Top 1 Accuracies", flush=True)
-        top1_accuracies = self._topk_accuracy(k=1)
+        # print("Testing for Top 1 Accuracies", flush=True)
+        # top1_accuracies = self._topk_accuracy(k=1)
 
-        print("Testing for Top 5 Accuracies", flush=True)
-        top5_accuracies = self._topk_accuracy(k=5)
+        # print("Testing for Top 5 Accuracies", flush=True)
+        # top5_accuracies = self._topk_accuracy(k=5)
 
-        print("Making Confusion Matrices")
-        self._get_confusion_matrix(save_path='../results/confusion_matrix')
+        # print("Making Confusion Matrices")
+        # self._get_confusion_matrix(save_path='../results/confusion_matrix')
 
-        print("Structuring Results", flush=True)
-        for i, (model_name, _) in enumerate(zip(self.model_names, self.models)):
-            results.append({
-                "Model": f"{model_name} Model",
-                "Top-1 Accuracy (%)": top1_accuracies[i],
-                "Top-5 Accuracy (%)": top5_accuracies[i],
-                "Average MACs": macs[i],
-                "Number Params": params[i],
-                "Memory Size (MB)": memory_sizes[i]
-            })
-        model_results = pd.DataFrame(results)
-        model_results.to_csv(f'{filepath}/comparisons.csv')
+        # print("Structuring Results", flush=True)
+        # for i, (model_name, _) in enumerate(zip(self.model_names, self.models)):
+        #     results.append({
+        #         "Model": f"{model_name} Model",
+        #         "Top-1 Accuracy (%)": top1_accuracies[i],
+        #         "Top-5 Accuracy (%)": top5_accuracies[i],
+        #         "Average MACs": macs[i],
+        #         "Number Params": params[i],
+        #         "Memory Size (MB)": memory_sizes[i]
+        #     })
+        # model_results = pd.DataFrame(results)
+        # model_results.to_csv(f'{filepath}/comparisons.csv')
 
     def _temp_func(self):
         epoch_values = []
         specificity_values = []
         top1_acc_values = []
 
-        with open('./TD-HBN-training.out', 'r') as file:
+        with open('./training.out', 'r') as file:
             lines = file.readlines()
 
             i = 0
@@ -113,14 +113,12 @@ class ModelComparator(ABC):
         fig, ax1 = plt.subplots()
 
         ax1.set_xlabel('Epochs')
-        ax1.set_ylabel('Top 1 Accuracy (%)', color='tab:blue')
-        ax1.plot(epoch_values, top1_acc_values, color='tab:blue', label='Top 1 Accuracy')
-        ax1.tick_params(axis='y', labelcolor='tab:blue')
+        ax1.set_ylabel('Top 1 Accuracy (%)')
+        ax1.plot(epoch_values, top1_acc_values, c='r', label='Top 1 Accuracy')
 
         ax2 = ax1.twinx()
-        ax2.set_ylabel('Specificity', color='tab:red')
-        ax2.plot(epoch_values, specificity_values, color='tab:red', label='Specificity')
-        ax2.tick_params(axis='y', labelcolor='tab:red')
+        ax2.set_ylabel('Specificity')
+        ax2.plot(epoch_values, specificity_values, c='b', label='Specificity')
 
         lines, labels = ax1.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
@@ -137,7 +135,7 @@ class ModelComparator(ABC):
 
         ax.plot(epoch_values, [x * y for x, y in zip(top1_acc_values, specificity_values)])
         ax.set_xlabel('Epochs')
-        ax.set_ylabel('Accuracy * Specificity', color='tab:blue')
+        ax.set_ylabel('Accuracy * Specificity')
         plt.title('Accuracy * Specificity over Epochs\nduring Post-Training')
 
         plt.savefig('../results/accuracy-specificity/fine_weighting_summary=1.5.png')

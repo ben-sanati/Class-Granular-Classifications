@@ -72,7 +72,7 @@ def training(_data: tuple, _td_data: tuple, _models: dict, _trainer: dict,
         device = torch.device(_args.device)
         model = model_def().to(device)
         print(f"Model == {model_name}")
-        print(f"Batch sizes: ({train_loader.batch_size}, {val_loader.batch_size}, {test_loader.batch_size})\n")
+        print(f"Batch sizes: (train, val, test)=({train_loader.batch_size}, {val_loader.batch_size}, {test_loader.batch_size})\n")
 
         _temp_train, _, _, _, = _data
         images, _ = next(iter(_temp_train))
@@ -140,15 +140,23 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
+    MODELS = {'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
               'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
-    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+    # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
+    #           'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
+    TRAINER = {'Branchy-AlexNet': BranchyNetTrainer,
                'Sem-HBN': SemHBNTrainer, 'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
-    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+    # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
+    #            'Sem-HBN': SemHBNTrainer, 'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
+    MODEL_PATHS = {'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
                    'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
                    'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
                    'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
+    # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+    #                'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+    #                'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
+    #                'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
+    #                'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()

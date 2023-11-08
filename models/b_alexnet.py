@@ -36,12 +36,7 @@ class BranchyAlexNet(nn.Module):
 
         self.exit1 = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(128 * 2 * 2, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-            nn.Linear(2048, 2048),
-            nn.ReLU(inplace=True),
-            nn.Linear(2048, num_classes),
+            nn.Linear(128 * 2 * 2, num_classes),
         )
 
         # b2
@@ -61,13 +56,7 @@ class BranchyAlexNet(nn.Module):
 
         self.exit2 = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(256 * 1 * 1, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.5),
-            nn.Linear(2048, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-            nn.Linear(2048, num_classes)
+            nn.Linear(256 * 1 * 1, num_classes),
         )
 
         # b3

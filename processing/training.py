@@ -456,7 +456,7 @@ class TD_HBNTrainer(Trainer):
 
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 3):
+        for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -473,7 +473,7 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
@@ -489,7 +489,7 @@ class TD_HBNTrainer(Trainer):
 
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 3):
+        for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -506,7 +506,7 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
