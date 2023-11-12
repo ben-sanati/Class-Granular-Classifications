@@ -2,14 +2,13 @@ Args:
 	mode: training
 	batch_size: 256
 	lr: 0.00015
-	pt_lr: 1e-05
+	pt_lr: 5e-05
 	weight_decay: 0.0005
 	device: cuda
 	num_epochs: 100
 
 
-AlexNet
-Model == AlexNet
+Model: AlexNet
 Batch sizes: (train, val, test)=(256, 256, 256)
 
 ==========================================================================================
@@ -660,8 +659,7 @@ Epoch [100/100]:
 
 ||========================================||
 
-Branchy-AlexNet
-Model == Branchy-AlexNet
+Model: Branchy-AlexNet
 Batch sizes: (train, val, test)=(256, 256, 256)
 
 ==========================================================================================
@@ -685,7 +683,7 @@ BranchyAlexNet                           [1, 100]                  --
 │    └─ReLU: 2-12                        [1, 2048]                 --
 │    └─Dropout: 2-13                     [1, 2048]                 --
 │    └─Linear: 2-14                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-15                        [1, 2048]                 --
+│    └─Dropout: 2-15                     [1, 2048]                 --
 │    └─Linear: 2-16                      [1, 100]                  204,900
 ├─Sequential: 1-4                        [1, 384, 4, 4]            --
 │    └─Conv2d: 2-17                      [1, 192, 8, 8]            110,784
@@ -702,34 +700,29 @@ BranchyAlexNet                           [1, 100]                  --
 │    └─Linear: 2-26                      [1, 2048]                 526,336
 │    └─ReLU: 2-27                        [1, 2048]                 --
 │    └─Dropout: 2-28                     [1, 2048]                 --
-│    └─Linear: 2-29                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-30                        [1, 2048]                 --
-│    └─Dropout: 2-31                     [1, 2048]                 --
-│    └─Linear: 2-32                      [1, 100]                  204,900
+│    └─Linear: 2-29                      [1, 100]                  204,900
 ├─Sequential: 1-7                        [1, 256, 2, 2]            --
-│    └─Conv2d: 2-33                      [1, 256, 4, 4]            884,992
-│    └─ReLU: 2-34                        [1, 256, 4, 4]            --
-│    └─Conv2d: 2-35                      [1, 256, 4, 4]            590,080
-│    └─MaxPool2d: 2-36                   [1, 256, 2, 2]            --
-│    └─ReLU: 2-37                        [1, 256, 2, 2]            --
+│    └─Conv2d: 2-30                      [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-31                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-32                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-33                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-34                        [1, 256, 2, 2]            --
 ├─Sequential: 1-8                        [1, 100]                  --
-│    └─Dropout: 2-38                     [1, 1024]                 --
-│    └─Linear: 2-39                      [1, 4096]                 4,198,400
-│    └─ReLU: 2-40                        [1, 4096]                 --
-│    └─Dropout: 2-41                     [1, 4096]                 --
-│    └─Linear: 2-42                      [1, 4096]                 16,781,312
-│    └─ReLU: 2-43                        [1, 4096]                 --
-│    └─Linear: 2-44                      [1, 100]                  409,700
+│    └─Dropout: 2-35                     [1, 1024]                 --
+│    └─Linear: 2-36                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-37                        [1, 4096]                 --
+│    └─Dropout: 2-38                     [1, 4096]                 --
+│    └─Linear: 2-39                      [1, 100]                  409,700
 ==========================================================================================
-Total params: 35,348,204
-Trainable params: 35,348,204
+Total params: 14,370,540
+Trainable params: 14,370,540
 Non-trainable params: 0
-Total mult-adds (M): 91.26
+Total mult-adds (M): 70.28
 ==========================================================================================
 Input size (MB): 0.01
-Forward/backward pass size (MB): 0.63
-Params size (MB): 141.39
-Estimated Total Size (MB): 142.04
+Forward/backward pass size (MB): 0.58
+Params size (MB): 57.48
+Estimated Total Size (MB): 58.08
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -740,610 +733,609 @@ Estimated Total Size (MB): 142.04
 
 Epoch [1/100]:
 		Specificity: 1.0
-		Top 1 Acc = 3.98%
-		Top 5 Acc = 17.66%                                 
-		Loss/Iteration: 11.861121015115218
+		Top 1 Acc = 6.54%
+		Top 5 Acc = 23.8%                                 
+		Loss/Iteration: 11.74884065172889
 
 Epoch [2/100]:
 		Specificity: 1.0
-		Top 1 Acc = 7.74%
-		Top 5 Acc = 29.08%                                 
-		Loss/Iteration: 10.795546081933109
+		Top 1 Acc = 11.36%
+		Top 5 Acc = 32.1%                                 
+		Loss/Iteration: 10.693985597653823
 
 Epoch [3/100]:
 		Specificity: 1.0
-		Top 1 Acc = 10.3%
-		Top 5 Acc = 33.74%                                 
-		Loss/Iteration: 10.24599421566183
+		Top 1 Acc = 14.34%
+		Top 5 Acc = 37.74%                                 
+		Loss/Iteration: 10.125409402630545
 
 Epoch [4/100]:
 		Specificity: 1.0
-		Top 1 Acc = 13.26%
-		Top 5 Acc = 38.62%                                 
-		Loss/Iteration: 9.80522924119776
+		Top 1 Acc = 16.58%
+		Top 5 Acc = 43.32%                                 
+		Loss/Iteration: 9.712959175760096
 
 Epoch [5/100]:
 		Specificity: 1.0
-		Top 1 Acc = 15.96%
-		Top 5 Acc = 41.1%                                 
-		Loss/Iteration: 9.471299090168692
+		Top 1 Acc = 19.24%
+		Top 5 Acc = 47.44%                                 
+		Loss/Iteration: 9.359415531158447
 
 Epoch [6/100]:
 		Specificity: 1.0
-		Top 1 Acc = 17.6%
-		Top 5 Acc = 44.9%                                 
-		Loss/Iteration: 9.19963151216507
+		Top 1 Acc = 20.78%
+		Top 5 Acc = 49.1%                                 
+		Loss/Iteration: 9.09797302159396
 
 Epoch [7/100]:
 		Specificity: 1.0
-		Top 1 Acc = 19.68%
-		Top 5 Acc = 48.76%                                 
-		Loss/Iteration: 8.947227423841303
+		Top 1 Acc = 22.94%
+		Top 5 Acc = 51.9%                                 
+		Loss/Iteration: 8.861276697028767
 
 Epoch [8/100]:
 		Specificity: 1.0
-		Top 1 Acc = 20.86%
-		Top 5 Acc = 50.38%                                 
-		Loss/Iteration: 8.741507616910068
+		Top 1 Acc = 24.22%
+		Top 5 Acc = 54.0%                                 
+		Loss/Iteration: 8.6587233543396
 
 Epoch [9/100]:
 		Specificity: 1.0
-		Top 1 Acc = 22.86%
-		Top 5 Acc = 52.28%                                 
-		Loss/Iteration: 8.541439172896473
+		Top 1 Acc = 25.16%
+		Top 5 Acc = 55.18%                                 
+		Loss/Iteration: 8.47247189283371
 
 Epoch [10/100]:
 		Specificity: 1.0
-		Top 1 Acc = 23.64%
-		Top 5 Acc = 52.7%                                 
-		Loss/Iteration: 8.346998715942556
+		Top 1 Acc = 27.08%
+		Top 5 Acc = 55.56%                                 
+		Loss/Iteration: 8.335877624425022
 
 Epoch [11/100]:
 		Specificity: 1.0
-		Top 1 Acc = 24.8%
-		Top 5 Acc = 56.42%                                 
-		Loss/Iteration: 8.192111936482517
+		Top 1 Acc = 26.78%
+		Top 5 Acc = 57.98%                                 
+		Loss/Iteration: 8.193975657224655
 
 Epoch [12/100]:
 		Specificity: 1.0
-		Top 1 Acc = 25.26%
-		Top 5 Acc = 55.72%                                 
-		Loss/Iteration: 8.051081638444554
+		Top 1 Acc = 28.22%
+		Top 5 Acc = 57.88%                                 
+		Loss/Iteration: 8.040551467375321
 
 Epoch [13/100]:
 		Specificity: 1.0
-		Top 1 Acc = 26.9%
-		Top 5 Acc = 58.66%                                 
-		Loss/Iteration: 7.926180143247951
+		Top 1 Acc = 29.74%
+		Top 5 Acc = 60.62%                                 
+		Loss/Iteration: 7.9250803210518574
 
 Epoch [14/100]:
 		Specificity: 1.0
-		Top 1 Acc = 27.74%
-		Top 5 Acc = 60.1%                                 
-		Loss/Iteration: 7.795445374467156
+		Top 1 Acc = 30.74%
+		Top 5 Acc = 61.22%                                 
+		Loss/Iteration: 7.802265164527026
 
 Epoch [15/100]:
 		Specificity: 1.0
-		Top 1 Acc = 29.04%
-		Top 5 Acc = 61.36%                                 
-		Loss/Iteration: 7.6588329456069255
+		Top 1 Acc = 30.64%
+		Top 5 Acc = 61.2%                                 
+		Loss/Iteration: 7.7084648365324195
 
 Epoch [16/100]:
 		Specificity: 1.0
-		Top 1 Acc = 29.92%
-		Top 5 Acc = 61.7%                                 
-		Loss/Iteration: 7.567112922668457
+		Top 1 Acc = 32.22%
+		Top 5 Acc = 63.36%                                 
+		Loss/Iteration: 7.5836873867295
 
 Epoch [17/100]:
 		Specificity: 1.0
-		Top 1 Acc = 30.26%
-		Top 5 Acc = 61.4%                                 
-		Loss/Iteration: 7.457945487715981
+		Top 1 Acc = 32.94%
+		Top 5 Acc = 63.64%                                 
+		Loss/Iteration: 7.5029993463646285
 
 Epoch [18/100]:
 		Specificity: 1.0
-		Top 1 Acc = 30.9%
-		Top 5 Acc = 62.84%                                 
-		Loss/Iteration: 7.368320605971596
+		Top 1 Acc = 33.24%
+		Top 5 Acc = 63.82%                                 
+		Loss/Iteration: 7.403270567005331
 
 Epoch [19/100]:
 		Specificity: 1.0
-		Top 1 Acc = 32.92%
-		Top 5 Acc = 63.72%                                 
-		Loss/Iteration: 7.261550171808763
+		Top 1 Acc = 33.48%
+		Top 5 Acc = 64.88%                                 
+		Loss/Iteration: 7.325936964967034
 
 Epoch [20/100]:
 		Specificity: 1.0
-		Top 1 Acc = 32.62%
-		Top 5 Acc = 64.8%                                 
-		Loss/Iteration: 7.170027242465452
+		Top 1 Acc = 34.5%
+		Top 5 Acc = 65.1%                                 
+		Loss/Iteration: 7.260509924455122
 
 Epoch [21/100]:
 		Specificity: 1.0
-		Top 1 Acc = 33.88%
-		Top 5 Acc = 65.62%                                 
-		Loss/Iteration: 7.106504407795993
+		Top 1 Acc = 34.28%
+		Top 5 Acc = 65.66%                                 
+		Loss/Iteration: 7.176983429626985
 
 Epoch [22/100]:
 		Specificity: 1.0
-		Top 1 Acc = 34.1%
-		Top 5 Acc = 65.66%                                 
-		Loss/Iteration: 7.022023433988744
+		Top 1 Acc = 35.74%
+		Top 5 Acc = 66.56%                                 
+		Loss/Iteration: 7.101127835837278
 
 Epoch [23/100]:
 		Specificity: 1.0
-		Top 1 Acc = 34.22%
-		Top 5 Acc = 65.46%                                 
-		Loss/Iteration: 6.9620585224845195
+		Top 1 Acc = 35.62%
+		Top 5 Acc = 67.5%                                 
+		Loss/Iteration: 7.036427966573021
 
 Epoch [24/100]:
 		Specificity: 1.0
-		Top 1 Acc = 35.64%
-		Top 5 Acc = 66.9%                                 
-		Loss/Iteration: 6.87306549874219
+		Top 1 Acc = 36.08%
+		Top 5 Acc = 67.4%                                 
+		Loss/Iteration: 6.972284338691018
 
 Epoch [25/100]:
 		Specificity: 1.0
-		Top 1 Acc = 35.32%
-		Top 5 Acc = 67.18%                                 
-		Loss/Iteration: 6.798399245197123
+		Top 1 Acc = 36.18%
+		Top 5 Acc = 68.0%                                 
+		Loss/Iteration: 6.927484011108225
 
 Epoch [26/100]:
 		Specificity: 1.0
-		Top 1 Acc = 35.5%
-		Top 5 Acc = 67.88%                                 
-		Loss/Iteration: 6.740396266633814
+		Top 1 Acc = 37.08%
+		Top 5 Acc = 68.76%                                 
+		Loss/Iteration: 6.8361002586104656
 
 Epoch [27/100]:
 		Specificity: 1.0
-		Top 1 Acc = 36.3%
-		Top 5 Acc = 69.02%                                 
-		Loss/Iteration: 6.670770845629952
+		Top 1 Acc = 38.9%
+		Top 5 Acc = 69.14%                                 
+		Loss/Iteration: 6.783032856204293
 
 Epoch [28/100]:
 		Specificity: 1.0
-		Top 1 Acc = 37.16%
-		Top 5 Acc = 68.34%                                 
-		Loss/Iteration: 6.6219871233810075
+		Top 1 Acc = 38.64%
+		Top 5 Acc = 70.46%                                 
+		Loss/Iteration: 6.728611680594358
 
 Epoch [29/100]:
 		Specificity: 1.0
-		Top 1 Acc = 34.52%
-		Top 5 Acc = 66.36%                                 
-		Loss/Iteration: 6.575801600109447
+		Top 1 Acc = 37.64%
+		Top 5 Acc = 69.36%                                 
+		Loss/Iteration: 6.678429709239439
 
 Epoch [30/100]:
 		Specificity: 1.0
-		Top 1 Acc = 36.7%
-		Top 5 Acc = 68.68%                                 
-		Loss/Iteration: 6.504273628646677
+		Top 1 Acc = 38.24%
+		Top 5 Acc = 69.32%                                 
+		Loss/Iteration: 6.620319520885294
 
 Epoch [31/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.44%
-		Top 5 Acc = 69.74%                                 
-		Loss/Iteration: 6.451057775454088
+		Top 1 Acc = 38.82%
+		Top 5 Acc = 70.62%                                 
+		Loss/Iteration: 6.558243976397947
 
 Epoch [32/100]:
 		Specificity: 1.0
-		Top 1 Acc = 37.8%
-		Top 5 Acc = 69.8%                                 
-		Loss/Iteration: 6.421172575517134
+		Top 1 Acc = 39.6%
+		Top 5 Acc = 70.02%                                 
+		Loss/Iteration: 6.52202802083709
 
 Epoch [33/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.44%
-		Top 5 Acc = 69.94%                                 
-		Loss/Iteration: 6.358445381576365
+		Top 1 Acc = 39.34%
+		Top 5 Acc = 71.28%                                 
+		Loss/Iteration: 6.477063328027725
 
 Epoch [34/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.16%
-		Top 5 Acc = 70.06%                                 
-		Loss/Iteration: 6.282921010797674
+		Top 1 Acc = 40.44%
+		Top 5 Acc = 70.76%                                 
+		Loss/Iteration: 6.444471776485443
 
 Epoch [35/100]:
 		Specificity: 1.0
-		Top 1 Acc = 39.74%
-		Top 5 Acc = 70.48%                                 
-		Loss/Iteration: 6.255410530350425
+		Top 1 Acc = 40.82%
+		Top 5 Acc = 71.74%                                 
+		Loss/Iteration: 6.395640411160209
 
 Epoch [36/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.22%
-		Top 5 Acc = 70.32%                                 
-		Loss/Iteration: 6.18472156199542
+		Top 1 Acc = 40.06%
+		Top 5 Acc = 72.02%                                 
+		Loss/Iteration: 6.328953770073977
 
 Epoch [37/100]:
 		Specificity: 1.0
-		Top 1 Acc = 39.08%
-		Top 5 Acc = 71.3%                                 
-		Loss/Iteration: 6.1604567549445415
+		Top 1 Acc = 40.36%
+		Top 5 Acc = 71.74%                                 
+		Loss/Iteration: 6.317156220024282
 
 Epoch [38/100]:
 		Specificity: 1.0
-		Top 1 Acc = 40.12%
-		Top 5 Acc = 71.84%                                 
-		Loss/Iteration: 6.115750805898146
+		Top 1 Acc = 41.38%
+		Top 5 Acc = 71.62%                                 
+		Loss/Iteration: 6.257820858196779
 
 Epoch [39/100]:
 		Specificity: 1.0
-		Top 1 Acc = 39.96%
-		Top 5 Acc = 71.12%                                 
-		Loss/Iteration: 6.055310346863487
+		Top 1 Acc = 41.92%
+		Top 5 Acc = 72.38%                                 
+		Loss/Iteration: 6.205755374648354
 
 Epoch [40/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.14%
-		Top 5 Acc = 71.82%                                 
-		Loss/Iteration: 6.018118224360726
+		Top 1 Acc = 41.4%
+		Top 5 Acc = 72.96%                                 
+		Loss/Iteration: 6.1790560050444165
 
 Epoch [41/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.92%
-		Top 5 Acc = 69.94%                                 
-		Loss/Iteration: 5.962877371094444
+		Top 1 Acc = 42.28%
+		Top 5 Acc = 72.34%                                 
+		Loss/Iteration: 6.131817218932238
 
 Epoch [42/100]:
 		Specificity: 1.0
-		Top 1 Acc = 40.78%
-		Top 5 Acc = 71.52%                                 
-		Loss/Iteration: 5.925156839869239
+		Top 1 Acc = 42.1%
+		Top 5 Acc = 72.16%                                 
+		Loss/Iteration: 6.110970448363911
 
 Epoch [43/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.32%
-		Top 5 Acc = 72.28%                                 
-		Loss/Iteration: 5.853364212946459
+		Top 1 Acc = 42.62%
+		Top 5 Acc = 73.56%                                 
+		Loss/Iteration: 6.059931039810181
 
 Epoch [44/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.14%
-		Top 5 Acc = 72.88%                                 
-		Loss/Iteration: 5.841030378233302
+		Top 1 Acc = 42.52%
+		Top 5 Acc = 73.8%                                 
+		Loss/Iteration: 6.0233120240948415
 
 Epoch [45/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.46%
-		Top 5 Acc = 72.66%                                 
-		Loss/Iteration: 5.77498063174161
+		Top 1 Acc = 43.54%
+		Top 5 Acc = 73.94%                                 
+		Loss/Iteration: 5.998404261740771
 
 Epoch [46/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.48%
-		Top 5 Acc = 72.82%                                 
-		Loss/Iteration: 5.75968924164772
+		Top 1 Acc = 43.44%
+		Top 5 Acc = 74.04%                                 
+		Loss/Iteration: 5.946063020012596
 
 Epoch [47/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.7%
-		Top 5 Acc = 73.32%                                 
-		Loss/Iteration: 5.709313276139173
+		Top 1 Acc = 42.4%
+		Top 5 Acc = 72.92%                                 
+		Loss/Iteration: 5.938662163235924
 
 Epoch [48/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.9%
-		Top 5 Acc = 73.48%                                 
-		Loss/Iteration: 5.664622480219061
+		Top 1 Acc = 44.02%
+		Top 5 Acc = 73.72%                                 
+		Loss/Iteration: 5.894137940623543
 
 Epoch [49/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.16%
-		Top 5 Acc = 73.76%                                 
-		Loss/Iteration: 5.630164937539534
+		Top 1 Acc = 44.02%
+		Top 5 Acc = 74.88%                                 
+		Loss/Iteration: 5.880023631182584
 
 Epoch [50/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.84%
-		Top 5 Acc = 74.18%                                 
-		Loss/Iteration: 5.5813050026243385
+		Top 1 Acc = 44.32%
+		Top 5 Acc = 74.84%                                 
+		Loss/Iteration: 5.833774298429489
 
 Epoch [51/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.8%
-		Top 5 Acc = 74.18%                                 
-		Loss/Iteration: 5.563859031959013
+		Top 1 Acc = 44.2%
+		Top 5 Acc = 73.84%                                 
+		Loss/Iteration: 5.79934536056085
 
 Epoch [52/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.26%
-		Top 5 Acc = 75.1%                                 
-		Loss/Iteration: 5.522477017207579
+		Top 1 Acc = 45.08%
+		Top 5 Acc = 75.64%                                 
+		Loss/Iteration: 5.769681090658361
 
 Epoch [53/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.9%
-		Top 5 Acc = 74.4%                                 
-		Loss/Iteration: 5.474174637686122
+		Top 1 Acc = 44.38%
+		Top 5 Acc = 74.54%                                 
+		Loss/Iteration: 5.734583150256764
 
 Epoch [54/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.3%
-		Top 5 Acc = 74.48%                                 
-		Loss/Iteration: 5.454781139438802
+		Top 1 Acc = 45.24%
+		Top 5 Acc = 74.28%                                 
+		Loss/Iteration: 5.7072077935392205
 
 Epoch [55/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.86%
-		Top 5 Acc = 75.4%                                 
-		Loss/Iteration: 5.422512322664261
+		Top 1 Acc = 44.38%
+		Top 5 Acc = 75.56%                                 
+		Loss/Iteration: 5.667528748512268
 
 Epoch [56/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.64%
-		Top 5 Acc = 75.2%                                 
-		Loss/Iteration: 5.3792562782764435
+		Top 1 Acc = 45.04%
+		Top 5 Acc = 75.16%                                 
+		Loss/Iteration: 5.634256660938263
 
 Epoch [57/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.96%
-		Top 5 Acc = 73.8%                                 
-		Loss/Iteration: 5.364473044872284
+		Top 1 Acc = 45.1%
+		Top 5 Acc = 75.56%                                 
+		Loss/Iteration: 5.606822861866518
 
 Epoch [58/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.46%
-		Top 5 Acc = 74.7%                                 
-		Loss/Iteration: 5.307404683394865
+		Top 1 Acc = 45.5%
+		Top 5 Acc = 75.86%                                 
+		Loss/Iteration: 5.589475913481279
 
 Epoch [59/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.56%
-		Top 5 Acc = 74.84%                                 
-		Loss/Iteration: 5.273116434162313
+		Top 1 Acc = 46.02%
+		Top 5 Acc = 75.84%                                 
+		Loss/Iteration: 5.564547503536398
 
 Epoch [60/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.56%
-		Top 5 Acc = 74.92%                                 
-		Loss/Iteration: 5.23243401538242
+		Top 1 Acc = 45.08%
+		Top 5 Acc = 75.88%                                 
+		Loss/Iteration: 5.555115567012266
 
 Epoch [61/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.64%
-		Top 5 Acc = 75.04%                                 
-		Loss/Iteration: 5.229859105565331
+		Top 1 Acc = 44.72%
+		Top 5 Acc = 76.06%                                 
+		Loss/Iteration: 5.511878189715472
 
 Epoch [62/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.72%
-		Top 5 Acc = 75.72%                                 
-		Loss/Iteration: 5.194019228219986
+		Top 1 Acc = 45.12%
+		Top 5 Acc = 75.58%                                 
+		Loss/Iteration: 5.477661579847336
 
 Epoch [63/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.3%
-		Top 5 Acc = 75.24%                                 
-		Loss/Iteration: 5.158676911484111
+		Top 1 Acc = 45.88%
+		Top 5 Acc = 75.52%                                 
+		Loss/Iteration: 5.458888812498613
 
 Epoch [64/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.9%
-		Top 5 Acc = 75.46%                                 
-		Loss/Iteration: 5.115975829687986
+		Top 1 Acc = 45.98%
+		Top 5 Acc = 76.4%                                 
+		Loss/Iteration: 5.436178695071828
 
 Epoch [65/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.84%
-		Top 5 Acc = 76.92%                                 
-		Loss/Iteration: 5.096727661111138
+		Top 1 Acc = 45.6%
+		Top 5 Acc = 75.98%                                 
+		Loss/Iteration: 5.4050805081020705
 
 Epoch [66/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.12%
-		Top 5 Acc = 76.18%                                 
-		Loss/Iteration: 5.06358556043018
+		Top 1 Acc = 46.14%
+		Top 5 Acc = 76.24%                                 
+		Loss/Iteration: 5.370764594186436
 
 Epoch [67/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.84%
-		Top 5 Acc = 75.56%                                 
-		Loss/Iteration: 5.042013471776789
+		Top 1 Acc = 45.76%
+		Top 5 Acc = 76.48%                                 
+		Loss/Iteration: 5.3597769357941365
 
 Epoch [68/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.98%
-		Top 5 Acc = 75.52%                                 
-		Loss/Iteration: 5.012347706339576
+		Top 1 Acc = 46.94%
+		Top 5 Acc = 76.44%                                 
+		Loss/Iteration: 5.312860437414863
 
 Epoch [69/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.32%
-		Top 5 Acc = 74.94%                                 
-		Loss/Iteration: 4.969761970368299
+		Top 1 Acc = 46.14%
+		Top 5 Acc = 76.72%                                 
+		Loss/Iteration: 5.304385491392829
 
 Epoch [70/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.1%
-		Top 5 Acc = 76.78%                                 
-		Loss/Iteration: 4.923100734298879
+		Top 1 Acc = 46.02%
+		Top 5 Acc = 76.08%                                 
+		Loss/Iteration: 5.279926982792941
 
 Epoch [71/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.6%
-		Top 5 Acc = 76.12%                                 
-		Loss/Iteration: 4.917067443782633
+		Top 1 Acc = 46.78%
+		Top 5 Acc = 76.74%                                 
+		Loss/Iteration: 5.258183566006747
 
 Epoch [72/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.86%
-		Top 5 Acc = 76.58%                                 
-		Loss/Iteration: 4.887891929258
+		Top 1 Acc = 46.6%
+		Top 5 Acc = 76.8%                                 
+		Loss/Iteration: 5.234634190797806
 
 Epoch [73/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.52%
-		Top 5 Acc = 75.9%                                 
-		Loss/Iteration: 4.856803400949999
+		Top 1 Acc = 47.62%
+		Top 5 Acc = 77.28%                                 
+		Loss/Iteration: 5.2133641297167
 
 Epoch [74/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.34%
-		Top 5 Acc = 76.52%                                 
-		Loss/Iteration: 4.821559244936163
+		Top 1 Acc = 47.4%
+		Top 5 Acc = 77.96%                                 
+		Loss/Iteration: 5.184575145894831
 
 Epoch [75/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.28%
-		Top 5 Acc = 76.32%                                 
-		Loss/Iteration: 4.815769723870537
+		Top 1 Acc = 47.26%
+		Top 5 Acc = 77.7%                                 
+		Loss/Iteration: 5.173429033973
 
 Epoch [76/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.48%
-		Top 5 Acc = 76.14%                                 
-		Loss/Iteration: 4.772735544226387
+		Top 1 Acc = 47.82%
+		Top 5 Acc = 78.04%                                 
+		Loss/Iteration: 5.150732866742394
 
 Epoch [77/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.54%
-		Top 5 Acc = 76.28%                                 
-		Loss/Iteration: 4.763027004220269
+		Top 1 Acc = 48.02%
+		Top 5 Acc = 77.36%                                 
+		Loss/Iteration: 5.122580056840723
 
 Epoch [78/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.3%
-		Top 5 Acc = 76.38%                                 
-		Loss/Iteration: 4.7212089842016045
+		Top 1 Acc = 47.76%
+		Top 5 Acc = 77.0%                                 
+		Loss/Iteration: 5.095252904024991
 
 Epoch [79/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.62%
-		Top 5 Acc = 76.76%                                 
-		Loss/Iteration: 4.690634743733839
+		Top 1 Acc = 47.06%
+		Top 5 Acc = 77.64%                                 
+		Loss/Iteration: 5.090451850132509
 
 Epoch [80/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.46%
-		Top 5 Acc = 76.88%                                 
-		Loss/Iteration: 4.682689695195719
+		Top 1 Acc = 47.88%
+		Top 5 Acc = 77.56%                                 
+		Loss/Iteration: 5.056598787957972
 
 Epoch [81/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.14%
-		Top 5 Acc = 77.06%                                 
-		Loss/Iteration: 4.634317032315514
+		Top 1 Acc = 48.18%
+		Top 5 Acc = 77.66%                                 
+		Loss/Iteration: 5.040915459394455
 
 Epoch [82/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.94%
-		Top 5 Acc = 76.38%                                 
-		Loss/Iteration: 4.634401169690219
+		Top 1 Acc = 48.2%
+		Top 5 Acc = 77.9%                                 
+		Loss/Iteration: 5.022293930703944
 
 Epoch [83/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.14%
-		Top 5 Acc = 76.02%                                 
-		Loss/Iteration: 4.595378369092941
+		Top 1 Acc = 47.68%
+		Top 5 Acc = 77.16%                                 
+		Loss/Iteration: 5.0071716633709995
 
 Epoch [84/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.44%
-		Top 5 Acc = 76.74%                                 
-		Loss/Iteration: 4.567422219298103
+		Top 1 Acc = 48.42%
+		Top 5 Acc = 78.32%                                 
+		Loss/Iteration: 5.0005948353897445
 
 Epoch [85/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.7%
-		Top 5 Acc = 77.04%                                 
-		Loss/Iteration: 4.548703776164488
+		Top 1 Acc = 48.02%
+		Top 5 Acc = 77.36%                                 
+		Loss/Iteration: 4.957964712923223
 
 Epoch [86/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.52%
-		Top 5 Acc = 76.56%                                 
-		Loss/Iteration: 4.523407200520689
+		Top 1 Acc = 48.04%
+		Top 5 Acc = 77.14%                                 
+		Loss/Iteration: 4.932510235092857
 
 Epoch [87/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.16%
-		Top 5 Acc = 76.9%                                 
-		Loss/Iteration: 4.502353039654818
+		Top 1 Acc = 47.92%
+		Top 5 Acc = 78.02%                                 
+		Loss/Iteration: 4.9363316676833415
 
 Epoch [88/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.94%
-		Top 5 Acc = 76.36%                                 
-		Loss/Iteration: 4.4655433121052654
+		Top 1 Acc = 47.72%
+		Top 5 Acc = 77.82%                                 
+		Loss/Iteration: 4.889230676672676
 
 Epoch [89/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.16%
-		Top 5 Acc = 77.28%                                 
-		Loss/Iteration: 4.444625519893386
+		Top 1 Acc = 49.38%
+		Top 5 Acc = 77.92%                                 
+		Loss/Iteration: 4.8702384964986285
 
 Epoch [90/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.68%
-		Top 5 Acc = 76.42%                                 
-		Loss/Iteration: 4.448814474723556
+		Top 1 Acc = 49.24%
+		Top 5 Acc = 77.8%                                 
+		Loss/Iteration: 4.847012996673584
 
 Epoch [91/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.42%
-		Top 5 Acc = 77.06%                                 
-		Loss/Iteration: 4.417463484135541
+		Top 1 Acc = 49.0%
+		Top 5 Acc = 77.88%                                 
+		Loss/Iteration: 4.829637684605339
 
 Epoch [92/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.68%
-		Top 5 Acc = 76.26%                                 
-		Loss/Iteration: 4.389174705201929
+		Top 1 Acc = 49.2%
+		Top 5 Acc = 78.74%                                 
+		Loss/Iteration: 4.839803717353127
 
 Epoch [93/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.7%
-		Top 5 Acc = 77.86%                                 
-		Loss/Iteration: 4.370864820751277
+		Top 1 Acc = 49.26%
+		Top 5 Acc = 77.72%                                 
+		Loss/Iteration: 4.816599146886305
 
 Epoch [94/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.12%
-		Top 5 Acc = 76.3%                                 
-		Loss/Iteration: 4.33221611245112
+		Top 1 Acc = 48.78%
+		Top 5 Acc = 78.48%                                 
+		Loss/Iteration: 4.783081818710674
 
 Epoch [95/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.82%
-		Top 5 Acc = 77.18%                                 
-		Loss/Iteration: 4.320525379343466
+		Top 1 Acc = 48.68%
+		Top 5 Acc = 78.16%                                 
+		Loss/Iteration: 4.761885144493797
 
 Epoch [96/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.62%
-		Top 5 Acc = 76.92%                                 
-		Loss/Iteration: 4.283900808204304
+		Top 1 Acc = 49.68%
+		Top 5 Acc = 78.62%                                 
+		Loss/Iteration: 4.742290396581996
 
 Epoch [97/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.1%
-		Top 5 Acc = 77.54%                                 
-		Loss/Iteration: 4.26981785487045
+		Top 1 Acc = 49.24%
+		Top 5 Acc = 78.96%                                 
+		Loss/Iteration: 4.734564308415759
 
 Epoch [98/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.48%
-		Top 5 Acc = 77.22%                                 
-		Loss/Iteration: 4.2415213544260375
+		Top 1 Acc = 48.94%
+		Top 5 Acc = 78.18%                                 
+		Loss/Iteration: 4.716635956005617
 
 Epoch [99/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.48%
-		Top 5 Acc = 77.36%                                 
-		Loss/Iteration: 4.2308363670652565
+		Top 1 Acc = 49.9%
+		Top 5 Acc = 79.2%                                 
+		Loss/Iteration: 4.699623441154307
 
 Epoch [100/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.7%
-		Top 5 Acc = 75.9%                                 
-		Loss/Iteration: 4.21795461259105
+		Top 1 Acc = 49.66%
+		Top 5 Acc = 77.98%                                 
+		Loss/Iteration: 4.682020217180252
 
 ------------------------------
 
 ||========================================||
 
-Sem-HBN
-Model == Sem-HBN
+Model: Sem-HBN
 Batch sizes: (train, val, test)=(256, 256, 256)
 
 ==========================================================================================
@@ -1367,7 +1359,7 @@ SemHBN                                   [1, 100]                  --
 │    └─ReLU: 2-12                        [1, 2048]                 --
 │    └─Dropout: 2-13                     [1, 2048]                 --
 │    └─Linear: 2-14                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-15                        [1, 2048]                 --
+│    └─Dropout: 2-15                     [1, 2048]                 --
 │    └─Linear: 2-16                      [1, 20]                   40,980
 ├─Sequential: 1-4                        [1, 384, 4, 4]            --
 │    └─Conv2d: 2-17                      [1, 192, 8, 8]            110,784
@@ -1384,34 +1376,29 @@ SemHBN                                   [1, 100]                  --
 │    └─Linear: 2-26                      [1, 2048]                 526,336
 │    └─ReLU: 2-27                        [1, 2048]                 --
 │    └─Dropout: 2-28                     [1, 2048]                 --
-│    └─Linear: 2-29                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-30                        [1, 2048]                 --
-│    └─Dropout: 2-31                     [1, 2048]                 --
-│    └─Linear: 2-32                      [1, 20]                   40,980
+│    └─Linear: 2-29                      [1, 20]                   40,980
 ├─Sequential: 1-7                        [1, 256, 2, 2]            --
-│    └─Conv2d: 2-33                      [1, 256, 4, 4]            884,992
-│    └─ReLU: 2-34                        [1, 256, 4, 4]            --
-│    └─Conv2d: 2-35                      [1, 256, 4, 4]            590,080
-│    └─MaxPool2d: 2-36                   [1, 256, 2, 2]            --
-│    └─ReLU: 2-37                        [1, 256, 2, 2]            --
+│    └─Conv2d: 2-30                      [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-31                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-32                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-33                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-34                        [1, 256, 2, 2]            --
 ├─Sequential: 1-8                        [1, 100]                  --
-│    └─Dropout: 2-38                     [1, 1024]                 --
-│    └─Linear: 2-39                      [1, 4096]                 4,198,400
-│    └─ReLU: 2-40                        [1, 4096]                 --
-│    └─Dropout: 2-41                     [1, 4096]                 --
-│    └─Linear: 2-42                      [1, 4096]                 16,781,312
-│    └─ReLU: 2-43                        [1, 4096]                 --
-│    └─Linear: 2-44                      [1, 100]                  409,700
+│    └─Dropout: 2-35                     [1, 1024]                 --
+│    └─Linear: 2-36                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-37                        [1, 4096]                 --
+│    └─Dropout: 2-38                     [1, 4096]                 --
+│    └─Linear: 2-39                      [1, 100]                  409,700
 ==========================================================================================
-Total params: 35,020,364
-Trainable params: 35,020,364
+Total params: 14,042,700
+Trainable params: 14,042,700
 Non-trainable params: 0
-Total mult-adds (M): 90.93
+Total mult-adds (M): 69.95
 ==========================================================================================
 Input size (MB): 0.01
-Forward/backward pass size (MB): 0.63
-Params size (MB): 140.08
-Estimated Total Size (MB): 140.73
+Forward/backward pass size (MB): 0.58
+Params size (MB): 56.17
+Estimated Total Size (MB): 56.77
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -1422,610 +1409,609 @@ Estimated Total Size (MB): 140.73
 
 Epoch [1/100]:
 		Specificity: 1.0
-		Top 1 Acc = 5.64%
-		Top 5 Acc = 21.84%                                 
-		Loss/Iteration: 9.416807889938354
+		Top 1 Acc = 6.94%
+		Top 5 Acc = 24.62%                                 
+		Loss/Iteration: 9.368195447054775
 
 Epoch [2/100]:
 		Specificity: 1.0
-		Top 1 Acc = 8.7%
-		Top 5 Acc = 30.32%                                 
-		Loss/Iteration: 8.501484174620021
+		Top 1 Acc = 10.76%
+		Top 5 Acc = 33.14%                                 
+		Loss/Iteration: 8.47297978130254
 
 Epoch [3/100]:
 		Specificity: 1.0
-		Top 1 Acc = 12.76%
-		Top 5 Acc = 37.84%                                 
-		Loss/Iteration: 8.023671526800502
+		Top 1 Acc = 15.68%
+		Top 5 Acc = 40.22%                                 
+		Loss/Iteration: 8.041368462822653
 
 Epoch [4/100]:
 		Specificity: 1.0
-		Top 1 Acc = 15.08%
-		Top 5 Acc = 41.52%                                 
-		Loss/Iteration: 7.6809270490299575
+		Top 1 Acc = 18.2%
+		Top 5 Acc = 44.88%                                 
+		Loss/Iteration: 7.676770305091685
 
 Epoch [5/100]:
 		Specificity: 1.0
-		Top 1 Acc = 17.84%
-		Top 5 Acc = 45.14%                                 
-		Loss/Iteration: 7.403836464340037
+		Top 1 Acc = 18.62%
+		Top 5 Acc = 47.2%                                 
+		Loss/Iteration: 7.407341634685343
 
 Epoch [6/100]:
 		Specificity: 1.0
-		Top 1 Acc = 19.1%
-		Top 5 Acc = 47.28%                                 
-		Loss/Iteration: 7.186217042532834
+		Top 1 Acc = 20.86%
+		Top 5 Acc = 50.14%                                 
+		Loss/Iteration: 7.201835147359154
 
 Epoch [7/100]:
 		Specificity: 1.0
-		Top 1 Acc = 20.82%
-		Top 5 Acc = 50.26%                                 
-		Loss/Iteration: 6.982074425979094
+		Top 1 Acc = 23.64%
+		Top 5 Acc = 52.9%                                 
+		Loss/Iteration: 7.014505657282743
 
 Epoch [8/100]:
 		Specificity: 1.0
-		Top 1 Acc = 23.1%
-		Top 5 Acc = 54.02%                                 
-		Loss/Iteration: 6.7597690305926585
+		Top 1 Acc = 23.58%
+		Top 5 Acc = 52.84%                                 
+		Loss/Iteration: 6.83000556176359
 
 Epoch [9/100]:
 		Specificity: 1.0
-		Top 1 Acc = 24.7%
-		Top 5 Acc = 55.02%                                 
-		Loss/Iteration: 6.605315644632686
+		Top 1 Acc = 26.34%
+		Top 5 Acc = 56.36%                                 
+		Loss/Iteration: 6.694002679803154
 
 Epoch [10/100]:
 		Specificity: 1.0
-		Top 1 Acc = 24.82%
-		Top 5 Acc = 55.14%                                 
-		Loss/Iteration: 6.468234322287819
+		Top 1 Acc = 28.14%
+		Top 5 Acc = 58.42%                                 
+		Loss/Iteration: 6.532426075501875
 
 Epoch [11/100]:
 		Specificity: 1.0
-		Top 1 Acc = 26.84%
-		Top 5 Acc = 57.04%                                 
-		Loss/Iteration: 6.319140501997688
+		Top 1 Acc = 29.18%
+		Top 5 Acc = 59.54%                                 
+		Loss/Iteration: 6.428751438856125
 
 Epoch [12/100]:
 		Specificity: 1.0
-		Top 1 Acc = 27.9%
-		Top 5 Acc = 59.9%                                 
-		Loss/Iteration: 6.198777881535617
+		Top 1 Acc = 29.04%
+		Top 5 Acc = 59.4%                                 
+		Loss/Iteration: 6.308210386471315
 
 Epoch [13/100]:
 		Specificity: 1.0
-		Top 1 Acc = 27.7%
-		Top 5 Acc = 58.82%                                 
-		Loss/Iteration: 6.088068972934376
+		Top 1 Acc = 29.94%
+		Top 5 Acc = 61.74%                                 
+		Loss/Iteration: 6.220486272465099
 
 Epoch [14/100]:
 		Specificity: 1.0
-		Top 1 Acc = 29.54%
-		Top 5 Acc = 61.1%                                 
-		Loss/Iteration: 5.99276682192629
+		Top 1 Acc = 30.98%
+		Top 5 Acc = 62.98%                                 
+		Loss/Iteration: 6.110025985674425
 
 Epoch [15/100]:
 		Specificity: 1.0
-		Top 1 Acc = 29.38%
-		Top 5 Acc = 61.54%                                 
-		Loss/Iteration: 5.903438833626834
+		Top 1 Acc = 32.36%
+		Top 5 Acc = 63.98%                                 
+		Loss/Iteration: 6.0349348729307
 
 Epoch [16/100]:
 		Specificity: 1.0
-		Top 1 Acc = 31.32%
-		Top 5 Acc = 63.44%                                 
-		Loss/Iteration: 5.810608346353877
+		Top 1 Acc = 32.2%
+		Top 5 Acc = 63.5%                                 
+		Loss/Iteration: 5.962187837470662
 
 Epoch [17/100]:
 		Specificity: 1.0
-		Top 1 Acc = 31.68%
-		Top 5 Acc = 63.66%                                 
-		Loss/Iteration: 5.718710869550705
+		Top 1 Acc = 33.3%
+		Top 5 Acc = 64.06%                                 
+		Loss/Iteration: 5.883909412405708
 
 Epoch [18/100]:
 		Specificity: 1.0
-		Top 1 Acc = 32.28%
-		Top 5 Acc = 64.94%                                 
-		Loss/Iteration: 5.621212929487228
+		Top 1 Acc = 33.54%
+		Top 5 Acc = 65.06%                                 
+		Loss/Iteration: 5.793217637322166
 
 Epoch [19/100]:
 		Specificity: 1.0
-		Top 1 Acc = 33.48%
-		Top 5 Acc = 64.82%                                 
-		Loss/Iteration: 5.542949213223024
+		Top 1 Acc = 33.82%
+		Top 5 Acc = 64.46%                                 
+		Loss/Iteration: 5.74303103577007
 
 Epoch [20/100]:
 		Specificity: 1.0
-		Top 1 Acc = 34.12%
-		Top 5 Acc = 65.64%                                 
-		Loss/Iteration: 5.503320404074409
+		Top 1 Acc = 34.68%
+		Top 5 Acc = 65.74%                                 
+		Loss/Iteration: 5.698301461609927
 
 Epoch [21/100]:
 		Specificity: 1.0
-		Top 1 Acc = 33.94%
-		Top 5 Acc = 65.58%                                 
-		Loss/Iteration: 5.400103642181917
+		Top 1 Acc = 35.04%
+		Top 5 Acc = 66.3%                                 
+		Loss/Iteration: 5.611768614162099
 
 Epoch [22/100]:
 		Specificity: 1.0
-		Top 1 Acc = 35.3%
-		Top 5 Acc = 67.8%                                 
-		Loss/Iteration: 5.335015765645287
+		Top 1 Acc = 35.22%
+		Top 5 Acc = 66.88%                                 
+		Loss/Iteration: 5.554412868889895
 
 Epoch [23/100]:
 		Specificity: 1.0
-		Top 1 Acc = 35.3%
-		Top 5 Acc = 67.38%                                 
-		Loss/Iteration: 5.267086427320134
+		Top 1 Acc = 35.78%
+		Top 5 Acc = 67.44%                                 
+		Loss/Iteration: 5.494749844074249
 
 Epoch [24/100]:
 		Specificity: 1.0
-		Top 1 Acc = 36.02%
-		Top 5 Acc = 68.12%                                 
-		Loss/Iteration: 5.227359530600634
+		Top 1 Acc = 37.06%
+		Top 5 Acc = 68.42%                                 
+		Loss/Iteration: 5.444946275515989
 
 Epoch [25/100]:
 		Specificity: 1.0
-		Top 1 Acc = 36.22%
-		Top 5 Acc = 68.44%                                 
-		Loss/Iteration: 5.158159272237257
+		Top 1 Acc = 36.56%
+		Top 5 Acc = 68.1%                                 
+		Loss/Iteration: 5.3761096163229505
 
 Epoch [26/100]:
 		Specificity: 1.0
-		Top 1 Acc = 37.72%
-		Top 5 Acc = 69.72%                                 
-		Loss/Iteration: 5.113184972242876
+		Top 1 Acc = 36.46%
+		Top 5 Acc = 69.16%                                 
+		Loss/Iteration: 5.343207706104625
 
 Epoch [27/100]:
 		Specificity: 1.0
-		Top 1 Acc = 36.94%
-		Top 5 Acc = 68.74%                                 
-		Loss/Iteration: 5.032915941693566
+		Top 1 Acc = 37.44%
+		Top 5 Acc = 68.68%                                 
+		Loss/Iteration: 5.290850948203694
 
 Epoch [28/100]:
 		Specificity: 1.0
-		Top 1 Acc = 37.78%
-		Top 5 Acc = 69.7%                                 
-		Loss/Iteration: 4.992625458673998
+		Top 1 Acc = 37.3%
+		Top 5 Acc = 68.12%                                 
+		Loss/Iteration: 5.24283861301162
 
 Epoch [29/100]:
 		Specificity: 1.0
-		Top 1 Acc = 37.44%
-		Top 5 Acc = 69.34%                                 
-		Loss/Iteration: 4.945749049836939
+		Top 1 Acc = 39.68%
+		Top 5 Acc = 70.06%                                 
+		Loss/Iteration: 5.211516166275198
 
 Epoch [30/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.52%
-		Top 5 Acc = 70.74%                                 
-		Loss/Iteration: 4.8851165771484375
+		Top 1 Acc = 38.76%
+		Top 5 Acc = 70.44%                                 
+		Loss/Iteration: 5.173866583542391
 
 Epoch [31/100]:
 		Specificity: 1.0
-		Top 1 Acc = 39.12%
-		Top 5 Acc = 70.62%                                 
-		Loss/Iteration: 4.834251457994634
+		Top 1 Acc = 38.02%
+		Top 5 Acc = 69.28%                                 
+		Loss/Iteration: 5.110881182280454
 
 Epoch [32/100]:
 		Specificity: 1.0
-		Top 1 Acc = 38.68%
-		Top 5 Acc = 71.06%                                 
-		Loss/Iteration: 4.770706049420617
+		Top 1 Acc = 39.8%
+		Top 5 Acc = 70.72%                                 
+		Loss/Iteration: 5.063745940273458
 
 Epoch [33/100]:
 		Specificity: 1.0
-		Top 1 Acc = 40.84%
-		Top 5 Acc = 71.9%                                 
-		Loss/Iteration: 4.737476511435076
+		Top 1 Acc = 39.54%
+		Top 5 Acc = 70.84%                                 
+		Loss/Iteration: 5.02454257553274
 
 Epoch [34/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.16%
-		Top 5 Acc = 72.58%                                 
-		Loss/Iteration: 4.687701024792411
+		Top 1 Acc = 40.32%
+		Top 5 Acc = 71.92%                                 
+		Loss/Iteration: 4.9658723609013995
 
 Epoch [35/100]:
 		Specificity: 1.0
-		Top 1 Acc = 40.04%
-		Top 5 Acc = 71.74%                                 
-		Loss/Iteration: 4.6459799544377764
+		Top 1 Acc = 40.02%
+		Top 5 Acc = 71.64%                                 
+		Loss/Iteration: 4.9360174292867836
 
 Epoch [36/100]:
 		Specificity: 1.0
-		Top 1 Acc = 40.96%
-		Top 5 Acc = 72.16%                                 
-		Loss/Iteration: 4.594499130140651
+		Top 1 Acc = 41.52%
+		Top 5 Acc = 71.82%                                 
+		Loss/Iteration: 4.888647521084005
 
 Epoch [37/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.3%
-		Top 5 Acc = 73.12%                                 
-		Loss/Iteration: 4.552066905931993
+		Top 1 Acc = 40.3%
+		Top 5 Acc = 72.14%                                 
+		Loss/Iteration: 4.865351275964216
 
 Epoch [38/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.62%
-		Top 5 Acc = 73.32%                                 
-		Loss/Iteration: 4.508487079631198
+		Top 1 Acc = 42.02%
+		Top 5 Acc = 72.38%                                 
+		Loss/Iteration: 4.8083143776113335
 
 Epoch [39/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.98%
-		Top 5 Acc = 73.4%                                 
-		Loss/Iteration: 4.472977658564394
+		Top 1 Acc = 41.72%
+		Top 5 Acc = 72.56%                                 
+		Loss/Iteration: 4.7802839279174805
 
 Epoch [40/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.56%
-		Top 5 Acc = 73.32%                                 
-		Loss/Iteration: 4.441168713298711
+		Top 1 Acc = 41.78%
+		Top 5 Acc = 73.18%                                 
+		Loss/Iteration: 4.725799798965454
 
 Epoch [41/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.8%
-		Top 5 Acc = 73.3%                                 
-		Loss/Iteration: 4.4102020819078795
+		Top 1 Acc = 41.42%
+		Top 5 Acc = 72.38%                                 
+		Loss/Iteration: 4.711989183317531
 
 Epoch [42/100]:
 		Specificity: 1.0
-		Top 1 Acc = 41.76%
-		Top 5 Acc = 72.74%                                 
-		Loss/Iteration: 4.364097788929939
+		Top 1 Acc = 42.3%
+		Top 5 Acc = 73.66%                                 
+		Loss/Iteration: 4.669994887980548
 
 Epoch [43/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.44%
-		Top 5 Acc = 74.16%                                 
-		Loss/Iteration: 4.32316415282813
+		Top 1 Acc = 41.98%
+		Top 5 Acc = 73.72%                                 
+		Loss/Iteration: 4.6442860879681325
 
 Epoch [44/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.74%
-		Top 5 Acc = 74.14%                                 
-		Loss/Iteration: 4.280648177320307
+		Top 1 Acc = 42.7%
+		Top 5 Acc = 73.44%                                 
+		Loss/Iteration: 4.597035784613002
 
 Epoch [45/100]:
 		Specificity: 1.0
-		Top 1 Acc = 42.18%
-		Top 5 Acc = 74.6%                                 
-		Loss/Iteration: 4.242472293702039
+		Top 1 Acc = 42.58%
+		Top 5 Acc = 73.48%                                 
+		Loss/Iteration: 4.583157100460746
 
 Epoch [46/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.82%
-		Top 5 Acc = 75.12%                                 
-		Loss/Iteration: 4.218080049211329
+		Top 1 Acc = 43.22%
+		Top 5 Acc = 73.92%                                 
+		Loss/Iteration: 4.542998899113048
 
 Epoch [47/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.74%
-		Top 5 Acc = 74.86%                                 
-		Loss/Iteration: 4.184671937064691
+		Top 1 Acc = 43.8%
+		Top 5 Acc = 74.16%                                 
+		Loss/Iteration: 4.499993535605344
 
 Epoch [48/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.06%
-		Top 5 Acc = 74.92%                                 
-		Loss/Iteration: 4.132684436711398
+		Top 1 Acc = 43.28%
+		Top 5 Acc = 74.52%                                 
+		Loss/Iteration: 4.469100029631094
 
 Epoch [49/100]:
 		Specificity: 1.0
-		Top 1 Acc = 43.76%
-		Top 5 Acc = 75.2%                                 
-		Loss/Iteration: 4.091816088015383
+		Top 1 Acc = 43.0%
+		Top 5 Acc = 73.9%                                 
+		Loss/Iteration: 4.473756240172819
 
 Epoch [50/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.32%
-		Top 5 Acc = 74.62%                                 
-		Loss/Iteration: 4.0754141116684135
+		Top 1 Acc = 43.42%
+		Top 5 Acc = 74.5%                                 
+		Loss/Iteration: 4.400822984901342
 
 Epoch [51/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.54%
-		Top 5 Acc = 75.28%                                 
-		Loss/Iteration: 4.024165104735982
+		Top 1 Acc = 44.34%
+		Top 5 Acc = 75.1%                                 
+		Loss/Iteration: 4.3734644028273495
 
 Epoch [52/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.2%
-		Top 5 Acc = 74.98%                                 
-		Loss/Iteration: 4.00197069617835
+		Top 1 Acc = 42.9%
+		Top 5 Acc = 74.46%                                 
+		Loss/Iteration: 4.356848094951022
 
 Epoch [53/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.0%
-		Top 5 Acc = 74.16%                                 
-		Loss/Iteration: 3.988117663697763
+		Top 1 Acc = 44.52%
+		Top 5 Acc = 74.32%                                 
+		Loss/Iteration: 4.320408646355975
 
 Epoch [54/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.12%
-		Top 5 Acc = 75.7%                                 
-		Loss/Iteration: 3.921520019119436
+		Top 1 Acc = 44.5%
+		Top 5 Acc = 74.46%                                 
+		Loss/Iteration: 4.304596444422549
 
 Epoch [55/100]:
 		Specificity: 1.0
-		Top 1 Acc = 44.5%
-		Top 5 Acc = 75.22%                                 
-		Loss/Iteration: 3.9059340113943275
+		Top 1 Acc = 45.24%
+		Top 5 Acc = 75.38%                                 
+		Loss/Iteration: 4.277307672934099
 
 Epoch [56/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.0%
-		Top 5 Acc = 75.66%                                 
-		Loss/Iteration: 3.8827132853594692
+		Top 1 Acc = 44.4%
+		Top 5 Acc = 75.22%                                 
+		Loss/Iteration: 4.237871309573
 
 Epoch [57/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.6%
-		Top 5 Acc = 76.14%                                 
-		Loss/Iteration: 3.8484083806926552
+		Top 1 Acc = 44.54%
+		Top 5 Acc = 75.1%                                 
+		Loss/Iteration: 4.216403113170103
 
 Epoch [58/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.0%
-		Top 5 Acc = 75.8%                                 
-		Loss/Iteration: 3.8269604498689826
+		Top 1 Acc = 45.28%
+		Top 5 Acc = 75.34%                                 
+		Loss/Iteration: 4.187013860453259
 
 Epoch [59/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.26%
-		Top 5 Acc = 76.06%                                 
-		Loss/Iteration: 3.8018741092898627
+		Top 1 Acc = 44.36%
+		Top 5 Acc = 74.82%                                 
+		Loss/Iteration: 4.166359153660861
 
 Epoch [60/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.52%
-		Top 5 Acc = 75.76%                                 
-		Loss/Iteration: 3.7545887502756985
+		Top 1 Acc = 45.3%
+		Top 5 Acc = 76.28%                                 
+		Loss/Iteration: 4.142284032973376
 
 Epoch [61/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.24%
-		Top 5 Acc = 76.34%                                 
-		Loss/Iteration: 3.7519932904026727
+		Top 1 Acc = 45.76%
+		Top 5 Acc = 75.98%                                 
+		Loss/Iteration: 4.116203579035672
 
 Epoch [62/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.6%
-		Top 5 Acc = 76.26%                                 
-		Loss/Iteration: 3.703382967547937
+		Top 1 Acc = 45.9%
+		Top 5 Acc = 76.48%                                 
+		Loss/Iteration: 4.097762550820004
 
 Epoch [63/100]:
 		Specificity: 1.0
-		Top 1 Acc = 45.9%
-		Top 5 Acc = 76.3%                                 
-		Loss/Iteration: 3.6714128499681298
+		Top 1 Acc = 46.08%
+		Top 5 Acc = 77.58%                                 
+		Loss/Iteration: 4.072522008960897
 
 Epoch [64/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.04%
-		Top 5 Acc = 76.1%                                 
-		Loss/Iteration: 3.6538978191939266
+		Top 1 Acc = 45.3%
+		Top 5 Acc = 75.82%                                 
+		Loss/Iteration: 4.031914990056645
 
 Epoch [65/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.26%
-		Top 5 Acc = 76.38%                                 
-		Loss/Iteration: 3.6291574497114527
+		Top 1 Acc = 46.5%
+		Top 5 Acc = 77.04%                                 
+		Loss/Iteration: 4.014141161333431
 
 Epoch [66/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.86%
-		Top 5 Acc = 76.38%                                 
-		Loss/Iteration: 3.590987118807706
+		Top 1 Acc = 47.14%
+		Top 5 Acc = 76.88%                                 
+		Loss/Iteration: 3.992452858523889
 
 Epoch [67/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.14%
-		Top 5 Acc = 77.12%                                 
-		Loss/Iteration: 3.5758643746376038
+		Top 1 Acc = 47.66%
+		Top 5 Acc = 77.52%                                 
+		Loss/Iteration: 3.9729364717548545
 
 Epoch [68/100]:
 		Specificity: 1.0
 		Top 1 Acc = 47.1%
-		Top 5 Acc = 77.0%                                 
-		Loss/Iteration: 3.545981068502773
+		Top 5 Acc = 77.06%                                 
+		Loss/Iteration: 3.9478582455353304
 
 Epoch [69/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.4%
-		Top 5 Acc = 77.08%                                 
-		Loss/Iteration: 3.5164543810215863
+		Top 1 Acc = 47.0%
+		Top 5 Acc = 77.88%                                 
+		Loss/Iteration: 3.925700316374952
 
 Epoch [70/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.28%
-		Top 5 Acc = 76.46%                                 
-		Loss/Iteration: 3.488399402661757
+		Top 1 Acc = 47.08%
+		Top 5 Acc = 76.44%                                 
+		Loss/Iteration: 3.910733861002055
 
 Epoch [71/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.22%
-		Top 5 Acc = 76.56%                                 
-		Loss/Iteration: 3.4715966975147072
+		Top 1 Acc = 47.34%
+		Top 5 Acc = 77.26%                                 
+		Loss/Iteration: 3.8728727264837786
 
 Epoch [72/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.4%
-		Top 5 Acc = 77.0%                                 
-		Loss/Iteration: 3.440585494041443
+		Top 1 Acc = 47.24%
+		Top 5 Acc = 77.68%                                 
+		Loss/Iteration: 3.84650301120498
 
 Epoch [73/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.52%
-		Top 5 Acc = 76.68%                                 
-		Loss/Iteration: 3.4115233827720988
+		Top 1 Acc = 47.4%
+		Top 5 Acc = 77.06%                                 
+		Loss/Iteration: 3.8344488347118553
 
 Epoch [74/100]:
 		Specificity: 1.0
-		Top 1 Acc = 46.8%
-		Top 5 Acc = 76.54%                                 
-		Loss/Iteration: 3.4083494449203666
+		Top 1 Acc = 47.68%
+		Top 5 Acc = 77.8%                                 
+		Loss/Iteration: 3.8209200379523365
 
 Epoch [75/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.62%
-		Top 5 Acc = 76.88%                                 
-		Loss/Iteration: 3.3728333711624146
+		Top 1 Acc = 48.0%
+		Top 5 Acc = 77.84%                                 
+		Loss/Iteration: 3.8056208911267193
 
 Epoch [76/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.56%
-		Top 5 Acc = 77.08%                                 
-		Loss/Iteration: 3.348982326009057
+		Top 1 Acc = 47.26%
+		Top 5 Acc = 78.18%                                 
+		Loss/Iteration: 3.787819214842536
 
 Epoch [77/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.1%
-		Top 5 Acc = 76.26%                                 
-		Loss/Iteration: 3.3177642795172604
+		Top 1 Acc = 47.66%
+		Top 5 Acc = 78.22%                                 
+		Loss/Iteration: 3.760125536810268
 
 Epoch [78/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.26%
-		Top 5 Acc = 76.96%                                 
-		Loss/Iteration: 3.298696381124583
+		Top 1 Acc = 47.66%
+		Top 5 Acc = 77.9%                                 
+		Loss/Iteration: 3.744985966519876
 
 Epoch [79/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.12%
-		Top 5 Acc = 76.7%                                 
-		Loss/Iteration: 3.2796729586341162
+		Top 1 Acc = 47.9%
+		Top 5 Acc = 77.28%                                 
+		Loss/Iteration: 3.7294796732338993
 
 Epoch [80/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.08%
-		Top 5 Acc = 76.52%                                 
-		Loss/Iteration: 3.245953593741764
+		Top 1 Acc = 47.7%
+		Top 5 Acc = 77.72%                                 
+		Loss/Iteration: 3.693176491694017
 
 Epoch [81/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.94%
-		Top 5 Acc = 77.14%                                 
-		Loss/Iteration: 3.2157640917734667
+		Top 1 Acc = 48.46%
+		Top 5 Acc = 77.3%                                 
+		Loss/Iteration: 3.6764801415530117
 
 Epoch [82/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.36%
-		Top 5 Acc = 76.6%                                 
-		Loss/Iteration: 3.208087818189101
+		Top 1 Acc = 48.68%
+		Top 5 Acc = 78.26%                                 
+		Loss/Iteration: 3.658440886573358
 
 Epoch [83/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.3%
-		Top 5 Acc = 76.0%                                 
-		Loss/Iteration: 3.1972556723789736
+		Top 1 Acc = 48.7%
+		Top 5 Acc = 78.56%                                 
+		Loss/Iteration: 3.6481663909825413
 
 Epoch [84/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.16%
-		Top 5 Acc = 77.3%                                 
-		Loss/Iteration: 3.1780187744985926
+		Top 1 Acc = 47.9%
+		Top 5 Acc = 78.48%                                 
+		Loss/Iteration: 3.6084131842309777
 
 Epoch [85/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.04%
-		Top 5 Acc = 77.74%                                 
-		Loss/Iteration: 3.1526099240238015
+		Top 1 Acc = 48.88%
+		Top 5 Acc = 78.4%                                 
+		Loss/Iteration: 3.6146986701271753
 
 Epoch [86/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.44%
-		Top 5 Acc = 77.44%                                 
-		Loss/Iteration: 3.120134337381883
+		Top 1 Acc = 48.96%
+		Top 5 Acc = 78.24%                                 
+		Loss/Iteration: 3.578704900362275
 
 Epoch [87/100]:
 		Specificity: 1.0
-		Top 1 Acc = 49.02%
-		Top 5 Acc = 77.76%                                 
-		Loss/Iteration: 3.0965007760308008
+		Top 1 Acc = 48.5%
+		Top 5 Acc = 78.38%                                 
+		Loss/Iteration: 3.5872238793156366
 
 Epoch [88/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.3%
-		Top 5 Acc = 76.8%                                 
-		Loss/Iteration: 3.071100035851652
+		Top 1 Acc = 49.36%
+		Top 5 Acc = 78.78%                                 
+		Loss/Iteration: 3.555722479115833
 
 Epoch [89/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.14%
-		Top 5 Acc = 77.14%                                 
-		Loss/Iteration: 3.071609938686544
+		Top 1 Acc = 49.04%
+		Top 5 Acc = 78.46%                                 
+		Loss/Iteration: 3.5411504750902
 
 Epoch [90/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.28%
-		Top 5 Acc = 76.9%                                 
-		Loss/Iteration: 3.0444196543910285
+		Top 1 Acc = 48.92%
+		Top 5 Acc = 78.78%                                 
+		Loss/Iteration: 3.50275164029815
 
 Epoch [91/100]:
 		Specificity: 1.0
-		Top 1 Acc = 47.46%
-		Top 5 Acc = 76.78%                                 
-		Loss/Iteration: 3.0344539176334036
+		Top 1 Acc = 48.64%
+		Top 5 Acc = 78.5%                                 
+		Loss/Iteration: 3.4955831170082092
 
 Epoch [92/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.18%
-		Top 5 Acc = 77.6%                                 
-		Loss/Iteration: 3.0006057173013687
+		Top 1 Acc = 48.62%
+		Top 5 Acc = 78.28%                                 
+		Loss/Iteration: 3.476052314043045
 
 Epoch [93/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.22%
-		Top 5 Acc = 76.84%                                 
-		Loss/Iteration: 2.997512776743282
+		Top 1 Acc = 48.9%
+		Top 5 Acc = 79.06%                                 
+		Loss/Iteration: 3.4708004783500326
 
 Epoch [94/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.74%
-		Top 5 Acc = 77.72%                                 
-		Loss/Iteration: 2.977736023339358
+		Top 1 Acc = 48.5%
+		Top 5 Acc = 78.5%                                 
+		Loss/Iteration: 3.4434296123006125
 
 Epoch [95/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.7%
-		Top 5 Acc = 77.14%                                 
-		Loss/Iteration: 2.9550249102440747
+		Top 1 Acc = 49.32%
+		Top 5 Acc = 78.8%                                 
+		Loss/Iteration: 3.4352375634691934
 
 Epoch [96/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.4%
-		Top 5 Acc = 76.8%                                 
-		Loss/Iteration: 2.9341267862103204
+		Top 1 Acc = 49.54%
+		Top 5 Acc = 78.76%                                 
+		Loss/Iteration: 3.4196533642031928
 
 Epoch [97/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.3%
-		Top 5 Acc = 77.34%                                 
-		Loss/Iteration: 2.9177076383070513
+		Top 1 Acc = 48.64%
+		Top 5 Acc = 78.98%                                 
+		Loss/Iteration: 3.4003108712759884
 
 Epoch [98/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.52%
-		Top 5 Acc = 76.84%                                 
-		Loss/Iteration: 2.8942394893277776
+		Top 1 Acc = 49.6%
+		Top 5 Acc = 78.68%                                 
+		Loss/Iteration: 3.379736938259818
 
 Epoch [99/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.18%
-		Top 5 Acc = 76.98%                                 
-		Loss/Iteration: 2.9012075418775733
+		Top 1 Acc = 48.72%
+		Top 5 Acc = 78.72%                                 
+		Loss/Iteration: 3.352840396490964
 
 Epoch [100/100]:
 		Specificity: 1.0
-		Top 1 Acc = 48.84%
-		Top 5 Acc = 77.18%                                 
-		Loss/Iteration: 2.8669494566592304
+		Top 1 Acc = 48.58%
+		Top 5 Acc = 77.96%                                 
+		Loss/Iteration: 3.351020498709245
 
 ------------------------------
 
 ||========================================||
 
-Super-HBN
-Model == Super-HBN
+Model: Super-HBN
 Batch sizes: (train, val, test)=(256, 256, 256)
 
 ==========================================================================================
@@ -2043,66 +2029,68 @@ SuperHBN                                 [1, 20]                   --
 │    └─Conv2d: 2-7                       [1, 128, 4, 4]            295,040
 │    └─MaxPool2d: 2-8                    [1, 128, 2, 2]            --
 │    └─ReLU: 2-9                         [1, 128, 2, 2]            --
-├─Sequential: 1-3                        [1, 2048]                 --
+├─Sequential: 1-3                        [1, 100]                  --
 │    └─Dropout: 2-10                     [1, 512]                  --
 │    └─Linear: 2-11                      [1, 2048]                 1,050,624
 │    └─ReLU: 2-12                        [1, 2048]                 --
 │    └─Dropout: 2-13                     [1, 2048]                 --
 │    └─Linear: 2-14                      [1, 2048]                 4,196,352
 │    └─ReLU: 2-15                        [1, 2048]                 --
-├─Sequential: 1-4                        [1, 100]                  --
 │    └─Linear: 2-16                      [1, 100]                  204,900
-├─Sequential: 1-5                        [1, 20]                   --
-│    └─Linear: 2-17                      [1, 20]                   40,980
-├─Sequential: 1-6                        [1, 384, 4, 4]            --
-│    └─Conv2d: 2-18                      [1, 192, 8, 8]            110,784
-│    └─MaxPool2d: 2-19                   [1, 192, 4, 4]            --
-│    └─ReLU: 2-20                        [1, 192, 4, 4]            --
-│    └─Conv2d: 2-21                      [1, 384, 4, 4]            663,936
-│    └─ReLU: 2-22                        [1, 384, 4, 4]            --
-├─Sequential: 1-7                        [1, 256, 1, 1]            --
-│    └─Conv2d: 2-23                      [1, 256, 2, 2]            884,992
-│    └─MaxPool2d: 2-24                   [1, 256, 1, 1]            --
-│    └─ReLU: 2-25                        [1, 256, 1, 1]            --
-├─Sequential: 1-8                        [1, 2048]                 --
-│    └─Dropout: 2-26                     [1, 256]                  --
-│    └─Linear: 2-27                      [1, 2048]                 526,336
-│    └─ReLU: 2-28                        [1, 2048]                 --
-│    └─Dropout: 2-29                     [1, 2048]                 --
-│    └─Linear: 2-30                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-31                        [1, 2048]                 --
-│    └─Dropout: 2-32                     [1, 2048]                 --
-├─Sequential: 1-9                        [1, 100]                  --
-│    └─Linear: 2-33                      [1, 100]                  204,900
-├─Sequential: 1-10                       [1, 20]                   --
-│    └─Linear: 2-34                      [1, 20]                   40,980
-├─Sequential: 1-11                       [1, 256, 2, 2]            --
-│    └─Conv2d: 2-35                      [1, 256, 4, 4]            884,992
-│    └─ReLU: 2-36                        [1, 256, 4, 4]            --
-│    └─Conv2d: 2-37                      [1, 256, 4, 4]            590,080
-│    └─MaxPool2d: 2-38                   [1, 256, 2, 2]            --
-│    └─ReLU: 2-39                        [1, 256, 2, 2]            --
-├─Sequential: 1-12                       [1, 4096]                 --
-│    └─Dropout: 2-40                     [1, 1024]                 --
-│    └─Linear: 2-41                      [1, 4096]                 4,198,400
-│    └─ReLU: 2-42                        [1, 4096]                 --
-│    └─Dropout: 2-43                     [1, 4096]                 --
-│    └─Linear: 2-44                      [1, 4096]                 16,781,312
-│    └─ReLU: 2-45                        [1, 4096]                 --
-├─Sequential: 1-13                       [1, 100]                  --
-│    └─Linear: 2-46                      [1, 100]                  409,700
-├─Sequential: 1-14                       [1, 20]                   --
-│    └─Linear: 2-47                      [1, 20]                   81,940
+├─Sequential: 1-4                        [1, 20]                   --
+│    └─Dropout: 2-17                     [1, 512]                  --
+│    └─Linear: 2-18                      [1, 2048]                 1,050,624
+│    └─ReLU: 2-19                        [1, 2048]                 --
+│    └─Dropout: 2-20                     [1, 2048]                 --
+│    └─Linear: 2-21                      [1, 2048]                 4,196,352
+│    └─ReLU: 2-22                        [1, 2048]                 --
+│    └─Linear: 2-23                      [1, 20]                   40,980
+├─Sequential: 1-5                        [1, 384, 4, 4]            --
+│    └─Conv2d: 2-24                      [1, 192, 8, 8]            110,784
+│    └─MaxPool2d: 2-25                   [1, 192, 4, 4]            --
+│    └─ReLU: 2-26                        [1, 192, 4, 4]            --
+│    └─Conv2d: 2-27                      [1, 384, 4, 4]            663,936
+│    └─ReLU: 2-28                        [1, 384, 4, 4]            --
+├─Sequential: 1-6                        [1, 256, 1, 1]            --
+│    └─Conv2d: 2-29                      [1, 256, 2, 2]            884,992
+│    └─MaxPool2d: 2-30                   [1, 256, 1, 1]            --
+│    └─ReLU: 2-31                        [1, 256, 1, 1]            --
+├─Sequential: 1-7                        [1, 100]                  --
+│    └─Dropout: 2-32                     [1, 256]                  --
+│    └─Linear: 2-33                      [1, 2048]                 526,336
+│    └─ReLU: 2-34                        [1, 2048]                 --
+│    └─Dropout: 2-35                     [1, 2048]                 --
+│    └─Linear: 2-36                      [1, 100]                  204,900
+├─Sequential: 1-8                        [1, 20]                   --
+│    └─Dropout: 2-37                     [1, 256]                  --
+│    └─Linear: 2-38                      [1, 2048]                 526,336
+│    └─ReLU: 2-39                        [1, 2048]                 --
+│    └─Dropout: 2-40                     [1, 2048]                 --
+│    └─Linear: 2-41                      [1, 20]                   40,980
+├─Sequential: 1-9                        [1, 256, 2, 2]            --
+│    └─Conv2d: 2-42                      [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-43                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-44                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-45                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-46                        [1, 256, 2, 2]            --
+├─Sequential: 1-10                       [1, 4096]                 --
+│    └─Dropout: 2-47                     [1, 1024]                 --
+│    └─Linear: 2-48                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-49                        [1, 4096]                 --
+├─Sequential: 1-11                       [1, 100]                  --
+│    └─Linear: 2-50                      [1, 100]                  409,700
+├─Sequential: 1-12                       [1, 20]                   --
+│    └─Linear: 2-51                      [1, 20]                   81,940
 ==========================================================================================
-Total params: 35,512,104
-Trainable params: 35,512,104
+Total params: 20,307,752
+Trainable params: 20,307,752
 Non-trainable params: 0
-Total mult-adds (M): 91.42
+Total mult-adds (M): 76.22
 ==========================================================================================
 Input size (MB): 0.01
 Forward/backward pass size (MB): 0.63
-Params size (MB): 142.05
-Estimated Total Size (MB): 142.69
+Params size (MB): 81.23
+Estimated Total Size (MB): 81.88
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -2113,610 +2101,609 @@ Estimated Total Size (MB): 142.69
 
 Epoch [1/100]:
 		Specificity: 0.0
-		Top 1 Acc = 15.46%
-		Top 5 Acc = 52.68%                                 
-		Loss/Iteration: 23.31681606986306
+		Top 1 Acc = 18.6%
+		Top 5 Acc = 55.66%                                 
+		Loss/Iteration: 23.06000087477944
 
 Epoch [2/100]:
 		Specificity: 0.0
-		Top 1 Acc = 23.9%
-		Top 5 Acc = 62.14%                                 
-		Loss/Iteration: 21.25334745103663
+		Top 1 Acc = 26.18%
+		Top 5 Acc = 66.02%                                 
+		Loss/Iteration: 20.909739743579518
 
 Epoch [3/100]:
 		Specificity: 0.0
-		Top 1 Acc = 26.6%
-		Top 5 Acc = 65.04%                                 
-		Loss/Iteration: 20.10346933928403
+		Top 1 Acc = 27.76%
+		Top 5 Acc = 67.04%                                 
+		Loss/Iteration: 19.62924751368436
 
 Epoch [4/100]:
 		Specificity: 0.0
-		Top 1 Acc = 29.64%
-		Top 5 Acc = 68.68%                                 
-		Loss/Iteration: 19.239825790578667
+		Top 1 Acc = 31.86%
+		Top 5 Acc = 71.34%                                 
+		Loss/Iteration: 18.822048133069817
 
 Epoch [5/100]:
 		Specificity: 0.0
-		Top 1 Acc = 32.8%
-		Top 5 Acc = 71.94%                                 
-		Loss/Iteration: 18.543266502293672
+		Top 1 Acc = 33.48%
+		Top 5 Acc = 73.74%                                 
+		Loss/Iteration: 18.24425173889507
 
 Epoch [6/100]:
 		Specificity: 0.0
-		Top 1 Acc = 35.46%
-		Top 5 Acc = 74.56%                                 
-		Loss/Iteration: 17.976853067224678
+		Top 1 Acc = 35.36%
+		Top 5 Acc = 74.2%                                 
+		Loss/Iteration: 17.723177042874422
 
 Epoch [7/100]:
 		Specificity: 0.0
-		Top 1 Acc = 36.86%
-		Top 5 Acc = 75.3%                                 
-		Loss/Iteration: 17.491651155731894
+		Top 1 Acc = 36.46%
+		Top 5 Acc = 76.12%                                 
+		Loss/Iteration: 17.332075650041755
 
 Epoch [8/100]:
 		Specificity: 0.0
-		Top 1 Acc = 38.28%
-		Top 5 Acc = 77.92%                                 
-		Loss/Iteration: 17.08769726753235
+		Top 1 Acc = 38.12%
+		Top 5 Acc = 77.16%                                 
+		Loss/Iteration: 16.884167725389656
 
 Epoch [9/100]:
 		Specificity: 0.0
-		Top 1 Acc = 38.6%
-		Top 5 Acc = 77.94%                                 
-		Loss/Iteration: 16.71634902195497
+		Top 1 Acc = 39.9%
+		Top 5 Acc = 78.18%                                 
+		Loss/Iteration: 16.564719574017957
 
 Epoch [10/100]:
 		Specificity: 0.0
-		Top 1 Acc = 39.74%
-		Top 5 Acc = 80.14%                                 
-		Loss/Iteration: 16.36739580739628
+		Top 1 Acc = 41.0%
+		Top 5 Acc = 79.62%                                 
+		Loss/Iteration: 16.244753198190168
 
 Epoch [11/100]:
 		Specificity: 0.0
-		Top 1 Acc = 42.32%
-		Top 5 Acc = 80.74%                                 
-		Loss/Iteration: 16.051198569211092
+		Top 1 Acc = 42.64%
+		Top 5 Acc = 80.58%                                 
+		Loss/Iteration: 15.948301315307617
 
 Epoch [12/100]:
 		Specificity: 0.0
-		Top 1 Acc = 43.04%
-		Top 5 Acc = 81.06%                                 
-		Loss/Iteration: 15.721437232060866
+		Top 1 Acc = 42.34%
+		Top 5 Acc = 80.62%                                 
+		Loss/Iteration: 15.711709195917303
 
 Epoch [13/100]:
 		Specificity: 0.0
-		Top 1 Acc = 44.8%
-		Top 5 Acc = 81.74%                                 
-		Loss/Iteration: 15.464363845911892
+		Top 1 Acc = 43.52%
+		Top 5 Acc = 81.5%                                 
+		Loss/Iteration: 15.442098379135132
 
 Epoch [14/100]:
 		Specificity: 0.0
-		Top 1 Acc = 45.1%
-		Top 5 Acc = 82.26%                                 
-		Loss/Iteration: 15.19411244175651
+		Top 1 Acc = 45.0%
+		Top 5 Acc = 82.5%                                 
+		Loss/Iteration: 15.205988775600087
 
 Epoch [15/100]:
 		Specificity: 0.0
-		Top 1 Acc = 46.46%
-		Top 5 Acc = 83.2%                                 
-		Loss/Iteration: 14.966792664744638
+		Top 1 Acc = 46.16%
+		Top 5 Acc = 82.86%                                 
+		Loss/Iteration: 14.958331351930445
 
 Epoch [16/100]:
 		Specificity: 0.0
-		Top 1 Acc = 46.58%
-		Top 5 Acc = 82.5%                                 
-		Loss/Iteration: 14.750386574051596
+		Top 1 Acc = 45.62%
+		Top 5 Acc = 82.14%                                 
+		Loss/Iteration: 14.779869946566494
 
 Epoch [17/100]:
 		Specificity: 0.0
-		Top 1 Acc = 47.66%
+		Top 1 Acc = 47.02%
 		Top 5 Acc = 83.9%                                 
-		Loss/Iteration: 14.537216809662906
+		Loss/Iteration: 14.571854585951025
 
 Epoch [18/100]:
 		Specificity: 0.0
-		Top 1 Acc = 47.64%
-		Top 5 Acc = 84.52%                                 
-		Loss/Iteration: 14.313910126686096
+		Top 1 Acc = 47.56%
+		Top 5 Acc = 84.3%                                 
+		Loss/Iteration: 14.36848160353574
 
 Epoch [19/100]:
 		Specificity: 0.0
-		Top 1 Acc = 48.6%
-		Top 5 Acc = 84.56%                                 
-		Loss/Iteration: 14.126718087629838
+		Top 1 Acc = 47.44%
+		Top 5 Acc = 84.36%                                 
+		Loss/Iteration: 14.190977481278507
 
 Epoch [20/100]:
 		Specificity: 0.0
-		Top 1 Acc = 50.04%
-		Top 5 Acc = 84.88%                                 
-		Loss/Iteration: 13.93299030715769
+		Top 1 Acc = 47.66%
+		Top 5 Acc = 84.54%                                 
+		Loss/Iteration: 14.068798130208796
 
 Epoch [21/100]:
 		Specificity: 0.0
-		Top 1 Acc = 50.3%
-		Top 5 Acc = 85.56%                                 
-		Loss/Iteration: 13.760497548363425
+		Top 1 Acc = 49.04%
+		Top 5 Acc = 84.42%                                 
+		Loss/Iteration: 13.92039263790304
 
 Epoch [22/100]:
 		Specificity: 0.0
-		Top 1 Acc = 49.88%
-		Top 5 Acc = 85.46%                                 
-		Loss/Iteration: 13.603345269506628
+		Top 1 Acc = 50.22%
+		Top 5 Acc = 85.8%                                 
+		Loss/Iteration: 13.73779748244719
 
 Epoch [23/100]:
 		Specificity: 0.0
-		Top 1 Acc = 50.66%
-		Top 5 Acc = 84.94%                                 
-		Loss/Iteration: 13.454653599045493
+		Top 1 Acc = 49.88%
+		Top 5 Acc = 84.68%                                 
+		Loss/Iteration: 13.574613029306585
 
 Epoch [24/100]:
 		Specificity: 0.0
-		Top 1 Acc = 51.74%
-		Top 5 Acc = 86.38%                                 
-		Loss/Iteration: 13.339209897951646
+		Top 1 Acc = 50.4%
+		Top 5 Acc = 85.7%                                 
+		Loss/Iteration: 13.459581391377883
 
 Epoch [25/100]:
 		Specificity: 0.0
-		Top 1 Acc = 52.04%
-		Top 5 Acc = 86.92%                                 
-		Loss/Iteration: 13.164391945708882
+		Top 1 Acc = 49.86%
+		Top 5 Acc = 85.64%                                 
+		Loss/Iteration: 13.303198315880515
 
 Epoch [26/100]:
 		Specificity: 0.0
-		Top 1 Acc = 51.28%
-		Top 5 Acc = 86.82%                                 
-		Loss/Iteration: 13.022471341219815
+		Top 1 Acc = 50.4%
+		Top 5 Acc = 86.1%                                 
+		Loss/Iteration: 13.180548163977535
 
 Epoch [27/100]:
 		Specificity: 0.0
-		Top 1 Acc = 52.06%
-		Top 5 Acc = 86.58%                                 
-		Loss/Iteration: 12.865237393162467
+		Top 1 Acc = 52.56%
+		Top 5 Acc = 86.32%                                 
+		Loss/Iteration: 13.096252712336453
 
 Epoch [28/100]:
 		Specificity: 0.0
-		Top 1 Acc = 53.66%
-		Top 5 Acc = 87.58%                                 
-		Loss/Iteration: 12.791118123314597
+		Top 1 Acc = 52.22%
+		Top 5 Acc = 87.08%                                 
+		Loss/Iteration: 12.947281566533176
 
 Epoch [29/100]:
 		Specificity: 0.0
-		Top 1 Acc = 54.54%
-		Top 5 Acc = 87.76%                                 
-		Loss/Iteration: 12.644411786036057
+		Top 1 Acc = 51.26%
+		Top 5 Acc = 87.04%                                 
+		Loss/Iteration: 12.78021350773898
 
 Epoch [30/100]:
 		Specificity: 0.0
-		Top 1 Acc = 53.46%
-		Top 5 Acc = 87.7%                                 
-		Loss/Iteration: 12.533719431270253
+		Top 1 Acc = 52.72%
+		Top 5 Acc = 86.82%                                 
+		Loss/Iteration: 12.666305926713077
 
 Epoch [31/100]:
 		Specificity: 0.0
-		Top 1 Acc = 55.0%
-		Top 5 Acc = 88.02%                                 
-		Loss/Iteration: 12.39093491705981
+		Top 1 Acc = 52.54%
+		Top 5 Acc = 87.34%                                 
+		Loss/Iteration: 12.56454161080447
 
 Epoch [32/100]:
 		Specificity: 0.0
-		Top 1 Acc = 53.94%
-		Top 5 Acc = 88.0%                                 
-		Loss/Iteration: 12.287808656692505
+		Top 1 Acc = 52.42%
+		Top 5 Acc = 86.52%                                 
+		Loss/Iteration: 12.453875395384701
 
 Epoch [33/100]:
 		Specificity: 0.0
-		Top 1 Acc = 55.68%
-		Top 5 Acc = 88.34%                                 
-		Loss/Iteration: 12.189174034378745
+		Top 1 Acc = 54.22%
+		Top 5 Acc = 87.54%                                 
+		Loss/Iteration: 12.333927750587463
 
 Epoch [34/100]:
 		Specificity: 0.0
-		Top 1 Acc = 55.48%
-		Top 5 Acc = 88.46%                                 
-		Loss/Iteration: 12.050469880754298
+		Top 1 Acc = 53.72%
+		Top 5 Acc = 87.22%                                 
+		Loss/Iteration: 12.204461812973022
 
 Epoch [35/100]:
 		Specificity: 0.0
-		Top 1 Acc = 54.82%
-		Top 5 Acc = 87.7%                                 
-		Loss/Iteration: 11.93356966972351
+		Top 1 Acc = 53.3%
+		Top 5 Acc = 87.56%                                 
+		Loss/Iteration: 12.13972905549136
 
 Epoch [36/100]:
 		Specificity: 0.0
-		Top 1 Acc = 55.82%
-		Top 5 Acc = 88.04%                                 
-		Loss/Iteration: 11.838234077800404
+		Top 1 Acc = 55.46%
+		Top 5 Acc = 87.46%                                 
+		Loss/Iteration: 12.015823196281087
 
 Epoch [37/100]:
 		Specificity: 0.0
-		Top 1 Acc = 56.7%
-		Top 5 Acc = 88.62%                                 
-		Loss/Iteration: 11.743549471551722
+		Top 1 Acc = 54.3%
+		Top 5 Acc = 87.44%                                 
+		Loss/Iteration: 11.928351472724568
 
 Epoch [38/100]:
 		Specificity: 0.0
-		Top 1 Acc = 56.56%
-		Top 5 Acc = 88.92%                                 
-		Loss/Iteration: 11.652576793323863
+		Top 1 Acc = 54.82%
+		Top 5 Acc = 88.22%                                 
+		Loss/Iteration: 11.822135784409262
 
 Epoch [39/100]:
 		Specificity: 0.0
-		Top 1 Acc = 57.8%
-		Top 5 Acc = 88.84%                                 
-		Loss/Iteration: 11.565947743979367
+		Top 1 Acc = 55.12%
+		Top 5 Acc = 87.96%                                 
+		Loss/Iteration: 11.737199019302022
 
 Epoch [40/100]:
 		Specificity: 0.0
-		Top 1 Acc = 56.58%
-		Top 5 Acc = 88.98%                                 
-		Loss/Iteration: 11.463628546758132
+		Top 1 Acc = 55.24%
+		Top 5 Acc = 88.32%                                 
+		Loss/Iteration: 11.644413942640478
 
 Epoch [41/100]:
 		Specificity: 0.0
-		Top 1 Acc = 57.96%
-		Top 5 Acc = 88.84%                                 
-		Loss/Iteration: 11.381481891328638
+		Top 1 Acc = 55.7%
+		Top 5 Acc = 87.68%                                 
+		Loss/Iteration: 11.522806584835052
 
 Epoch [42/100]:
 		Specificity: 0.0
-		Top 1 Acc = 57.46%
-		Top 5 Acc = 89.18%                                 
-		Loss/Iteration: 11.289211928844452
+		Top 1 Acc = 55.44%
+		Top 5 Acc = 88.64%                                 
+		Loss/Iteration: 11.456823446533896
 
 Epoch [43/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.38%
-		Top 5 Acc = 89.3%                                 
-		Loss/Iteration: 11.175160993229259
+		Top 1 Acc = 55.56%
+		Top 5 Acc = 88.08%                                 
+		Loss/Iteration: 11.371335192160172
 
 Epoch [44/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.82%
-		Top 5 Acc = 89.76%                                 
-		Loss/Iteration: 11.116904838518662
+		Top 1 Acc = 56.16%
+		Top 5 Acc = 88.9%                                 
+		Loss/Iteration: 11.271376691081308
 
 Epoch [45/100]:
 		Specificity: 0.0
-		Top 1 Acc = 57.38%
-		Top 5 Acc = 88.54%                                 
-		Loss/Iteration: 11.044520681554621
+		Top 1 Acc = 57.06%
+		Top 5 Acc = 88.66%                                 
+		Loss/Iteration: 11.189257995648818
 
 Epoch [46/100]:
 		Specificity: 0.0
-		Top 1 Acc = 57.5%
-		Top 5 Acc = 89.22%                                 
-		Loss/Iteration: 10.908762671730734
+		Top 1 Acc = 57.16%
+		Top 5 Acc = 89.04%                                 
+		Loss/Iteration: 11.121658330613917
 
 Epoch [47/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.36%
-		Top 5 Acc = 89.18%                                 
-		Loss/Iteration: 10.888042856346477
+		Top 1 Acc = 56.86%
+		Top 5 Acc = 88.7%                                 
+		Loss/Iteration: 10.999191717668014
 
 Epoch [48/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.56%
-		Top 5 Acc = 89.94%                                 
-		Loss/Iteration: 10.712181096727198
+		Top 1 Acc = 57.0%
+		Top 5 Acc = 88.66%                                 
+		Loss/Iteration: 10.941287896849893
 
 Epoch [49/100]:
-		Specificity: 0.0
-		Top 1 Acc = 57.48%
-		Top 5 Acc = 89.04%                                 
-		Loss/Iteration: 10.706434298645366
+		Specificity: 0.05
+		Top 1 Acc = 56.94%
+		Top 5 Acc = 88.68%                                 
+		Loss/Iteration: 10.834737533872778
 
 Epoch [50/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.76%
-		Top 5 Acc = 89.86%                                 
-		Loss/Iteration: 10.579791740937667
+		Top 1 Acc = 57.04%
+		Top 5 Acc = 89.26%                                 
+		Loss/Iteration: 10.776876996863972
 
 Epoch [51/100]:
 		Specificity: 0.0
-		Top 1 Acc = 59.32%
-		Top 5 Acc = 89.86%                                 
-		Loss/Iteration: 10.534688142212955
+		Top 1 Acc = 57.6%
+		Top 5 Acc = 89.4%                                 
+		Loss/Iteration: 10.686395330862565
 
 Epoch [52/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.56%
-		Top 5 Acc = 89.96%                                 
-		Loss/Iteration: 10.443275500427593
+		Top 1 Acc = 57.92%
+		Top 5 Acc = 89.64%                                 
+		Loss/Iteration: 10.607329541986639
 
 Epoch [53/100]:
 		Specificity: 0.0
-		Top 1 Acc = 58.86%
-		Top 5 Acc = 89.7%                                 
-		Loss/Iteration: 10.384494705633683
+		Top 1 Acc = 57.5%
+		Top 5 Acc = 89.18%                                 
+		Loss/Iteration: 10.515230590646917
 
 Epoch [54/100]:
-		Specificity: 0.0
-		Top 1 Acc = 58.98%
-		Top 5 Acc = 89.92%                                 
-		Loss/Iteration: 10.298911625688726
+		Specificity: 0.05
+		Top 1 Acc = 57.58%
+		Top 5 Acc = 88.58%                                 
+		Loss/Iteration: 10.448857475410808
 
 Epoch [55/100]:
 		Specificity: 0.0
-		Top 1 Acc = 59.64%
-		Top 5 Acc = 89.6%                                 
-		Loss/Iteration: 10.235259847207503
+		Top 1 Acc = 58.02%
+		Top 5 Acc = 88.7%                                 
+		Loss/Iteration: 10.36895781213587
 
 Epoch [56/100]:
-		Specificity: 0.0
-		Top 1 Acc = 58.72%
-		Top 5 Acc = 89.8%                                 
-		Loss/Iteration: 10.17455025694587
+		Specificity: 0.25
+		Top 1 Acc = 54.6%
+		Top 5 Acc = 84.9%                                 
+		Loss/Iteration: 10.286963972178372
 
 Epoch [57/100]:
 		Specificity: 0.0
-		Top 1 Acc = 59.22%
-		Top 5 Acc = 89.7%                                 
-		Loss/Iteration: 10.082653446630998
+		Top 1 Acc = 57.9%
+		Top 5 Acc = 89.48%                                 
+		Loss/Iteration: 10.249872229316018
 
 Epoch [58/100]:
-		Specificity: 0.0
-		Top 1 Acc = 59.46%
-		Top 5 Acc = 90.24%                                 
-		Loss/Iteration: 10.039453208446503
+		Specificity: 0.3
+		Top 1 Acc = 54.82%
+		Top 5 Acc = 84.74%                                 
+		Loss/Iteration: 10.15717608278448
 
 Epoch [59/100]:
-		Specificity: 0.0
-		Top 1 Acc = 58.92%
-		Top 5 Acc = 90.14%                                 
-		Loss/Iteration: 9.964599972421473
+		Specificity: 0.1
+		Top 1 Acc = 58.76%
+		Top 5 Acc = 88.4%                                 
+		Loss/Iteration: 10.085218928077005
 
 Epoch [60/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.5%
-		Top 5 Acc = 89.46%                                 
-		Loss/Iteration: 9.904032896865498
+		Specificity: 0.3
+		Top 1 Acc = 56.22%
+		Top 5 Acc = 85.62%                                 
+		Loss/Iteration: 10.031223990700461
 
 Epoch [61/100]:
-		Specificity: 0.0
-		Top 1 Acc = 59.86%
-		Top 5 Acc = 90.1%                                 
-		Loss/Iteration: 9.82768719846552
+		Specificity: 0.65
+		Top 1 Acc = 50.22%
+		Top 5 Acc = 80.24%                                 
+		Loss/Iteration: 9.960211065682499
 
 Epoch [62/100]:
-		Specificity: 0.0
-		Top 1 Acc = 59.98%
-		Top 5 Acc = 90.28%                                 
-		Loss/Iteration: 9.718469603495164
+		Specificity: 0.55
+		Top 1 Acc = 51.22%
+		Top 5 Acc = 81.38%                                 
+		Loss/Iteration: 9.901888646862723
 
 Epoch [63/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.28%
-		Top 5 Acc = 90.02%                                 
-		Loss/Iteration: 9.711296103217386
+		Specificity: 0.75
+		Top 1 Acc = 48.42%
+		Top 5 Acc = 78.42%                                 
+		Loss/Iteration: 9.807918797839772
 
 Epoch [64/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.5%
-		Top 5 Acc = 89.34%                                 
-		Loss/Iteration: 9.655904666943984
+		Specificity: 0.9
+		Top 1 Acc = 47.06%
+		Top 5 Acc = 76.2%                                 
+		Loss/Iteration: 9.728804046457464
 
 Epoch [65/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.36%
-		Top 5 Acc = 90.62%                                 
-		Loss/Iteration: 9.59429642829028
+		Specificity: 0.85
+		Top 1 Acc = 47.96%
+		Top 5 Acc = 77.2%                                 
+		Loss/Iteration: 9.705507267605174
 
 Epoch [66/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.0%
-		Top 5 Acc = 90.02%                                 
-		Loss/Iteration: 9.510416908697648
+		Specificity: 0.9
+		Top 1 Acc = 47.54%
+		Top 5 Acc = 76.68%                                 
+		Loss/Iteration: 9.641554111784155
 
 Epoch [67/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.18%
-		Top 5 Acc = 89.66%                                 
-		Loss/Iteration: 9.419442707842046
+		Specificity: 0.8
+		Top 1 Acc = 48.6%
+		Top 5 Acc = 78.22%                                 
+		Loss/Iteration: 9.560151609507473
 
 Epoch [68/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.26%
-		Top 5 Acc = 90.2%                                 
-		Loss/Iteration: 9.404743384231221
+		Specificity: 0.7
+		Top 1 Acc = 49.46%
+		Top 5 Acc = 79.2%                                 
+		Loss/Iteration: 9.528989493846893
 
 Epoch [69/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.34%
-		Top 5 Acc = 89.66%                                 
-		Loss/Iteration: 9.29611925645308
+		Specificity: 0.95
+		Top 1 Acc = 46.66%
+		Top 5 Acc = 75.38%                                 
+		Loss/Iteration: 9.455118531530553
 
 Epoch [70/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.98%
-		Top 5 Acc = 90.24%                                 
-		Loss/Iteration: 9.272203288295053
+		Specificity: 0.9
+		Top 1 Acc = 47.34%
+		Top 5 Acc = 76.38%                                 
+		Loss/Iteration: 9.349879118529232
 
 Epoch [71/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.42%
-		Top 5 Acc = 90.48%                                 
-		Loss/Iteration: 9.228950115767391
+		Specificity: 0.95
+		Top 1 Acc = 46.02%
+		Top 5 Acc = 76.38%                                 
+		Loss/Iteration: 9.336817383766174
 
 Epoch [72/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.72%
-		Top 5 Acc = 90.74%                                 
-		Loss/Iteration: 9.136985713785345
+		Specificity: 1.0
+		Top 1 Acc = 45.54%
+		Top 5 Acc = 74.76%                                 
+		Loss/Iteration: 9.290039766918529
 
 Epoch [73/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.56%
-		Top 5 Acc = 90.14%                                 
-		Loss/Iteration: 9.125961203466762
+		Specificity: 1.0
+		Top 1 Acc = 45.74%
+		Top 5 Acc = 74.86%                                 
+		Loss/Iteration: 9.229278960011221
 
 Epoch [74/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.5%
-		Top 5 Acc = 90.54%                                 
-		Loss/Iteration: 9.04932908036492
+		Specificity: 1.0
+		Top 1 Acc = 46.1%
+		Top 5 Acc = 75.78%                                 
+		Loss/Iteration: 9.16239397092299
 
 Epoch [75/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.0%
-		Top 5 Acc = 90.28%                                 
-		Loss/Iteration: 9.032869883558966
+		Specificity: 1.0
+		Top 1 Acc = 45.46%
+		Top 5 Acc = 74.88%                                 
+		Loss/Iteration: 9.086723349311136
 
 Epoch [76/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.54%
-		Top 5 Acc = 90.6%                                 
-		Loss/Iteration: 8.963165044784546
+		Specificity: 1.0
+		Top 1 Acc = 46.18%
+		Top 5 Acc = 74.46%                                 
+		Loss/Iteration: 9.0800503031774
 
 Epoch [77/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.86%
-		Top 5 Acc = 91.12%                                 
-		Loss/Iteration: 8.860741945830258
+		Specificity: 1.0
+		Top 1 Acc = 45.42%
+		Top 5 Acc = 74.88%                                 
+		Loss/Iteration: 8.995498779145153
 
 Epoch [78/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.28%
-		Top 5 Acc = 90.52%                                 
-		Loss/Iteration: 8.885612777688287
+		Specificity: 1.0
+		Top 1 Acc = 46.52%
+		Top 5 Acc = 74.82%                                 
+		Loss/Iteration: 8.913632184267044
 
 Epoch [79/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.26%
-		Top 5 Acc = 90.52%                                 
-		Loss/Iteration: 8.78674392266707
+		Specificity: 1.0
+		Top 1 Acc = 45.94%
+		Top 5 Acc = 75.78%                                 
+		Loss/Iteration: 8.869619122960351
 
 Epoch [80/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.7%
-		Top 5 Acc = 90.28%                                 
-		Loss/Iteration: 8.744721306995912
+		Specificity: 1.0
+		Top 1 Acc = 46.26%
+		Top 5 Acc = 75.6%                                 
+		Loss/Iteration: 8.834438302300192
 
 Epoch [81/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.66%
-		Top 5 Acc = 90.58%                                 
-		Loss/Iteration: 8.706646103750575
+		Specificity: 1.0
+		Top 1 Acc = 46.28%
+		Top 5 Acc = 75.76%                                 
+		Loss/Iteration: 8.77181995456869
 
 Epoch [82/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.56%
-		Top 5 Acc = 90.14%                                 
-		Loss/Iteration: 8.622528046369553
+		Specificity: 1.0
+		Top 1 Acc = 46.32%
+		Top 5 Acc = 75.12%                                 
+		Loss/Iteration: 8.752963323484767
 
 Epoch [83/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.5%
-		Top 5 Acc = 90.52%                                 
-		Loss/Iteration: 8.5918734182011
+		Specificity: 1.0
+		Top 1 Acc = 46.96%
+		Top 5 Acc = 76.06%                                 
+		Loss/Iteration: 8.713764244859869
 
 Epoch [84/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.9%
-		Top 5 Acc = 90.26%                                 
-		Loss/Iteration: 8.557274829257619
+		Specificity: 1.0
+		Top 1 Acc = 46.56%
+		Top 5 Acc = 75.5%                                 
+		Loss/Iteration: 8.651181128892032
 
 Epoch [85/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.86%
-		Top 5 Acc = 90.82%                                 
-		Loss/Iteration: 8.498174878683956
+		Specificity: 1.0
+		Top 1 Acc = 46.22%
+		Top 5 Acc = 75.0%                                 
+		Loss/Iteration: 8.606332700360905
 
 Epoch [86/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.3%
-		Top 5 Acc = 90.72%                                 
-		Loss/Iteration: 8.426357981833545
+		Specificity: 1.0
+		Top 1 Acc = 47.22%
+		Top 5 Acc = 75.66%                                 
+		Loss/Iteration: 8.554149584336715
 
 Epoch [87/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.82%
-		Top 5 Acc = 90.6%                                 
-		Loss/Iteration: 8.438251582058994
+		Specificity: 1.0
+		Top 1 Acc = 45.62%
+		Top 5 Acc = 75.96%                                 
+		Loss/Iteration: 8.526102843609722
 
 Epoch [88/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.1%
-		Top 5 Acc = 90.8%                                 
-		Loss/Iteration: 8.352975338697433
+		Specificity: 1.0
+		Top 1 Acc = 46.78%
+		Top 5 Acc = 75.8%                                 
+		Loss/Iteration: 8.42375578663566
 
 Epoch [89/100]:
-		Specificity: 0.0
-		Top 1 Acc = 60.88%
-		Top 5 Acc = 90.72%                                 
-		Loss/Iteration: 8.34572630036961
+		Specificity: 1.0
+		Top 1 Acc = 46.54%
+		Top 5 Acc = 75.1%                                 
+		Loss/Iteration: 8.415087469599463
 
 Epoch [90/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.92%
-		Top 5 Acc = 90.22%                                 
-		Loss/Iteration: 8.265073399652135
+		Specificity: 1.0
+		Top 1 Acc = 46.0%
+		Top 5 Acc = 75.62%                                 
+		Loss/Iteration: 8.37772102247585
 
 Epoch [91/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.48%
-		Top 5 Acc = 90.3%                                 
-		Loss/Iteration: 8.277209691025995
+		Specificity: 1.0
+		Top 1 Acc = 46.28%
+		Top 5 Acc = 75.38%                                 
+		Loss/Iteration: 8.323766031048514
 
 Epoch [92/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.06%
-		Top 5 Acc = 90.82%                                 
-		Loss/Iteration: 8.210268727757715
+		Specificity: 1.0
+		Top 1 Acc = 46.7%
+		Top 5 Acc = 75.0%                                 
+		Loss/Iteration: 8.284894840283828
 
 Epoch [93/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.36%
-		Top 5 Acc = 89.84%                                 
-		Loss/Iteration: 8.171754086559469
+		Specificity: 1.0
+		Top 1 Acc = 47.04%
+		Top 5 Acc = 75.96%                                 
+		Loss/Iteration: 8.24872853810137
 
 Epoch [94/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.66%
-		Top 5 Acc = 90.6%                                 
-		Loss/Iteration: 8.136888355016708
+		Specificity: 1.0
+		Top 1 Acc = 45.78%
+		Top 5 Acc = 75.04%                                 
+		Loss/Iteration: 8.175679854371332
 
 Epoch [95/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.58%
-		Top 5 Acc = 90.4%                                 
-		Loss/Iteration: 8.048453471877359
+		Specificity: 1.0
+		Top 1 Acc = 46.48%
+		Top 5 Acc = 74.82%                                 
+		Loss/Iteration: 8.149093820290132
 
 Epoch [96/100]:
-		Specificity: 0.0
-		Top 1 Acc = 61.92%
-		Top 5 Acc = 90.4%                                 
-		Loss/Iteration: 8.01487950574268
+		Specificity: 1.0
+		Top 1 Acc = 46.56%
+		Top 5 Acc = 75.14%                                 
+		Loss/Iteration: 8.10699287056923
 
 Epoch [97/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.72%
-		Top 5 Acc = 90.1%                                 
-		Loss/Iteration: 7.974602542140267
+		Specificity: 1.0
+		Top 1 Acc = 46.0%
+		Top 5 Acc = 75.54%                                 
+		Loss/Iteration: 8.060589576309377
 
 Epoch [98/100]:
-		Specificity: 0.05
-		Top 1 Acc = 62.38%
-		Top 5 Acc = 90.02%                                 
-		Loss/Iteration: 7.925110134211454
+		Specificity: 1.0
+		Top 1 Acc = 46.44%
+		Top 5 Acc = 75.38%                                 
+		Loss/Iteration: 8.01930969953537
 
 Epoch [99/100]:
-		Specificity: 0.05
-		Top 1 Acc = 62.32%
-		Top 5 Acc = 89.9%                                 
-		Loss/Iteration: 7.876532337882302
+		Specificity: 1.0
+		Top 1 Acc = 46.9%
+		Top 5 Acc = 75.4%                                 
+		Loss/Iteration: 8.019187992269343
 
 Epoch [100/100]:
-		Specificity: 0.0
-		Top 1 Acc = 62.16%
-		Top 5 Acc = 89.88%                                 
-		Loss/Iteration: 7.886137761852958
+		Specificity: 1.0
+		Top 1 Acc = 46.36%
+		Top 5 Acc = 75.3%                                 
+		Loss/Iteration: 7.962151882323352
 
 ------------------------------
 
 ||========================================||
 
-TD-HBN
-Model == TD-HBN
+Model: TD-HBN
 Batch sizes: (train, val, test)=(256, 1, 1)
 
 ==========================================================================================
@@ -2740,66 +2727,64 @@ TD_HBN                                   [1, 20]                   --
 │    └─ReLU: 2-12                        [1, 2048]                 --
 │    └─Dropout: 2-13                     [1, 2048]                 --
 │    └─Linear: 2-14                      [1, 2048]                 4,196,352
-│    └─ReLU: 2-15                        [1, 2048]                 --
+│    └─Dropout: 2-15                     [1, 2048]                 --
 ├─Sequential: 1-4                        [1, 100]                  --
-│    └─Linear: 2-16                      [1, 100]                  204,900
+│    └─Dropout: 2-16                     [1, 2048]                 --
+│    └─Linear: 2-17                      [1, 100]                  204,900
 ├─Sequential: 1-5                        [1, 20]                   --
-│    └─Linear: 2-17                      [1, 20]                   40,980
-├─Sequential: 1-6                        [1, 2]                    --
 │    └─Dropout: 2-18                     [1, 2048]                 --
-│    └─Linear: 2-19                      [1, 128]                  262,272
-│    └─ReLU: 2-20                        [1, 128]                  --
-│    └─Dropout: 2-21                     [1, 128]                  --
-│    └─Linear: 2-22                      [1, 2]                    258
+│    └─Linear: 2-19                      [1, 20]                   40,980
+├─Sequential: 1-6                        [1, 2]                    --
+│    └─Linear: 2-20                      [1, 2]                    4,098
 ├─Sequential: 1-7                        [1, 384, 4, 4]            --
-│    └─Conv2d: 2-23                      [1, 192, 8, 8]            110,784
-│    └─MaxPool2d: 2-24                   [1, 192, 4, 4]            --
-│    └─ReLU: 2-25                        [1, 192, 4, 4]            --
-│    └─Conv2d: 2-26                      [1, 384, 4, 4]            663,936
-│    └─ReLU: 2-27                        [1, 384, 4, 4]            --
+│    └─Conv2d: 2-21                      [1, 192, 8, 8]            110,784
+│    └─MaxPool2d: 2-22                   [1, 192, 4, 4]            --
+│    └─ReLU: 2-23                        [1, 192, 4, 4]            --
+│    └─Conv2d: 2-24                      [1, 384, 4, 4]            663,936
+│    └─ReLU: 2-25                        [1, 384, 4, 4]            --
 ├─Sequential: 1-8                        [1, 256, 1, 1]            --
-│    └─Conv2d: 2-28                      [1, 256, 2, 2]            884,992
-│    └─MaxPool2d: 2-29                   [1, 256, 1, 1]            --
-│    └─ReLU: 2-30                        [1, 256, 1, 1]            --
-├─Sequential: 1-9                        [1, 2048]                 --
-│    └─Dropout: 2-31                     [1, 256]                  --
-│    └─Linear: 2-32                      [1, 2048]                 526,336
-│    └─ReLU: 2-33                        [1, 2048]                 --
-│    └─Dropout: 2-34                     [1, 2048]                 --
-│    └─Linear: 2-35                      [1, 2048]                 4,196,352
+│    └─Conv2d: 2-26                      [1, 256, 2, 2]            884,992
+│    └─MaxPool2d: 2-27                   [1, 256, 1, 1]            --
+│    └─ReLU: 2-28                        [1, 256, 1, 1]            --
+├─Sequential: 1-9                        [1, 100]                  --
+│    └─Dropout: 2-29                     [1, 256]                  --
+│    └─Linear: 2-30                      [1, 2048]                 526,336
+│    └─ReLU: 2-31                        [1, 2048]                 --
+│    └─Dropout: 2-32                     [1, 2048]                 --
+│    └─Linear: 2-33                      [1, 100]                  204,900
+├─Sequential: 1-10                       [1, 20]                   --
+│    └─Dropout: 2-34                     [1, 256]                  --
+│    └─Linear: 2-35                      [1, 2048]                 526,336
 │    └─ReLU: 2-36                        [1, 2048]                 --
 │    └─Dropout: 2-37                     [1, 2048]                 --
-├─Sequential: 1-10                       [1, 100]                  --
-│    └─Linear: 2-38                      [1, 100]                  204,900
-├─Sequential: 1-11                       [1, 20]                   --
-│    └─Linear: 2-39                      [1, 20]                   40,980
-├─Sequential: 1-12                       [1, 256, 2, 2]            --
-│    └─Conv2d: 2-40                      [1, 256, 4, 4]            884,992
-│    └─ReLU: 2-41                        [1, 256, 4, 4]            --
-│    └─Conv2d: 2-42                      [1, 256, 4, 4]            590,080
-│    └─MaxPool2d: 2-43                   [1, 256, 2, 2]            --
-│    └─ReLU: 2-44                        [1, 256, 2, 2]            --
-├─Sequential: 1-13                       [1, 4096]                 --
-│    └─Dropout: 2-45                     [1, 1024]                 --
-│    └─Linear: 2-46                      [1, 4096]                 4,198,400
-│    └─ReLU: 2-47                        [1, 4096]                 --
-│    └─Dropout: 2-48                     [1, 4096]                 --
-│    └─Linear: 2-49                      [1, 4096]                 16,781,312
-│    └─ReLU: 2-50                        [1, 4096]                 --
-├─Sequential: 1-14                       [1, 100]                  --
-│    └─Linear: 2-51                      [1, 100]                  409,700
-├─Sequential: 1-15                       [1, 20]                   --
-│    └─Linear: 2-52                      [1, 20]                   81,940
+│    └─Linear: 2-38                      [1, 20]                   40,980
+├─Sequential: 1-11                       [1, 256, 2, 2]            --
+│    └─Conv2d: 2-39                      [1, 256, 4, 4]            884,992
+│    └─ReLU: 2-40                        [1, 256, 4, 4]            --
+│    └─Conv2d: 2-41                      [1, 256, 4, 4]            590,080
+│    └─MaxPool2d: 2-42                   [1, 256, 2, 2]            --
+│    └─ReLU: 2-43                        [1, 256, 2, 2]            --
+├─Sequential: 1-12                       [1, 4096]                 --
+│    └─Dropout: 2-44                     [1, 1024]                 --
+│    └─Linear: 2-45                      [1, 4096]                 4,198,400
+│    └─ReLU: 2-46                        [1, 4096]                 --
+│    └─Dropout: 2-47                     [1, 4096]                 --
+│    └─Linear: 2-48                      [1, 4096]                 16,781,312
+│    └─ReLU: 2-49                        [1, 4096]                 --
+├─Sequential: 1-13                       [1, 100]                  --
+│    └─Linear: 2-50                      [1, 100]                  409,700
+├─Sequential: 1-14                       [1, 20]                   --
+│    └─Linear: 2-51                      [1, 20]                   81,940
 ==========================================================================================
-Total params: 35,774,634
-Trainable params: 35,774,634
+Total params: 31,846,186
+Trainable params: 31,846,186
 Non-trainable params: 0
-Total mult-adds (M): 91.68
+Total mult-adds (M): 87.75
 ==========================================================================================
 Input size (MB): 0.01
 Forward/backward pass size (MB): 0.63
-Params size (MB): 143.10
-Estimated Total Size (MB): 143.75
+Params size (MB): 127.38
+Estimated Total Size (MB): 128.03
 ==========================================================================================
 
 # Training iterations per epoch : 176
@@ -2809,604 +2794,604 @@ Estimated Total Size (MB): 143.75
 ------------------------------
 
 Epoch [1/100]:
-		Specificity: 0.758
-		Top 1 Acc = 9.94%
-		Top 5 Acc = 31.06%                                 
-		Loss/Iteration: 19.173422596671365
+		Specificity: 0.5742
+		Top 1 Acc = 12.4%
+		Top 5 Acc = 37.42%                                 
+		Loss/Iteration: 19.308628461577676
 
 Epoch [2/100]:
-		Specificity: 0.571
-		Top 1 Acc = 16.3%
-		Top 5 Acc = 43.16%                                 
-		Loss/Iteration: 17.385951378128745
+		Specificity: 0.7238
+		Top 1 Acc = 15.04%
+		Top 5 Acc = 38.9%                                 
+		Loss/Iteration: 17.575628659941934
 
 Epoch [3/100]:
-		Specificity: 0.3596
-		Top 1 Acc = 24.36%
-		Top 5 Acc = 55.76%                                 
-		Loss/Iteration: 16.49848149581389
+		Specificity: 0.69
+		Top 1 Acc = 18.48%
+		Top 5 Acc = 46.46%                                 
+		Loss/Iteration: 16.635324852033094
 
 Epoch [4/100]:
-		Specificity: 0.4184
-		Top 1 Acc = 23.62%
-		Top 5 Acc = 54.98%                                 
-		Loss/Iteration: 15.768880535255779
+		Specificity: 0.7338
+		Top 1 Acc = 20.44%
+		Top 5 Acc = 49.14%                                 
+		Loss/Iteration: 15.941275629130276
 
 Epoch [5/100]:
-		Specificity: 0.3024
-		Top 1 Acc = 27.98%
-		Top 5 Acc = 62.78%                                 
-		Loss/Iteration: 15.252884832295505
+		Specificity: 0.5396
+		Top 1 Acc = 26.06%
+		Top 5 Acc = 58.56%                                 
+		Loss/Iteration: 15.381129817529159
 
 Epoch [6/100]:
-		Specificity: 0.4338
-		Top 1 Acc = 27.96%
-		Top 5 Acc = 62.12%                                 
-		Loss/Iteration: 14.814157756892117
+		Specificity: 0.8026
+		Top 1 Acc = 24.2%
+		Top 5 Acc = 54.5%                                 
+		Loss/Iteration: 14.986265653913671
 
 Epoch [7/100]:
-		Specificity: 0.2932
-		Top 1 Acc = 32.3%
-		Top 5 Acc = 68.6%                                 
-		Loss/Iteration: 14.395129198377782
+		Specificity: 0.628
+		Top 1 Acc = 28.14%
+		Top 5 Acc = 60.42%                                 
+		Loss/Iteration: 14.58445117148486
 
 Epoch [8/100]:
-		Specificity: 0.215
-		Top 1 Acc = 35.1%
-		Top 5 Acc = 71.26%                                 
-		Loss/Iteration: 14.049720672043888
+		Specificity: 0.5342
+		Top 1 Acc = 31.34%
+		Top 5 Acc = 64.42%                                 
+		Loss/Iteration: 14.250100775198502
 
 Epoch [9/100]:
-		Specificity: 0.1786
-		Top 1 Acc = 38.22%
-		Top 5 Acc = 75.06%                                 
-		Loss/Iteration: 13.759445797313344
+		Specificity: 0.4922
+		Top 1 Acc = 31.88%
+		Top 5 Acc = 67.22%                                 
+		Loss/Iteration: 13.97864151542837
 
 Epoch [10/100]:
-		Specificity: 0.1322
-		Top 1 Acc = 39.36%
-		Top 5 Acc = 76.24%                                 
-		Loss/Iteration: 13.450427098707719
+		Specificity: 0.6688
+		Top 1 Acc = 30.78%
+		Top 5 Acc = 63.96%                                 
+		Loss/Iteration: 13.692069199952213
 
 Epoch [11/100]:
-		Specificity: 0.1864
-		Top 1 Acc = 39.58%
-		Top 5 Acc = 76.34%                                 
-		Loss/Iteration: 13.220430769703604
+		Specificity: 0.5776
+		Top 1 Acc = 33.34%
+		Top 5 Acc = 66.56%                                 
+		Loss/Iteration: 13.449239785021001
 
 Epoch [12/100]:
-		Specificity: 0.2672
-		Top 1 Acc = 40.2%
-		Top 5 Acc = 74.96%                                 
-		Loss/Iteration: 12.943705873055892
+		Specificity: 0.617
+		Top 1 Acc = 33.62%
+		Top 5 Acc = 67.56%                                 
+		Loss/Iteration: 13.237722239711069
 
 Epoch [13/100]:
-		Specificity: 0.0868
-		Top 1 Acc = 43.04%
-		Top 5 Acc = 80.6%                                 
-		Loss/Iteration: 12.763556995175101
+		Specificity: 0.6516
+		Top 1 Acc = 33.82%
+		Top 5 Acc = 67.18%                                 
+		Loss/Iteration: 13.03374577110464
 
 Epoch [14/100]:
-		Specificity: 0.1452
-		Top 1 Acc = 42.7%
-		Top 5 Acc = 79.98%                                 
-		Loss/Iteration: 12.515410325743936
+		Specificity: 0.6106
+		Top 1 Acc = 35.32%
+		Top 5 Acc = 67.8%                                 
+		Loss/Iteration: 12.826370927420529
 
 Epoch [15/100]:
-		Specificity: 0.1034
-		Top 1 Acc = 45.4%
-		Top 5 Acc = 81.98%                                 
-		Loss/Iteration: 12.33022365244952
+		Specificity: 0.5884
+		Top 1 Acc = 36.38%
+		Top 5 Acc = 70.6%                                 
+		Loss/Iteration: 12.678815906698054
 
 Epoch [16/100]:
-		Specificity: 0.113
-		Top 1 Acc = 45.68%
-		Top 5 Acc = 81.8%                                 
-		Loss/Iteration: 12.160845388065685
+		Specificity: 0.7392
+		Top 1 Acc = 34.34%
+		Top 5 Acc = 67.02%                                 
+		Loss/Iteration: 12.484163370999424
 
 Epoch [17/100]:
-		Specificity: 0.1084
-		Top 1 Acc = 45.5%
-		Top 5 Acc = 81.78%                                 
-		Loss/Iteration: 11.964306289499456
+		Specificity: 0.5024
+		Top 1 Acc = 39.48%
+		Top 5 Acc = 73.36%                                 
+		Loss/Iteration: 12.336582763628526
 
 Epoch [18/100]:
-		Specificity: 0.1758
-		Top 1 Acc = 45.52%
-		Top 5 Acc = 80.78%                                 
-		Loss/Iteration: 11.831843717531724
+		Specificity: 0.5788
+		Top 1 Acc = 38.38%
+		Top 5 Acc = 72.28%                                 
+		Loss/Iteration: 12.198949347842824
 
 Epoch [19/100]:
-		Specificity: 0.1002
-		Top 1 Acc = 48.18%
-		Top 5 Acc = 84.54%                                 
-		Loss/Iteration: 11.669258263978092
+		Specificity: 0.6592
+		Top 1 Acc = 39.54%
+		Top 5 Acc = 71.48%                                 
+		Loss/Iteration: 12.07833121581511
 
 Epoch [20/100]:
-		Specificity: 0.103
-		Top 1 Acc = 47.48%
-		Top 5 Acc = 83.52%                                 
-		Loss/Iteration: 11.496696602214467
+		Specificity: 0.7332
+		Top 1 Acc = 37.14%
+		Top 5 Acc = 69.76%                                 
+		Loss/Iteration: 11.931743838570334
 
 Epoch [21/100]:
-		Specificity: 0.123
-		Top 1 Acc = 49.04%
-		Top 5 Acc = 84.28%                                 
-		Loss/Iteration: 11.405787099491466
+		Specificity: 0.7794
+		Top 1 Acc = 36.88%
+		Top 5 Acc = 68.9%                                 
+		Loss/Iteration: 11.798650308088822
 
 Epoch [22/100]:
-		Specificity: 0.1194
-		Top 1 Acc = 48.54%
-		Top 5 Acc = 83.94%                                 
-		Loss/Iteration: 11.27492408318953
+		Specificity: 0.6346
+		Top 1 Acc = 38.7%
+		Top 5 Acc = 72.38%                                 
+		Loss/Iteration: 11.713656414638866
 
 Epoch [23/100]:
-		Specificity: 0.096
-		Top 1 Acc = 50.32%
-		Top 5 Acc = 84.66%                                 
-		Loss/Iteration: 11.10091414234855
+		Specificity: 0.6644
+		Top 1 Acc = 40.26%
+		Top 5 Acc = 72.8%                                 
+		Loss/Iteration: 11.587285686622966
 
 Epoch [24/100]:
-		Specificity: 0.1066
-		Top 1 Acc = 49.78%
-		Top 5 Acc = 85.14%                                 
-		Loss/Iteration: 11.018081713806499
+		Specificity: 0.5984
+		Top 1 Acc = 40.64%
+		Top 5 Acc = 74.04%                                 
+		Loss/Iteration: 11.479627771811051
 
 Epoch [25/100]:
-		Specificity: 0.0658
-		Top 1 Acc = 52.18%
-		Top 5 Acc = 86.54%                                 
-		Loss/Iteration: 10.903221173719926
+		Specificity: 0.4716
+		Top 1 Acc = 43.12%
+		Top 5 Acc = 77.5%                                 
+		Loss/Iteration: 11.368403537706895
 
 Epoch [26/100]:
-		Specificity: 0.1262
-		Top 1 Acc = 50.52%
-		Top 5 Acc = 84.76%                                 
-		Loss/Iteration: 10.763552725315094
+		Specificity: 0.763
+		Top 1 Acc = 39.76%
+		Top 5 Acc = 72.42%                                 
+		Loss/Iteration: 11.2531658411026
 
 Epoch [27/100]:
-		Specificity: 0.0914
-		Top 1 Acc = 50.92%
-		Top 5 Acc = 85.74%                                 
-		Loss/Iteration: 10.677524089813232
+		Specificity: 0.6874
+		Top 1 Acc = 41.46%
+		Top 5 Acc = 74.32%                                 
+		Loss/Iteration: 11.15397138487209
 
 Epoch [28/100]:
-		Specificity: 0.076
-		Top 1 Acc = 52.92%
-		Top 5 Acc = 86.66%                                 
-		Loss/Iteration: 10.541236839511178
+		Specificity: 0.7876
+		Top 1 Acc = 39.54%
+		Top 5 Acc = 71.9%                                 
+		Loss/Iteration: 11.078787391835993
 
 Epoch [29/100]:
-		Specificity: 0.1456
-		Top 1 Acc = 51.9%
-		Top 5 Acc = 85.84%                                 
-		Loss/Iteration: 10.457035449418155
+		Specificity: 0.702
+		Top 1 Acc = 41.44%
+		Top 5 Acc = 74.28%                                 
+		Loss/Iteration: 10.98318323763934
 
 Epoch [30/100]:
-		Specificity: 0.0976
-		Top 1 Acc = 52.84%
-		Top 5 Acc = 86.6%                                 
-		Loss/Iteration: 10.356510438702323
+		Specificity: 0.6674
+		Top 1 Acc = 42.06%
+		Top 5 Acc = 76.42%                                 
+		Loss/Iteration: 10.890522691336544
 
 Epoch [31/100]:
-		Specificity: 0.1288
-		Top 1 Acc = 52.08%
-		Top 5 Acc = 85.78%                                 
-		Loss/Iteration: 10.261387239802968
+		Specificity: 0.6376
+		Top 1 Acc = 42.92%
+		Top 5 Acc = 75.82%                                 
+		Loss/Iteration: 10.798913533037359
 
 Epoch [32/100]:
-		Specificity: 0.1152
-		Top 1 Acc = 53.3%
-		Top 5 Acc = 86.72%                                 
-		Loss/Iteration: 10.185025811195374
+		Specificity: 0.787
+		Top 1 Acc = 41.04%
+		Top 5 Acc = 73.92%                                 
+		Loss/Iteration: 10.706472505222667
 
 Epoch [33/100]:
-		Specificity: 0.13
-		Top 1 Acc = 53.06%
-		Top 5 Acc = 86.22%                                 
-		Loss/Iteration: 10.062329509041525
+		Specificity: 0.7014
+		Top 1 Acc = 42.4%
+		Top 5 Acc = 76.3%                                 
+		Loss/Iteration: 10.635144168680364
 
 Epoch [34/100]:
-		Specificity: 0.1278
-		Top 1 Acc = 54.2%
-		Top 5 Acc = 87.24%                                 
-		Loss/Iteration: 9.959015672857111
+		Specificity: 0.6058
+		Top 1 Acc = 44.42%
+		Top 5 Acc = 77.2%                                 
+		Loss/Iteration: 10.540401372042568
 
 Epoch [35/100]:
-		Specificity: 0.11
-		Top 1 Acc = 54.76%
-		Top 5 Acc = 87.68%                                 
-		Loss/Iteration: 9.898217873139815
+		Specificity: 0.7876
+		Top 1 Acc = 42.16%
+		Top 5 Acc = 75.78%                                 
+		Loss/Iteration: 10.453627759760076
 
 Epoch [36/100]:
-		Specificity: 0.1254
-		Top 1 Acc = 54.48%
-		Top 5 Acc = 87.62%                                 
-		Loss/Iteration: 9.784390178593723
+		Specificity: 0.6692
+		Top 1 Acc = 42.46%
+		Top 5 Acc = 77.36%                                 
+		Loss/Iteration: 10.402076883749528
 
 Epoch [37/100]:
-		Specificity: 0.1516
-		Top 1 Acc = 55.04%
-		Top 5 Acc = 87.18%                                 
-		Loss/Iteration: 9.706455479968678
+		Specificity: 0.6836
+		Top 1 Acc = 44.62%
+		Top 5 Acc = 77.6%                                 
+		Loss/Iteration: 10.280915357849814
 
 Epoch [38/100]:
-		Specificity: 0.0974
-		Top 1 Acc = 56.68%
-		Top 5 Acc = 88.08%                                 
-		Loss/Iteration: 9.62339921431108
+		Specificity: 0.6018
+		Top 1 Acc = 45.46%
+		Top 5 Acc = 79.0%                                 
+		Loss/Iteration: 10.256677378307689
 
 Epoch [39/100]:
-		Specificity: 0.1176
-		Top 1 Acc = 54.82%
-		Top 5 Acc = 87.7%                                 
-		Loss/Iteration: 9.547431040893901
+		Specificity: 0.5768
+		Top 1 Acc = 47.74%
+		Top 5 Acc = 80.6%                                 
+		Loss/Iteration: 10.16553451798179
 
 Epoch [40/100]:
-		Specificity: 0.094
-		Top 1 Acc = 55.78%
-		Top 5 Acc = 88.42%                                 
-		Loss/Iteration: 9.448172943158584
+		Specificity: 0.499
+		Top 1 Acc = 47.88%
+		Top 5 Acc = 80.94%                                 
+		Loss/Iteration: 10.06460006128658
 
 Epoch [41/100]:
-		Specificity: 0.0936
-		Top 1 Acc = 56.4%
-		Top 5 Acc = 88.3%                                 
-		Loss/Iteration: 9.396486986767162
+		Specificity: 0.5542
+		Top 1 Acc = 48.62%
+		Top 5 Acc = 80.84%                                 
+		Loss/Iteration: 10.00609861720692
 
 Epoch [42/100]:
-		Specificity: 0.0882
-		Top 1 Acc = 55.76%
-		Top 5 Acc = 87.86%                                 
-		Loss/Iteration: 9.307494017210873
+		Specificity: 0.6562
+		Top 1 Acc = 47.0%
+		Top 5 Acc = 78.76%                                 
+		Loss/Iteration: 9.955583518201655
 
 Epoch [43/100]:
-		Specificity: 0.1024
-		Top 1 Acc = 57.4%
-		Top 5 Acc = 88.22%                                 
-		Loss/Iteration: 9.239597027952021
+		Specificity: 0.6016
+		Top 1 Acc = 47.58%
+		Top 5 Acc = 79.64%                                 
+		Loss/Iteration: 9.875262834809043
 
 Epoch [44/100]:
-		Specificity: 0.0988
-		Top 1 Acc = 57.34%
-		Top 5 Acc = 88.14%                                 
-		Loss/Iteration: 9.128914207220078
+		Specificity: 0.6576
+		Top 1 Acc = 45.88%
+		Top 5 Acc = 78.2%                                 
+		Loss/Iteration: 9.794713442975825
 
 Epoch [45/100]:
-		Specificity: 0.129
-		Top 1 Acc = 56.8%
-		Top 5 Acc = 87.84%                                 
-		Loss/Iteration: 9.109282818707554
+		Specificity: 0.5284
+		Top 1 Acc = 49.44%
+		Top 5 Acc = 80.9%                                 
+		Loss/Iteration: 9.771021615375172
 
 Epoch [46/100]:
-		Specificity: 0.1362
-		Top 1 Acc = 56.94%
-		Top 5 Acc = 88.24%                                 
-		Loss/Iteration: 9.03743993694132
+		Specificity: 0.467
+		Top 1 Acc = 51.12%
+		Top 5 Acc = 83.18%                                 
+		Loss/Iteration: 9.653928924690593
 
 Epoch [47/100]:
-		Specificity: 0.1526
-		Top 1 Acc = 58.22%
-		Top 5 Acc = 87.74%                                 
-		Loss/Iteration: 8.94742666049437
+		Specificity: 0.5734
+		Top 1 Acc = 49.06%
+		Top 5 Acc = 80.42%                                 
+		Loss/Iteration: 9.600840405984359
 
 Epoch [48/100]:
-		Specificity: 0.1072
-		Top 1 Acc = 57.34%
-		Top 5 Acc = 88.66%                                 
-		Loss/Iteration: 8.91166948188435
+		Specificity: 0.5622
+		Top 1 Acc = 48.78%
+		Top 5 Acc = 81.02%                                 
+		Loss/Iteration: 9.537819737737829
 
 Epoch [49/100]:
-		Specificity: 0.1828
-		Top 1 Acc = 56.9%
-		Top 5 Acc = 87.5%                                 
-		Loss/Iteration: 8.794654756784439
+		Specificity: 0.5766
+		Top 1 Acc = 49.54%
+		Top 5 Acc = 80.6%                                 
+		Loss/Iteration: 9.490481268275868
 
 Epoch [50/100]:
-		Specificity: 0.1174
-		Top 1 Acc = 58.38%
-		Top 5 Acc = 88.02%                                 
-		Loss/Iteration: 8.747241106900303
+		Specificity: 0.479
+		Top 1 Acc = 51.26%
+		Top 5 Acc = 82.92%                                 
+		Loss/Iteration: 9.447899747978557
 
 Epoch [51/100]:
-		Specificity: 0.1572
-		Top 1 Acc = 58.3%
-		Top 5 Acc = 87.84%                                 
-		Loss/Iteration: 8.713144142519344
+		Specificity: 0.3572
+		Top 1 Acc = 53.5%
+		Top 5 Acc = 83.8%                                 
+		Loss/Iteration: 9.357652772556651
 
 Epoch [52/100]:
-		Specificity: 0.1322
-		Top 1 Acc = 58.58%
-		Top 5 Acc = 88.32%                                 
-		Loss/Iteration: 8.599041963165456
+		Specificity: 0.3534
+		Top 1 Acc = 53.8%
+		Top 5 Acc = 85.48%                                 
+		Loss/Iteration: 9.314313910224222
 
 Epoch [53/100]:
-		Specificity: 0.0916
-		Top 1 Acc = 59.1%
-		Top 5 Acc = 88.76%                                 
-		Loss/Iteration: 8.595588464628566
+		Specificity: 0.4282
+		Top 1 Acc = 52.66%
+		Top 5 Acc = 84.1%                                 
+		Loss/Iteration: 9.249527925794775
 
 Epoch [54/100]:
-		Specificity: 0.1848
-		Top 1 Acc = 59.14%
-		Top 5 Acc = 87.9%                                 
-		Loss/Iteration: 8.460948201743038
+		Specificity: 0.553
+		Top 1 Acc = 48.24%
+		Top 5 Acc = 80.44%                                 
+		Loss/Iteration: 9.22311156988144
 
 Epoch [55/100]:
-		Specificity: 0.1434
-		Top 1 Acc = 59.42%
-		Top 5 Acc = 88.12%                                 
-		Loss/Iteration: 8.434103949503465
+		Specificity: 0.5402
+		Top 1 Acc = 51.08%
+		Top 5 Acc = 82.26%                                 
+		Loss/Iteration: 9.128262834115462
 
 Epoch [56/100]:
-		Specificity: 0.1978
-		Top 1 Acc = 57.54%
-		Top 5 Acc = 87.7%                                 
-		Loss/Iteration: 8.376409327441996
+		Specificity: 0.351
+		Top 1 Acc = 53.96%
+		Top 5 Acc = 85.02%                                 
+		Loss/Iteration: 9.106422836130315
 
 Epoch [57/100]:
-		Specificity: 0.1922
-		Top 1 Acc = 57.22%
-		Top 5 Acc = 86.92%                                 
-		Loss/Iteration: 8.286514263261449
+		Specificity: 0.44
+		Top 1 Acc = 52.48%
+		Top 5 Acc = 84.08%                                 
+		Loss/Iteration: 9.071441720832478
 
 Epoch [58/100]:
-		Specificity: 0.1718
-		Top 1 Acc = 58.34%
-		Top 5 Acc = 87.34%                                 
-		Loss/Iteration: 8.253879330374978
+		Specificity: 0.6092
+		Top 1 Acc = 50.62%
+		Top 5 Acc = 82.3%                                 
+		Loss/Iteration: 8.998773582957007
 
 Epoch [59/100]:
-		Specificity: 0.1436
-		Top 1 Acc = 58.66%
-		Top 5 Acc = 87.9%                                 
-		Loss/Iteration: 8.234907507896423
+		Specificity: 0.5098
+		Top 1 Acc = 51.98%
+		Top 5 Acc = 82.82%                                 
+		Loss/Iteration: 8.914842803369869
 
 Epoch [60/100]:
-		Specificity: 0.1396
-		Top 1 Acc = 59.38%
-		Top 5 Acc = 88.54%                                 
-		Loss/Iteration: 8.135031724517995
+		Specificity: 0.486
+		Top 1 Acc = 53.0%
+		Top 5 Acc = 83.64%                                 
+		Loss/Iteration: 8.881629518487237
 
 Epoch [61/100]:
-		Specificity: 0.1364
-		Top 1 Acc = 58.64%
-		Top 5 Acc = 88.54%                                 
-		Loss/Iteration: 8.088718625632199
+		Specificity: 0.5694
+		Top 1 Acc = 50.78%
+		Top 5 Acc = 81.7%                                 
+		Loss/Iteration: 8.838239550590515
 
 Epoch [62/100]:
-		Specificity: 0.1542
-		Top 1 Acc = 58.74%
-		Top 5 Acc = 88.38%                                 
-		Loss/Iteration: 8.028257025913758
+		Specificity: 0.4582
+		Top 1 Acc = 54.04%
+		Top 5 Acc = 83.98%                                 
+		Loss/Iteration: 8.782704483379018
 
 Epoch [63/100]:
-		Specificity: 0.1788
-		Top 1 Acc = 59.18%
-		Top 5 Acc = 87.58%                                 
-		Loss/Iteration: 8.019336426799947
+		Specificity: 0.5406
+		Top 1 Acc = 51.98%
+		Top 5 Acc = 82.86%                                 
+		Loss/Iteration: 8.731423464688389
 
 Epoch [64/100]:
-		Specificity: 0.1288
-		Top 1 Acc = 59.64%
-		Top 5 Acc = 88.64%                                 
-		Loss/Iteration: 7.928442507982254
+		Specificity: 0.4526
+		Top 1 Acc = 53.92%
+		Top 5 Acc = 84.46%                                 
+		Loss/Iteration: 8.664187266068025
 
 Epoch [65/100]:
-		Specificity: 0.1912
-		Top 1 Acc = 59.12%
-		Top 5 Acc = 87.48%                                 
-		Loss/Iteration: 7.855229207060554
+		Specificity: 0.4548
+		Top 1 Acc = 53.92%
+		Top 5 Acc = 83.82%                                 
+		Loss/Iteration: 8.65099088712172
 
 Epoch [66/100]:
-		Specificity: 0.1752
-		Top 1 Acc = 60.14%
-		Top 5 Acc = 88.36%                                 
-		Loss/Iteration: 7.864609059962359
+		Specificity: 0.3944
+		Top 1 Acc = 54.46%
+		Top 5 Acc = 85.8%                                 
+		Loss/Iteration: 8.622373085130345
 
 Epoch [67/100]:
-		Specificity: 0.1442
-		Top 1 Acc = 59.7%
-		Top 5 Acc = 88.96%                                 
-		Loss/Iteration: 7.767144070430235
+		Specificity: 0.5452
+		Top 1 Acc = 51.66%
+		Top 5 Acc = 82.92%                                 
+		Loss/Iteration: 8.52278184890747
 
 Epoch [68/100]:
-		Specificity: 0.1326
-		Top 1 Acc = 59.88%
-		Top 5 Acc = 89.04%                                 
-		Loss/Iteration: 7.719457144087011
+		Specificity: 0.4782
+		Top 1 Acc = 53.34%
+		Top 5 Acc = 84.2%                                 
+		Loss/Iteration: 8.517562787641179
 
 Epoch [69/100]:
-		Specificity: 0.125
-		Top 1 Acc = 60.04%
-		Top 5 Acc = 89.36%                                 
-		Loss/Iteration: 7.741573119705373
+		Specificity: 0.5926
+		Top 1 Acc = 51.18%
+		Top 5 Acc = 82.62%                                 
+		Loss/Iteration: 8.443954576145519
 
 Epoch [70/100]:
-		Specificity: 0.1456
-		Top 1 Acc = 60.26%
-		Top 5 Acc = 88.74%                                 
-		Loss/Iteration: 7.657391561703249
+		Specificity: 0.5774
+		Top 1 Acc = 52.32%
+		Top 5 Acc = 83.58%                                 
+		Loss/Iteration: 8.425690721381795
 
 Epoch [71/100]:
-		Specificity: 0.2316
-		Top 1 Acc = 58.64%
-		Top 5 Acc = 87.24%                                 
-		Loss/Iteration: 7.571048324758356
+		Specificity: 0.457
+		Top 1 Acc = 55.48%
+		Top 5 Acc = 85.46%                                 
+		Loss/Iteration: 8.369544031945141
 
 Epoch [72/100]:
-		Specificity: 0.2706
-		Top 1 Acc = 58.46%
-		Top 5 Acc = 86.16%                                 
-		Loss/Iteration: 7.541320695118471
+		Specificity: 0.4508
+		Top 1 Acc = 55.34%
+		Top 5 Acc = 84.8%                                 
+		Loss/Iteration: 8.332843127575787
 
 Epoch [73/100]:
-		Specificity: 0.1756
-		Top 1 Acc = 59.74%
-		Top 5 Acc = 88.44%                                 
-		Loss/Iteration: 7.4991580166599965
+		Specificity: 0.3834
+		Top 1 Acc = 55.1%
+		Top 5 Acc = 85.92%                                 
+		Loss/Iteration: 8.280939435417002
 
 Epoch [74/100]:
-		Specificity: 0.262
-		Top 1 Acc = 58.68%
-		Top 5 Acc = 87.24%                                 
-		Loss/Iteration: 7.455506089058789
+		Specificity: 0.5788
+		Top 1 Acc = 53.28%
+		Top 5 Acc = 83.66%                                 
+		Loss/Iteration: 8.259419411420822
 
 Epoch [75/100]:
-		Specificity: 0.1248
-		Top 1 Acc = 59.42%
-		Top 5 Acc = 89.04%                                 
-		Loss/Iteration: 7.406103960492394
+		Specificity: 0.6704
+		Top 1 Acc = 52.14%
+		Top 5 Acc = 81.92%                                 
+		Loss/Iteration: 8.225427825342525
 
 Epoch [76/100]:
-		Specificity: 0.2286
-		Top 1 Acc = 58.48%
-		Top 5 Acc = 87.58%                                 
-		Loss/Iteration: 7.338233961300417
+		Specificity: 0.621
+		Top 1 Acc = 52.8%
+		Top 5 Acc = 83.3%                                 
+		Loss/Iteration: 8.184235112233596
 
 Epoch [77/100]:
-		Specificity: 0.1676
-		Top 1 Acc = 59.62%
-		Top 5 Acc = 88.26%                                 
-		Loss/Iteration: 7.330986009402708
+		Specificity: 0.5536
+		Top 1 Acc = 53.72%
+		Top 5 Acc = 83.5%                                 
+		Loss/Iteration: 8.105408283797177
 
 Epoch [78/100]:
-		Specificity: 0.2478
-		Top 1 Acc = 58.64%
-		Top 5 Acc = 87.08%                                 
-		Loss/Iteration: 7.2725093337622555
+		Specificity: 0.3754
+		Top 1 Acc = 56.5%
+		Top 5 Acc = 86.76%                                 
+		Loss/Iteration: 8.070205888964914
 
 Epoch [79/100]:
-		Specificity: 0.1764
-		Top 1 Acc = 59.88%
-		Top 5 Acc = 88.14%                                 
-		Loss/Iteration: 7.271416422995654
+		Specificity: 0.4196
+		Top 1 Acc = 55.62%
+		Top 5 Acc = 85.54%                                 
+		Loss/Iteration: 8.03324488347227
 
 Epoch [80/100]:
-		Specificity: 0.204
-		Top 1 Acc = 59.66%
-		Top 5 Acc = 87.5%                                 
-		Loss/Iteration: 7.21579008210789
+		Specificity: 0.3358
+		Top 1 Acc = 57.74%
+		Top 5 Acc = 87.3%                                 
+		Loss/Iteration: 8.02518440918489
 
 Epoch [81/100]:
-		Specificity: 0.1892
-		Top 1 Acc = 60.1%
-		Top 5 Acc = 87.68%                                 
-		Loss/Iteration: 7.16995949365876
+		Specificity: 0.4392
+		Top 1 Acc = 56.16%
+		Top 5 Acc = 84.7%                                 
+		Loss/Iteration: 7.9479648985645985
 
 Epoch [82/100]:
-		Specificity: 0.1826
-		Top 1 Acc = 60.58%
-		Top 5 Acc = 87.86%                                 
-		Loss/Iteration: 7.133861376480623
+		Specificity: 0.4292
+		Top 1 Acc = 56.4%
+		Top 5 Acc = 85.8%                                 
+		Loss/Iteration: 7.9299799501895905
 
 Epoch [83/100]:
-		Specificity: 0.2456
-		Top 1 Acc = 59.36%
-		Top 5 Acc = 86.86%                                 
-		Loss/Iteration: 7.09084245020693
+		Specificity: 0.576
+		Top 1 Acc = 54.66%
+		Top 5 Acc = 83.54%                                 
+		Loss/Iteration: 7.902364337986166
 
 Epoch [84/100]:
-		Specificity: 0.152
-		Top 1 Acc = 60.0%
-		Top 5 Acc = 88.24%                                 
-		Loss/Iteration: 7.035850029100072
+		Specificity: 0.5382
+		Top 1 Acc = 54.74%
+		Top 5 Acc = 83.84%                                 
+		Loss/Iteration: 7.863603643395684
 
 Epoch [85/100]:
-		Specificity: 0.1766
-		Top 1 Acc = 59.98%
-		Top 5 Acc = 87.54%                                 
-		Loss/Iteration: 7.018078300085935
+		Specificity: 0.6038
+		Top 1 Acc = 54.08%
+		Top 5 Acc = 83.38%                                 
+		Loss/Iteration: 7.836529151959852
 
 Epoch [86/100]:
-		Specificity: 0.1618
-		Top 1 Acc = 60.4%
-		Top 5 Acc = 88.28%                                 
-		Loss/Iteration: 6.947029108350927
+		Specificity: 0.6472
+		Top 1 Acc = 52.86%
+		Top 5 Acc = 82.64%                                 
+		Loss/Iteration: 7.798290136185559
 
 Epoch [87/100]:
-		Specificity: 0.1572
-		Top 1 Acc = 59.86%
-		Top 5 Acc = 88.28%                                 
-		Loss/Iteration: 6.926778319207105
+		Specificity: 0.4728
+		Top 1 Acc = 55.5%
+		Top 5 Acc = 86.0%                                 
+		Loss/Iteration: 7.783896188844334
 
 Epoch [88/100]:
-		Specificity: 0.1382
-		Top 1 Acc = 61.4%
-		Top 5 Acc = 88.62%                                 
-		Loss/Iteration: 6.887630990960381
+		Specificity: 0.5344
+		Top 1 Acc = 54.72%
+		Top 5 Acc = 84.46%                                 
+		Loss/Iteration: 7.71614223447713
 
 Epoch [89/100]:
-		Specificity: 0.1902
-		Top 1 Acc = 60.02%
-		Top 5 Acc = 88.14%                                 
-		Loss/Iteration: 6.84018827568401
+		Specificity: 0.5662
+		Top 1 Acc = 54.16%
+		Top 5 Acc = 83.58%                                 
+		Loss/Iteration: 7.705849438905716
 
 Epoch [90/100]:
-		Specificity: 0.159
-		Top 1 Acc = 59.4%
-		Top 5 Acc = 87.78%                                 
-		Loss/Iteration: 6.83934179761193
+		Specificity: 0.425
+		Top 1 Acc = 57.18%
+		Top 5 Acc = 85.86%                                 
+		Loss/Iteration: 7.669110065156763
 
 Epoch [91/100]:
-		Specificity: 0.2106
-		Top 1 Acc = 59.78%
-		Top 5 Acc = 87.56%                                 
-		Loss/Iteration: 6.789127425713972
+		Specificity: 0.546
+		Top 1 Acc = 54.82%
+		Top 5 Acc = 84.04%                                 
+		Loss/Iteration: 7.601307565515691
 
 Epoch [92/100]:
-		Specificity: 0.1496
-		Top 1 Acc = 60.8%
-		Top 5 Acc = 89.14%                                 
-		Loss/Iteration: 6.738540557297793
+		Specificity: 0.6302
+		Top 1 Acc = 53.1%
+		Top 5 Acc = 82.7%                                 
+		Loss/Iteration: 7.564673721790314
 
 Epoch [93/100]:
-		Specificity: 0.1996
-		Top 1 Acc = 59.14%
-		Top 5 Acc = 88.2%                                 
-		Loss/Iteration: 6.6911471513184635
+		Specificity: 0.6312
+		Top 1 Acc = 53.38%
+		Top 5 Acc = 82.98%                                 
+		Loss/Iteration: 7.554445404898036
 
 Epoch [94/100]:
-		Specificity: 0.1588
-		Top 1 Acc = 60.62%
-		Top 5 Acc = 88.38%                                 
-		Loss/Iteration: 6.666815001856197
+		Specificity: 0.579
+		Top 1 Acc = 54.76%
+		Top 5 Acc = 84.6%                                 
+		Loss/Iteration: 7.519445841962641
 
 Epoch [95/100]:
-		Specificity: 0.2058
-		Top 1 Acc = 59.5%
-		Top 5 Acc = 87.9%                                 
-		Loss/Iteration: 6.63267078182914
+		Specificity: 0.585
+		Top 1 Acc = 54.86%
+		Top 5 Acc = 84.4%                                 
+		Loss/Iteration: 7.48332848332145
 
 Epoch [96/100]:
-		Specificity: 0.1774
-		Top 1 Acc = 60.12%
-		Top 5 Acc = 88.36%                                 
-		Loss/Iteration: 6.628276312893087
+		Specificity: 0.5548
+		Top 1 Acc = 54.96%
+		Top 5 Acc = 83.58%                                 
+		Loss/Iteration: 7.456503686579791
 
 Epoch [97/100]:
-		Specificity: 0.1808
-		Top 1 Acc = 60.9%
-		Top 5 Acc = 88.48%                                 
-		Loss/Iteration: 6.565859984267842
+		Specificity: 0.6704
+		Top 1 Acc = 52.4%
+		Top 5 Acc = 83.14%                                 
+		Loss/Iteration: 7.435700243169611
 
 Epoch [98/100]:
-		Specificity: 0.1774
-		Top 1 Acc = 60.0%
-		Top 5 Acc = 88.0%                                 
-		Loss/Iteration: 6.5477298660711805
+		Specificity: 0.599
+		Top 1 Acc = 53.1%
+		Top 5 Acc = 83.78%                                 
+		Loss/Iteration: 7.419008861888539
 
 Epoch [99/100]:
-		Specificity: 0.2178
-		Top 1 Acc = 60.58%
-		Top 5 Acc = 87.12%                                 
-		Loss/Iteration: 6.504226221279665
+		Specificity: 0.562
+		Top 1 Acc = 54.88%
+		Top 5 Acc = 84.24%                                 
+		Loss/Iteration: 7.413916048678485
 
 Epoch [100/100]:
-		Specificity: 0.211
-		Top 1 Acc = 59.2%
-		Top 5 Acc = 88.12%                                 
-		Loss/Iteration: 6.480385354974053
+		Specificity: 0.5464
+		Top 1 Acc = 54.84%
+		Top 5 Acc = 84.38%                                 
+		Loss/Iteration: 7.365459927103736
 
 
 # Post-Training iterations per epoch : 176
@@ -3416,304 +3401,304 @@ Epoch [100/100]:
 ----------------------------------------
 
 Epoch [1/50]:
-		Specificity: 0.9506
-		Top 1 Acc = 49.86%
-		Top 5 Acc = 77.86%                                 
-		Loss/Iteration: 13.69895116849379
+		Specificity: 0.5898
+		Top 1 Acc = 54.76%
+		Top 5 Acc = 84.82%                                 
+		Loss/Iteration: 7.127771564505317
 
 Epoch [2/50]:
-		Specificity: 0.8652
-		Top 1 Acc = 50.98%
-		Top 5 Acc = 79.04%                                 
-		Loss/Iteration: 13.500077431852167
+		Specificity: 0.57
+		Top 1 Acc = 55.44%
+		Top 5 Acc = 85.8%                                 
+		Loss/Iteration: 7.105475813150406
 
 Epoch [3/50]:
-		Specificity: 0.8132
-		Top 1 Acc = 52.02%
-		Top 5 Acc = 80.14%                                 
-		Loss/Iteration: 13.43225065686486
+		Specificity: 0.5362
+		Top 1 Acc = 56.68%
+		Top 5 Acc = 86.24%                                 
+		Loss/Iteration: 7.089920908212662
 
 Epoch [4/50]:
-		Specificity: 0.8134
-		Top 1 Acc = 51.98%
-		Top 5 Acc = 80.02%                                 
-		Loss/Iteration: 13.38458467613567
+		Specificity: 0.537
+		Top 1 Acc = 55.96%
+		Top 5 Acc = 86.56%                                 
+		Loss/Iteration: 7.068565130233765
 
 Epoch [5/50]:
-		Specificity: 0.8064
-		Top 1 Acc = 51.66%
-		Top 5 Acc = 80.24%                                 
-		Loss/Iteration: 13.329024043950168
+		Specificity: 0.534
+		Top 1 Acc = 56.42%
+		Top 5 Acc = 86.24%                                 
+		Loss/Iteration: 7.065570124170997
 
 Epoch [6/50]:
-		Specificity: 0.7704
-		Top 1 Acc = 52.86%
-		Top 5 Acc = 80.0%                                 
-		Loss/Iteration: 13.291821506890384
+		Specificity: 0.545
+		Top 1 Acc = 56.7%
+		Top 5 Acc = 85.88%                                 
+		Loss/Iteration: 7.0813331576910885
 
 Epoch [7/50]:
-		Specificity: 0.7272
-		Top 1 Acc = 53.98%
-		Top 5 Acc = 81.48%                                 
-		Loss/Iteration: 13.266746699810028
+		Specificity: 0.527
+		Top 1 Acc = 56.42%
+		Top 5 Acc = 86.38%                                 
+		Loss/Iteration: 7.074716012586247
 
 Epoch [8/50]:
-		Specificity: 0.728
-		Top 1 Acc = 53.68%
-		Top 5 Acc = 81.4%                                 
-		Loss/Iteration: 13.245776962150227
+		Specificity: 0.5348
+		Top 1 Acc = 56.42%
+		Top 5 Acc = 86.18%                                 
+		Loss/Iteration: 7.068045502359217
 
 Epoch [9/50]:
-		Specificity: 0.7378
-		Top 1 Acc = 53.8%
-		Top 5 Acc = 81.82%                                 
-		Loss/Iteration: 13.272175154902719
+		Specificity: 0.4874
+		Top 1 Acc = 57.74%
+		Top 5 Acc = 86.94%                                 
+		Loss/Iteration: 7.075295383279974
 
 Epoch [10/50]:
-		Specificity: 0.728
-		Top 1 Acc = 53.56%
-		Top 5 Acc = 81.92%                                 
-		Loss/Iteration: 13.234573472629894
+		Specificity: 0.5232
+		Top 1 Acc = 57.36%
+		Top 5 Acc = 86.22%                                 
+		Loss/Iteration: 7.063541848551143
 
 Epoch [11/50]:
-		Specificity: 0.6942
-		Top 1 Acc = 54.34%
-		Top 5 Acc = 82.22%                                 
-		Loss/Iteration: 13.216533948074687
+		Specificity: 0.5274
+		Top 1 Acc = 56.64%
+		Top 5 Acc = 86.78%                                 
+		Loss/Iteration: 7.075508410280401
 
 Epoch [12/50]:
-		Specificity: 0.7058
-		Top 1 Acc = 53.86%
-		Top 5 Acc = 82.18%                                 
-		Loss/Iteration: 13.155388165603984
+		Specificity: 0.496
+		Top 1 Acc = 57.52%
+		Top 5 Acc = 87.02%                                 
+		Loss/Iteration: 7.066973778334531
 
 Epoch [13/50]:
-		Specificity: 0.7006
-		Top 1 Acc = 54.52%
-		Top 5 Acc = 81.82%                                 
-		Loss/Iteration: 13.156570992686532
+		Specificity: 0.5296
+		Top 1 Acc = 56.44%
+		Top 5 Acc = 86.48%                                 
+		Loss/Iteration: 7.056688874959946
 
 Epoch [14/50]:
-		Specificity: 0.6566
-		Top 1 Acc = 55.6%
-		Top 5 Acc = 83.28%                                 
-		Loss/Iteration: 13.113768978552384
+		Specificity: 0.5088
+		Top 1 Acc = 57.28%
+		Top 5 Acc = 86.8%                                 
+		Loss/Iteration: 7.052180501547727
 
 Epoch [15/50]:
-		Specificity: 0.7016
-		Top 1 Acc = 54.14%
-		Top 5 Acc = 81.68%                                 
-		Loss/Iteration: 13.157180986621164
+		Specificity: 0.513
+		Top 1 Acc = 57.12%
+		Top 5 Acc = 86.9%                                 
+		Loss/Iteration: 7.057110133496198
 
 Epoch [16/50]:
-		Specificity: 0.659
-		Top 1 Acc = 56.06%
-		Top 5 Acc = 82.76%                                 
-		Loss/Iteration: 13.166153187101537
+		Specificity: 0.5234
+		Top 1 Acc = 56.5%
+		Top 5 Acc = 86.58%                                 
+		Loss/Iteration: 7.052835442803123
 
 Epoch [17/50]:
-		Specificity: 0.6398
-		Top 1 Acc = 54.94%
-		Top 5 Acc = 83.72%                                 
-		Loss/Iteration: 13.142361835999923
+		Specificity: 0.4774
+		Top 1 Acc = 57.34%
+		Top 5 Acc = 87.06%                                 
+		Loss/Iteration: 7.052251268516887
 
 Epoch [18/50]:
-		Specificity: 0.723
-		Top 1 Acc = 54.0%
-		Top 5 Acc = 81.24%                                 
-		Loss/Iteration: 13.10221339897676
+		Specificity: 0.5098
+		Top 1 Acc = 58.4%
+		Top 5 Acc = 86.94%                                 
+		Loss/Iteration: 7.0510009825229645
 
 Epoch [19/50]:
-		Specificity: 0.6656
-		Top 1 Acc = 55.4%
-		Top 5 Acc = 83.16%                                 
-		Loss/Iteration: 13.077849848703904
+		Specificity: 0.5042
+		Top 1 Acc = 57.66%
+		Top 5 Acc = 87.16%                                 
+		Loss/Iteration: 7.058042043989355
 
 Epoch [20/50]:
-		Specificity: 0.5918
-		Top 1 Acc = 55.82%
-		Top 5 Acc = 83.84%                                 
-		Loss/Iteration: 13.052300892092966
+		Specificity: 0.522
+		Top 1 Acc = 57.04%
+		Top 5 Acc = 86.56%                                 
+		Loss/Iteration: 7.051951251246712
 
 Epoch [21/50]:
-		Specificity: 0.6252
-		Top 1 Acc = 55.56%
-		Top 5 Acc = 84.04%                                 
-		Loss/Iteration: 13.061018857088955
+		Specificity: 0.4892
+		Top 1 Acc = 57.58%
+		Top 5 Acc = 87.04%                                 
+		Loss/Iteration: 7.04140684821389
 
 Epoch [22/50]:
-		Specificity: 0.6782
-		Top 1 Acc = 55.0%
-		Top 5 Acc = 82.3%                                 
-		Loss/Iteration: 13.056387624957345
+		Specificity: 0.4862
+		Top 1 Acc = 57.64%
+		Top 5 Acc = 87.52%                                 
+		Loss/Iteration: 7.061009732159701
 
 Epoch [23/50]:
-		Specificity: 0.649
-		Top 1 Acc = 55.5%
-		Top 5 Acc = 82.52%                                 
-		Loss/Iteration: 13.028502231294459
+		Specificity: 0.5012
+		Top 1 Acc = 57.68%
+		Top 5 Acc = 86.98%                                 
+		Loss/Iteration: 7.047906117005781
 
 Epoch [24/50]:
-		Specificity: 0.6468
-		Top 1 Acc = 55.18%
-		Top 5 Acc = 82.92%                                 
-		Loss/Iteration: 13.008809837428005
+		Specificity: 0.4678
+		Top 1 Acc = 58.68%
+		Top 5 Acc = 87.5%                                 
+		Loss/Iteration: 7.051784233613447
 
 Epoch [25/50]:
-		Specificity: 0.642
-		Top 1 Acc = 55.6%
-		Top 5 Acc = 82.98%                                 
-		Loss/Iteration: 12.99314660917629
+		Specificity: 0.4846
+		Top 1 Acc = 57.48%
+		Top 5 Acc = 86.42%                                 
+		Loss/Iteration: 7.0476247641173275
 
 Epoch [26/50]:
-		Specificity: 0.6222
-		Top 1 Acc = 56.14%
-		Top 5 Acc = 83.38%                                 
-		Loss/Iteration: 13.000586173751138
+		Specificity: 0.482
+		Top 1 Acc = 57.6%
+		Top 5 Acc = 87.7%                                 
+		Loss/Iteration: 7.052902175621553
 
 Epoch [27/50]:
-		Specificity: 0.611
-		Top 1 Acc = 55.92%
-		Top 5 Acc = 84.04%                                 
-		Loss/Iteration: 13.026835214007985
+		Specificity: 0.4608
+		Top 1 Acc = 58.32%
+		Top 5 Acc = 87.44%                                 
+		Loss/Iteration: 7.049947223880074
 
 Epoch [28/50]:
-		Specificity: 0.59
-		Top 1 Acc = 56.64%
-		Top 5 Acc = 84.28%                                 
-		Loss/Iteration: 12.945620309222829
+		Specificity: 0.4822
+		Top 1 Acc = 57.6%
+		Top 5 Acc = 87.44%                                 
+		Loss/Iteration: 7.047312980348414
 
 Epoch [29/50]:
-		Specificity: 0.6108
-		Top 1 Acc = 55.86%
-		Top 5 Acc = 83.78%                                 
-		Loss/Iteration: 12.944524965503
+		Specificity: 0.4748
+		Top 1 Acc = 58.02%
+		Top 5 Acc = 87.16%                                 
+		Loss/Iteration: 7.0484635992483655
 
 Epoch [30/50]:
-		Specificity: 0.626
-		Top 1 Acc = 56.42%
-		Top 5 Acc = 83.68%                                 
-		Loss/Iteration: 13.004511350935156
+		Specificity: 0.457
+		Top 1 Acc = 57.74%
+		Top 5 Acc = 87.72%                                 
+		Loss/Iteration: 7.04668328166008
 
 Epoch [31/50]:
-		Specificity: 0.6284
-		Top 1 Acc = 55.48%
-		Top 5 Acc = 82.98%                                 
-		Loss/Iteration: 12.980052942579443
+		Specificity: 0.4418
+		Top 1 Acc = 58.34%
+		Top 5 Acc = 88.0%                                 
+		Loss/Iteration: 7.036585932428187
 
 Epoch [32/50]:
-		Specificity: 0.6284
-		Top 1 Acc = 55.24%
-		Top 5 Acc = 83.6%                                 
-		Loss/Iteration: 12.948726133866744
+		Specificity: 0.457
+		Top 1 Acc = 58.22%
+		Top 5 Acc = 87.6%                                 
+		Loss/Iteration: 7.042252215472135
 
 Epoch [33/50]:
-		Specificity: 0.6152
-		Top 1 Acc = 56.56%
-		Top 5 Acc = 83.28%                                 
-		Loss/Iteration: 12.939317963340066
+		Specificity: 0.453
+		Top 1 Acc = 58.24%
+		Top 5 Acc = 88.38%                                 
+		Loss/Iteration: 7.0408907586878
 
 Epoch [34/50]:
-		Specificity: 0.567
-		Top 1 Acc = 55.66%
-		Top 5 Acc = 84.16%                                 
-		Loss/Iteration: 12.942662347446788
+		Specificity: 0.4514
+		Top 1 Acc = 58.84%
+		Top 5 Acc = 87.8%                                 
+		Loss/Iteration: 7.038867495276711
 
 Epoch [35/50]:
-		Specificity: 0.6464
-		Top 1 Acc = 55.46%
-		Top 5 Acc = 83.26%                                 
-		Loss/Iteration: 12.906702426346866
+		Specificity: 0.4758
+		Top 1 Acc = 58.3%
+		Top 5 Acc = 87.22%                                 
+		Loss/Iteration: 7.0385925688526845
 
 Epoch [36/50]:
-		Specificity: 0.6282
-		Top 1 Acc = 56.44%
-		Top 5 Acc = 83.52%                                 
-		Loss/Iteration: 12.912817754528739
+		Specificity: 0.464
+		Top 1 Acc = 57.66%
+		Top 5 Acc = 87.08%                                 
+		Loss/Iteration: 7.045652449131012
 
 Epoch [37/50]:
-		Specificity: 0.6252
-		Top 1 Acc = 56.18%
-		Top 5 Acc = 83.2%                                 
-		Loss/Iteration: 12.945133084600622
+		Specificity: 0.451
+		Top 1 Acc = 57.82%
+		Top 5 Acc = 88.54%                                 
+		Loss/Iteration: 7.0446468835527245
 
 Epoch [38/50]:
-		Specificity: 0.631
-		Top 1 Acc = 55.98%
-		Top 5 Acc = 83.74%                                 
-		Loss/Iteration: 12.942679806189103
+		Specificity: 0.4498
+		Top 1 Acc = 58.5%
+		Top 5 Acc = 88.14%                                 
+		Loss/Iteration: 7.042650672522458
 
 Epoch [39/50]:
-		Specificity: 0.6268
-		Top 1 Acc = 55.76%
-		Top 5 Acc = 83.0%                                 
-		Loss/Iteration: 12.95401992039247
+		Specificity: 0.4482
+		Top 1 Acc = 58.3%
+		Top 5 Acc = 87.62%                                 
+		Loss/Iteration: 7.0439836166121745
 
 Epoch [40/50]:
-		Specificity: 0.5906
-		Top 1 Acc = 55.98%
-		Top 5 Acc = 84.26%                                 
-		Loss/Iteration: 12.905058178034695
+		Specificity: 0.4644
+		Top 1 Acc = 58.56%
+		Top 5 Acc = 87.44%                                 
+		Loss/Iteration: 7.032846521247517
 
 Epoch [41/50]:
-		Specificity: 0.6262
-		Top 1 Acc = 55.98%
-		Top 5 Acc = 83.78%                                 
-		Loss/Iteration: 12.912639596245505
+		Specificity: 0.4468
+		Top 1 Acc = 58.18%
+		Top 5 Acc = 87.56%                                 
+		Loss/Iteration: 7.042767037044872
 
 Epoch [42/50]:
-		Specificity: 0.599
-		Top 1 Acc = 56.12%
-		Top 5 Acc = 83.6%                                 
-		Loss/Iteration: 12.921435204419224
+		Specificity: 0.4488
+		Top 1 Acc = 58.66%
+		Top 5 Acc = 87.92%                                 
+		Loss/Iteration: 7.041223200884732
 
 Epoch [43/50]:
-		Specificity: 0.594
-		Top 1 Acc = 56.5%
-		Top 5 Acc = 84.14%                                 
-		Loss/Iteration: 12.855084522203965
+		Specificity: 0.4372
+		Top 1 Acc = 58.64%
+		Top 5 Acc = 88.6%                                 
+		Loss/Iteration: 7.046209747141058
 
 Epoch [44/50]:
-		Specificity: 0.5826
-		Top 1 Acc = 55.58%
-		Top 5 Acc = 84.32%                                 
-		Loss/Iteration: 12.876834186640652
+		Specificity: 0.4474
+		Top 1 Acc = 58.62%
+		Top 5 Acc = 88.4%                                 
+		Loss/Iteration: 7.0381523939696224
 
 Epoch [45/50]:
-		Specificity: 0.6232
-		Top 1 Acc = 55.94%
-		Top 5 Acc = 83.6%                                 
-		Loss/Iteration: 12.904529685323888
+		Specificity: 0.44
+		Top 1 Acc = 58.4%
+		Top 5 Acc = 87.9%                                 
+		Loss/Iteration: 7.04467158425938
 
 Epoch [46/50]:
-		Specificity: 0.6008
-		Top 1 Acc = 56.56%
-		Top 5 Acc = 84.6%                                 
-		Loss/Iteration: 12.860080361366272
+		Specificity: 0.4272
+		Top 1 Acc = 59.04%
+		Top 5 Acc = 88.52%                                 
+		Loss/Iteration: 7.030181034044786
 
 Epoch [47/50]:
-		Specificity: 0.5822
-		Top 1 Acc = 56.22%
-		Top 5 Acc = 84.78%                                 
-		Loss/Iteration: 12.852614245631479
+		Specificity: 0.4606
+		Top 1 Acc = 58.7%
+		Top 5 Acc = 88.08%                                 
+		Loss/Iteration: 7.044375357302752
 
 Epoch [48/50]:
-		Specificity: 0.5876
-		Top 1 Acc = 57.2%
-		Top 5 Acc = 84.82%                                 
-		Loss/Iteration: 12.842798937450755
+		Specificity: 0.4236
+		Top 1 Acc = 58.64%
+		Top 5 Acc = 88.38%                                 
+		Loss/Iteration: 7.044703540476886
 
 Epoch [49/50]:
-		Specificity: 0.5958
-		Top 1 Acc = 56.68%
-		Top 5 Acc = 84.3%                                 
-		Loss/Iteration: 12.84458988904953
+		Specificity: 0.438
+		Top 1 Acc = 58.78%
+		Top 5 Acc = 88.04%                                 
+		Loss/Iteration: 7.031956087459218
 
 Epoch [50/50]:
-		Specificity: 0.6128
-		Top 1 Acc = 56.28%
-		Top 5 Acc = 83.96%                                 
-		Loss/Iteration: 12.83597217906605
+		Specificity: 0.44
+		Top 1 Acc = 58.16%
+		Top 5 Acc = 88.28%                                 
+		Loss/Iteration: 7.027343305674466
 
 ------------------------------
 
