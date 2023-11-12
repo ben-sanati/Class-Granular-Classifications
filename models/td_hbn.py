@@ -34,24 +34,28 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
+        self.lin = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(128 * 2 * 2, 2048),
+            nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
+            nn.Linear(2048, 2048),
+            nn.Dropout(dropout),
+        )
+
         self.sem_complexity = nn.Sequential(
-<<<<<<< HEAD
             nn.Linear(2048, 2),
-=======
-            nn.Dropout(0.5),
-            nn.Linear(128 * 2 * 2, 2),
->>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
         )
 
         # exit 1
         self.exit1a = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(128 * 2 * 2, num_fine_classes),
+            nn.Linear(2048, num_fine_classes),
         )
 
         self.exit1b = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(128 * 2 * 2, num_coarse_classes),
+            nn.Linear(2048, num_coarse_classes),
         )
 
         self.features2 = nn.Sequential(
@@ -71,7 +75,6 @@ class TD_HBN(nn.Module):
 
         # exit 2
         self.exit2a = nn.Sequential(
-<<<<<<< HEAD
             nn.Dropout(dropout),
             nn.Linear(256 * 1 * 1, 2048),
             nn.ReLU(inplace=True),
@@ -85,13 +88,6 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(2048, num_coarse_classes),
-=======
-            nn.Linear(256 * 1 * 1, num_fine_classes),
-        )
-
-        self.exit2b = nn.Sequential(
-            nn.Linear(256 * 1 * 1, num_coarse_classes),
->>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
         )
 
         self.features3 = nn.Sequential(
@@ -139,7 +135,7 @@ class TD_HBN(nn.Module):
         # run branch 1
         a1 = self.features1(x)
         z1_ = self.branch1(a1)
-        z1_lin = z1_.view(z1_.size(0), -1)
+        z1_lin = self.lin(z1_.view(z1_.size(0), -1))
         z1_fine, z1_coarse, sem_granularity, z_fine_entropy, z_coarse_entropy = \
                         self.evaluate_output(z1_lin, self.exit1a, self.exit1b, layer=1)
 

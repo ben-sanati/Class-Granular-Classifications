@@ -492,12 +492,8 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-<<<<<<< HEAD
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
-=======
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
->>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
@@ -534,12 +530,8 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
-<<<<<<< HEAD
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
-=======
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
->>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")

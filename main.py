@@ -62,7 +62,6 @@ def training(_data: tuple, _td_data: tuple, _models: dict, _trainer: dict,
         _model_path (str): _description_
     """
     for model_name, model_def in _models.items():
-        print(model_name)
         if model_name == 'TD-HBN':
             train_loader, val_loader, test_loader, g1 = _td_data
         else:
@@ -71,7 +70,7 @@ def training(_data: tuple, _td_data: tuple, _models: dict, _trainer: dict,
         # initialize the model and summarise it
         device = torch.device(_args.device)
         model = model_def().to(device)
-        print(f"Model == {model_name}")
+        print(f"Model: {model_name}")
         print(f"Batch sizes: (train, val, test)=({train_loader.batch_size}, {val_loader.batch_size}, {test_loader.batch_size})\n")
 
         _temp_train, _, _, _, = _data
