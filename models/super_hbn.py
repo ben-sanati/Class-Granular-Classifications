@@ -34,21 +34,24 @@ class SuperHBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        self.lin1 = nn.Sequential(
+        # exit 1
+        self.exit1a = nn.Sequential(
             nn.Dropout(dropout),
             nn.Linear(128 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
-        )
-
-        # exit 1
-        self.exit1a = nn.Sequential(
             nn.Linear(2048, num_fine_classes)
         )
 
         self.exit1b = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(128 * 2 * 2, 2048),
+            nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
+            nn.Linear(2048, 2048),
+            nn.ReLU(inplace=True),
             nn.Linear(2048, num_coarse_classes)
         )
 
@@ -67,22 +70,20 @@ class SuperHBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        self.lin2 = nn.Sequential(
-            nn.Dropout(0.5),
-            nn.Linear(256 * 1 * 1, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.5),
-            nn.Linear(2048, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-        )
-
         # exit 2
         self.exit2a = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(256 * 1 * 1, 2048),
+            nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
             nn.Linear(2048, num_fine_classes),
         )
 
         self.exit2b = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(256 * 1 * 1, 2048),
+            nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
             nn.Linear(2048, num_coarse_classes),
         )
 
@@ -131,7 +132,7 @@ class SuperHBN(nn.Module):
         # run branch 1
         a1 = self.features1(x)
         z1_ = self.branch1(a1)
-        z1_lin = self.lin1(z1_.view(z1_.size(0), -1))
+        z1_lin = z1_.view(z1_.size(0), -1)
         z1_fine, z1_coarse, z_fine_entropy, z_coarse_entropy = \
                         self.evaluate_output(z1_lin, self.exit1a, self.exit1b)
 
@@ -145,7 +146,7 @@ class SuperHBN(nn.Module):
 
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
-        z2_lin = self.lin2(z2_.view(z2_.size(0), -1))
+        z2_lin = z2_.view(z2_.size(0), -1)
         z2_fine, z2_coarse, z_fine_entropy, z_coarse_entropy = \
                         self.evaluate_output(z2_lin, self.exit2a, self.exit2b)
 

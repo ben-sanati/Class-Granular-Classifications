@@ -108,7 +108,7 @@ class Trainer(ABC):
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
-                        torch.save(self.model.state_dict(), filepath)
+                        torch.save(self.model.state_dict(), '../results/models/TD-HBN-trained.pth')
 
                     # clear variables that are no longer needed
                     del images
@@ -383,8 +383,8 @@ class TD_HBNTrainer(Trainer):
         Trainer (_type_): _description_
     """
     # semantic weighting to equalise the value of the losses
-    sem_weighting: float = 20.0
-    fine_weighting: float = 1.35
+    alpha: float = 5.0
+    fine_weighting: float = 1.5
 
     def _get_output(self, images, labels):
         """
@@ -422,7 +422,7 @@ class TD_HBNTrainer(Trainer):
 
             # get semantic loss
             semantic_loss = self._get_sem_loss(sem_granularity,
-                                               y_hats, labels, new_labels) * self.sem_weighting
+                                               y_hats, labels, new_labels)
 
             # use branch loss during training and semantic loss during post-training
             loss = branch_loss
@@ -431,32 +431,51 @@ class TD_HBNTrainer(Trainer):
             y_hat, exits = self.model(images)
             return y_hat, exits
 
+    @staticmethod
+    def compute_entropy(z):
+        return Categorical(F.softmax(z, dim=1)).entropy()
+
     def _get_sem_loss(self, sem_granularity, y_hats, labels, new_labels):
         # GET THE BEST GRANULARITY BASED ON THE FINE AND COARSE LOSSES #
-        coarse_right, fine_right = [], []
-        for y_hat in y_hats:
+        coarse_right, fine_right, fine_entropies, coarse_entropies = [], [], [], []
+        for y_hat, sem in zip(y_hats, sem_granularity):
             _, prediction = torch.max(y_hat, axis=1)
+            entropy = self.compute_entropy(y_hat).mean().item()
             if y_hat.size(1) == 20:
                 coarse_right.append(prediction == new_labels)
+                coarse_entropies.append(entropy)
             elif y_hat.size(1) == 100:
                 fine_right.append(prediction == labels)
+                fine_entropies.append(entropy)
 
         # find the optimal granularity
         fine_right_value = torch.stack(fine_right).int().sum(dim=0) * self.fine_weighting
         coarse_right_value = torch.stack(coarse_right).int().sum(dim=0)
-
         opt_value = (fine_right_value > coarse_right_value).type(torch.long)
 
+        # compute semantic classification error
+        sem_class_error = self.loss_fn(sem_granularity, opt_value)
+
+        # get granular entropy
+        fine_mean = sum(fine_entropies) / len(fine_entropies)
+        coarse_mean = sum(coarse_entropies) / len(coarse_entropies)
+        granular_entropy = self.fine_weighting * fine_mean + coarse_mean
+
         # get classification error
-        sem_loss = self.loss_fn(sem_granularity, opt_value)
+        sem_loss = self.alpha * sem_class_error + granular_entropy
+        # print(f"Loss: {sem_loss} = {self.alpha} * {sem_class_error} + {granular_entropy}")
         return sem_loss
 
     def _post_training(self):
-        num_iterations = len(self.train_loader)
+        # freeze model parameters but sem_complexity
+        for name, param in self.model.named_parameters():
+            if 'sem_complexity' not in name:
+                param.requires_grad = False
 
+        num_iterations = len(self.train_loader)
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 3):
+        for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -473,6 +492,7 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
+                    torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
@@ -485,11 +505,15 @@ class TD_HBNTrainer(Trainer):
         # load the model
         self.model.load_state_dict(torch.load('../results/models/TD-HBN-trained.pth'))
 
-        num_iterations = len(self.train_loader)
+        # freeze model parameters but sem_complexity
+        for name, param in self.model.named_parameters():
+            if 'sem_complexity' not in name:
+                param.requires_grad = False
 
+        num_iterations = len(self.train_loader)
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        for epoch in range(self.args.num_epochs // 3):
+        for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
                 self.model.train()
@@ -506,9 +530,8 @@ class TD_HBNTrainer(Trainer):
                 loss_temp.append(semantic_loss.item())
 
                 if (index + 1) % num_iterations == 0:
+                    torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
-                    # save checkpoint
-                    torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
