@@ -37,22 +37,30 @@ class SuperHBN(nn.Module):
         # exit 1
         self.exit1a = nn.Sequential(
             nn.Dropout(dropout),
+<<<<<<< HEAD
             nn.Linear(128 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
             nn.Linear(2048, num_fine_classes)
+=======
+            nn.Linear(128 * 2 * 2, num_fine_classes)
+>>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
         )
 
         self.exit1b = nn.Sequential(
             nn.Dropout(dropout),
+<<<<<<< HEAD
             nn.Linear(128 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
             nn.Linear(2048, num_coarse_classes)
+=======
+            nn.Linear(128 * 2 * 2, num_coarse_classes)
+>>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
         )
 
         self.features2 = nn.Sequential(
@@ -72,6 +80,7 @@ class SuperHBN(nn.Module):
 
         # exit 2
         self.exit2a = nn.Sequential(
+<<<<<<< HEAD
             nn.Dropout(dropout),
             nn.Linear(256 * 1 * 1, 2048),
             nn.ReLU(inplace=True),
@@ -85,6 +94,15 @@ class SuperHBN(nn.Module):
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
             nn.Linear(2048, num_coarse_classes),
+=======
+            nn.Dropout(0.5),
+            nn.Linear(256 * 1 * 1, num_fine_classes),
+        )
+
+        self.exit2b = nn.Sequential(
+            nn.Dropout(0.5),
+            nn.Linear(256 * 1 * 1, num_coarse_classes),
+>>>>>>> c73abda47c84d3599b3f63b8c2a924a5e87d0bb4
         )
 
         self.features3 = nn.Sequential(
