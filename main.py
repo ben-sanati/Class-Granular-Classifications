@@ -139,23 +139,15 @@ if __name__ == '__main__':
     MODEL_PATH = '../results/models'
     COMPARATOR_PATH = '../results/model_comparators'
     MODE_MAP = {'training': training, 'testing': testing}
-    MODELS = {'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
+    MODELS = {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
               'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
-    # {'AlexNet': AlexNet, 'Branchy-AlexNet': BranchyAlexNet, 'Sem-HBN': SemHBN,
-    #           'Super-HBN': SuperHBN, 'TD-HBN': TD_HBN}
-    TRAINER = {'Branchy-AlexNet': BranchyNetTrainer,
+    TRAINER = {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
                'Sem-HBN': SemHBNTrainer, 'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
-    # {'AlexNet': AlexNetTrainer, 'Branchy-AlexNet': BranchyNetTrainer,
-    #            'Sem-HBN': SemHBNTrainer, 'Super-HBN': SuperNetTrainer, 'TD-HBN': TD_HBNTrainer}
-    MODEL_PATHS = {'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
+    MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
+                   'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
                    'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
                    'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
                    'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
-    # {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
-    #                'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
-    #                'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
-    #                'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
-    #                'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
 
     # argument parser
     parser = argparse.ArgumentParser()

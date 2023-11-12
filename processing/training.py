@@ -493,7 +493,7 @@ class TD_HBNTrainer(Trainer):
 
                 if (index + 1) % num_iterations == 0:
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
