@@ -2,7 +2,7 @@ Args:
 	mode: testing
 	batch_size: 256
 	lr: 0.00015
-	pt_lr: 1e-05
+	pt_lr: 5e-05
 	weight_decay: 0.0005
 	device: cuda
 	num_epochs: 2
