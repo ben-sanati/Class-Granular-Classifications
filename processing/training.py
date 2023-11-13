@@ -108,7 +108,7 @@ class Trainer(ABC):
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
-                        torch.save(self.model.state_dict(), '../results/models/TD-HBN-trained.pth')
+                        torch.save(self.model.state_dict(), filepath)
 
                     # clear variables that are no longer needed
                     del images

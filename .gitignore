@@ -1,6 +1,7 @@
 # Folders
 cifar100
 *.pth
+*.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
