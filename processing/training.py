@@ -468,19 +468,16 @@ class TD_HBNTrainer(Trainer):
         return sem_loss
 
     def _post_training(self):
+        self.val_loader = self.td_val_loader
+
         # freeze model parameters but sem_complexity
         for name, param in self.model.named_parameters():
             if 'sem_complexity' not in name:
                 param.requires_grad = False
 
-        # redefine train and test loaders
-        self.train_loader = self.td_train_loader
-        self.val_loader = self.td_val_loader
-
         num_iterations = len(self.train_loader)
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
-        print(f"Batch size: {self.train_loader.batch_size}")
         for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
@@ -500,7 +497,7 @@ class TD_HBNTrainer(Trainer):
                 if (index + 1) % num_iterations == 0:
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
-                    top1_val, top5_val, specificity = self.validate()
+                    top1_val, top5_val, _ = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")
 
@@ -541,6 +538,6 @@ class TD_HBNTrainer(Trainer):
                 if (index + 1) % num_iterations == 0:
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
                     print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
-                    top1_val, top5_val, specificity = self.validate()
+                    top1_val, top5_val, _ = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")

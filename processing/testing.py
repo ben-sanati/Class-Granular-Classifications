@@ -46,35 +46,35 @@ class ModelComparator(ABC):
         for model in self.models:
             model.eval()
 
-        self._temp_func()
+        # self._temp_func()
 
-        # print("Testing for model FLOPS", flush=True)
-        # macs, params = self._average_flops()
+        print("Testing for model FLOPS", flush=True)
+        macs, params = self._average_flops()
 
-        # print("Testing average memory size", flush=True)
-        # memory_sizes = self._memory_size()
+        print("Testing average memory size", flush=True)
+        memory_sizes = self._memory_size()
 
-        # print("Testing for Top 1 Accuracies", flush=True)
-        # top1_accuracies = self._topk_accuracy(k=1)
+        print("Testing for Top 1 Accuracies", flush=True)
+        top1_accuracies = self._topk_accuracy(k=1)
 
-        # print("Testing for Top 5 Accuracies", flush=True)
-        # top5_accuracies = self._topk_accuracy(k=5)
+        print("Testing for Top 5 Accuracies", flush=True)
+        top5_accuracies = self._topk_accuracy(k=5)
 
-        # print("Making Confusion Matrices")
-        # self._get_confusion_matrix(save_path='../results/confusion_matrix')
+        print("Making Confusion Matrices")
+        self._get_confusion_matrix(save_path='../results/confusion_matrix')
 
-        # print("Structuring Results", flush=True)
-        # for i, (model_name, _) in enumerate(zip(self.model_names, self.models)):
-        #     results.append({
-        #         "Model": f"{model_name} Model",
-        #         "Top-1 Accuracy (%)": top1_accuracies[i],
-        #         "Top-5 Accuracy (%)": top5_accuracies[i],
-        #         "Average MACs": macs[i],
-        #         "Number Params": params[i],
-        #         "Memory Size (MB)": memory_sizes[i]
-        #     })
-        # model_results = pd.DataFrame(results)
-        # model_results.to_csv(f'{filepath}/comparisons.csv')
+        print("Structuring Results", flush=True)
+        for i, (model_name, _) in enumerate(zip(self.model_names, self.models)):
+            results.append({
+                "Model": f"{model_name} Model",
+                "Top-1 Accuracy (%)": top1_accuracies[i],
+                "Top-5 Accuracy (%)": top5_accuracies[i],
+                "Average MACs": macs[i],
+                "Number Params": params[i],
+                "Memory Size (MB)": memory_sizes[i]
+            })
+        model_results = pd.DataFrame(results)
+        model_results.to_csv(f'{filepath}/comparisons.csv')
 
     def _temp_func(self):
         epoch_values = []
