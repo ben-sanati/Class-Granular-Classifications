@@ -36,6 +36,8 @@ class Trainer(ABC):
     train_loader: DataLoader
     val_loader: DataLoader
     test_loader: DataLoader
+    td_train_loader: DataLoader
+    td_val_loader: DataLoader
     loss_fn: nn.Module
     optimizer: torch.optim.Optimizer
     pt_optimizer: torch.optim.Optimizer
@@ -108,7 +110,7 @@ class Trainer(ABC):
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
-                        torch.save(self.model.state_dict(), filepath)
+                        torch.save(self.model.state_dict(), '../results/models/TD-HBN-trained.pth')
 
                     # clear variables that are no longer needed
                     del images
@@ -384,8 +386,7 @@ class TD_HBNTrainer(Trainer):
     """
     # semantic weighting to equalise the value of the losses
     alpha: float = 5.0
-    fine_weighting: float = 1.5
-
+    fine_weighting: float = 1.005
     def _get_output(self, images, labels):
         """
         _summary_
@@ -472,9 +473,14 @@ class TD_HBNTrainer(Trainer):
             if 'sem_complexity' not in name:
                 param.requires_grad = False
 
+        # redefine train and test loaders
+        self.train_loader = self.td_train_loader
+        self.val_loader = self.td_val_loader
+
         num_iterations = len(self.train_loader)
         print(f"\n# Post-Training iterations per epoch : {num_iterations}\n")
         print("-"*40 + "\n|" + " "*13 + "Post-Training" + " "*12 + "|\n" + "-"*40 + "\n")
+        print(f"Batch size: {self.train_loader.batch_size}")
         for epoch in range(self.args.num_epochs // 2):
             loss_temp = []
             for index, (images, labels) in enumerate(self.train_loader):
@@ -504,6 +510,9 @@ class TD_HBNTrainer(Trainer):
         """
         # load the model
         self.model.load_state_dict(torch.load('../results/models/TD-HBN-trained.pth'))
+        self.model.train()
+
+        self.val_loader = self.td_val_loader
 
         # freeze model parameters but sem_complexity
         for name, param in self.model.named_parameters():
@@ -531,7 +540,7 @@ class TD_HBNTrainer(Trainer):
 
                 if (index + 1) % num_iterations == 0:
                     torch.save(self.model.state_dict(), '../results/models/TD-HBN-post-trained.pth')
-                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 3}]:")
+                    print(f"Epoch [{epoch + 1}/{self.args.num_epochs // 2}]:")
                     top1_val, top5_val, specificity = self.validate()
                     print(f"\t\tTop 1 Acc = {top1_val}%\n\t\tTop 5 Acc = {top5_val}% \
                                 \n\t\tLoss/Iteration: {sum(loss_temp) / len(loss_temp)}\n")

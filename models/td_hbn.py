@@ -34,13 +34,10 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        self.lin = nn.Sequential(
+        self.lin1 = nn.Sequential(
             nn.Dropout(dropout),
             nn.Linear(128 * 2 * 2, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-            nn.Linear(2048, 2048),
-            nn.Dropout(dropout),
+            nn.ReLU(inplace=True)
         )
 
         self.sem_complexity = nn.Sequential(
@@ -49,12 +46,10 @@ class TD_HBN(nn.Module):
 
         # exit 1
         self.exit1a = nn.Sequential(
-            nn.Dropout(dropout),
             nn.Linear(2048, num_fine_classes),
         )
 
         self.exit1b = nn.Sequential(
-            nn.Dropout(dropout),
             nn.Linear(2048, num_coarse_classes),
         )
 
@@ -73,20 +68,18 @@ class TD_HBN(nn.Module):
             nn.ReLU(inplace=True),
         )
 
-        # exit 2
-        self.exit2a = nn.Sequential(
+        self.lin2 = nn.Sequential(
             nn.Dropout(dropout),
             nn.Linear(256 * 1 * 1, 2048),
             nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
+        )
+
+        # exit 2
+        self.exit2a = nn.Sequential(
             nn.Linear(2048, num_fine_classes),
         )
 
         self.exit2b = nn.Sequential(
-            nn.Dropout(dropout),
-            nn.Linear(256 * 1 * 1, 2048),
-            nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
             nn.Linear(2048, num_coarse_classes),
         )
 
@@ -100,20 +93,20 @@ class TD_HBN(nn.Module):
 
         self.classifier = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(256 * 2 * 2, 4096),
+            nn.Linear(256 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
-            nn.Linear(4096, 4096),
+            nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
         )
 
         # exit 3
         self.exit3a = nn.Sequential(
-            nn.Linear(4096, num_fine_classes),
+            nn.Linear(2048, num_fine_classes),
         )
 
         self.exit3b = nn.Sequential(
-            nn.Linear(4096, num_coarse_classes),
+            nn.Linear(2048, num_coarse_classes),
         )
 
     def forward(self, x: torch.Tensor, threshold: list = None):
@@ -135,12 +128,13 @@ class TD_HBN(nn.Module):
         # run branch 1
         a1 = self.features1(x)
         z1_ = self.branch1(a1)
-        z1_lin = self.lin(z1_.view(z1_.size(0), -1))
+        z1_lin = self.lin1(z1_.view(z1_.size(0), -1))
         z1_fine, z1_coarse, sem_granularity, z_fine_entropy, z_coarse_entropy = \
                         self.evaluate_output(z1_lin, self.exit1a, self.exit1b, layer=1)
 
         if not self.training:
             _, granularity = torch.max(sem_granularity, 1)
+            granularity = granularity.float()
             mean_coarse_entropy, mean_fine_entropy = z_coarse_entropy.mean(), z_fine_entropy.mean()
             if (granularity == 1) and (mean_fine_entropy < threshold[0]):
                 # -> fine classification
@@ -151,7 +145,7 @@ class TD_HBN(nn.Module):
 
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
-        z2_lin = z2_.view(z2_.size(0), -1)
+        z2_lin = self.lin2(z2_.view(z2_.size(0), -1))
         z2_fine, z2_coarse, _, z_fine_entropy, z_coarse_entropy = \
                             self.evaluate_output(z2_lin, self.exit2a, self.exit2b, layer=2)
 

@@ -38,9 +38,6 @@ class BranchyAlexNet(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(128 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
-            nn.Linear(2048, 2048),
-            nn.Dropout(dropout),
             nn.Linear(2048, num_classes),
         )
 
@@ -63,7 +60,6 @@ class BranchyAlexNet(nn.Module):
             nn.Dropout(dropout),
             nn.Linear(256 * 1 * 1, 2048),
             nn.ReLU(inplace=True),
-            nn.Dropout(dropout),
             nn.Linear(2048, num_classes)
         )
 
@@ -78,10 +74,12 @@ class BranchyAlexNet(nn.Module):
 
         self.classifier = nn.Sequential(
             nn.Dropout(dropout),
-            nn.Linear(256 * 2 * 2, 4096),
+            nn.Linear(256 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(dropout),
-            nn.Linear(4096, num_classes),
+            nn.Linear(2048, 2048),
+            nn.ReLU(inplace=True),
+            nn.Linear(2048, num_classes),
         )
 
     def forward(self, x: torch.Tensor, threshold: list = None):

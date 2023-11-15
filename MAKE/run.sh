@@ -2,7 +2,7 @@
 
 # Define default values
 mode="training"
-batch_size=256
+batch_size=64
 lr=0.00015
 weight_decay=0.0005
 device="cuda"
