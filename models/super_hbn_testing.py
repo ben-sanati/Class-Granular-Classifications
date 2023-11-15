@@ -131,10 +131,10 @@ class SuperHBN_Testing(nn.Module):
         if not self.training:
             if (z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean() and
                     z_fine_entropy.mean() < threshold[0]):
-                return z1_fine, 'fine exit 1', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z1_fine, 'fine exit 1', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
             elif (z_coarse_entropy.mean() < z_fine_entropy.mean() - fine_tolerance and
                     z_coarse_entropy.mean() < threshold[0]):
-                return z1_coarse, 'coarse exit 1', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z1_coarse, 'coarse exit 1', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
 
         a2 = self.features2(a1)
         z2_ = self.branch2(a2)
@@ -145,10 +145,10 @@ class SuperHBN_Testing(nn.Module):
         if not self.training:
             if (z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean() and
                     z_fine_entropy.mean() < threshold[1]):
-                return z2_fine, 'fine exit 2', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z2_fine, 'fine exit 2', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
             elif (z_coarse_entropy.mean() < z_fine_entropy.mean() - fine_tolerance and
                     z_coarse_entropy.mean() < threshold[1]):
-                return z2_coarse, 'coarse exit 2', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z2_coarse, 'coarse exit 2', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
 
         a3 = self.features3(a2)
         z3_lin = self.classifier(a3.view(a3.size(0), -1))
@@ -157,9 +157,9 @@ class SuperHBN_Testing(nn.Module):
 
         if not self.training:
             if z_fine_entropy.mean() - fine_tolerance < z_coarse_entropy.mean():
-                return z3_fine, 'fine exit 3', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z3_fine, 'fine exit 3', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
             else:
-                return z3_coarse, 'coarse exit 3', z_fine_entropy.mean() - z_coarse_entropy.mean()
+                return z3_coarse, 'coarse exit 3', z_fine_entropy.mean(), z_coarse_entropy.mean(), z_fine_entropy.mean() - z_coarse_entropy.mean()
 
         # return training data
         return z1_fine, z1_coarse, z2_fine, z2_coarse, z3_fine, z3_coarse

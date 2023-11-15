@@ -110,7 +110,7 @@ class Trainer(ABC):
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
-                        torch.save(self.model.state_dict(), '../results/models/TD-HBN-trained.pth')
+                        torch.save(self.model.state_dict(), filename)
 
                     # clear variables that are no longer needed
                     del images
@@ -386,7 +386,7 @@ class TD_HBNTrainer(Trainer):
     """
     # semantic weighting to equalise the value of the losses
     alpha: float = 5.0
-    fine_weighting: float = 1.005
+    fine_weighting: float = 1.5
     def _get_output(self, images, labels):
         """
         _summary_

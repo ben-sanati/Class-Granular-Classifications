@@ -147,7 +147,7 @@ if __name__ == '__main__':
     MODEL_PATHS = {'AlexNet': f'{MODEL_PATH}/AlexNet.pth',
                    'Branchy-AlexNet': f'{MODEL_PATH}/Branchy-AlexNet.pth',
                    'Sem-HBN': f'{MODEL_PATH}/Sem-HBN.pth',
-                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth',
+                   'Super-HBN': f'{MODEL_PATH}/Super-HBN.pth'
                    'TD-HBN': f'{MODEL_PATH}/TD-HBN.pth'}
 
     # argument parser
