@@ -136,10 +136,10 @@ class TD_HBN_Testing(nn.Module):
             _, granularity = torch.max(sem_granularity, 1)
             granularity = granularity.float()
             mean_coarse_entropy, mean_fine_entropy = z_coarse_entropy.mean(), z_fine_entropy.mean()
-            if (granularity == 1) and (mean_fine_entropy < threshold[0]):
+            if (torch.mean(granularity, dim=-1) >= 0.5) and (mean_fine_entropy < threshold[0]):
                 # -> fine classification
                 return z1_fine, 'fine exit 1', sem_granularity
-            elif (granularity == 0) and (mean_coarse_entropy < threshold[0]):
+            elif (torch.mean(granularity, dim=-1) < 0.5) and (mean_coarse_entropy < threshold[0]):
                 # -> coarse classification
                 return z1_coarse, 'coarse exit 1', sem_granularity
 
@@ -151,10 +151,10 @@ class TD_HBN_Testing(nn.Module):
 
         if not self.training:
             mean_coarse_entropy, mean_fine_entropy = z_coarse_entropy.mean(), z_fine_entropy.mean()
-            if (granularity == 1) and (mean_fine_entropy < threshold[1]):
+            if (torch.mean(granularity, dim=-1) >= 0.5) and (mean_fine_entropy < threshold[1]):
                 # -> fine classification
                 return z2_fine, 'fine exit 2', sem_granularity
-            elif (granularity == 0) and (mean_coarse_entropy < threshold[1]):
+            elif (torch.mean(granularity, dim=-1) < 0.5) and (mean_coarse_entropy < threshold[1]):
                 # -> coarse classification
                 return z2_coarse, 'coarse exit 2', sem_granularity
 
@@ -164,7 +164,7 @@ class TD_HBN_Testing(nn.Module):
                             self.evaluate_output(z3_lin, self.exit3a, self.exit3b, layer=3)
 
         if not self.training:
-            if granularity == 1:
+            if torch.mean(granularity, dim=-1) >= 0.5:
                 # -> fine classification
                 return z3_fine, 'fine exit 3', sem_granularity
             else:
