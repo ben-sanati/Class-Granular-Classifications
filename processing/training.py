@@ -52,7 +52,7 @@ class Trainer(ABC):
     val5_acc: List[float] = field(default_factory=list)
     specificities: List[float] = field(default_factory=list)
     # want to maximize early exits, therefore, they have higher weights in the loss
-    weights: List[float] = field(default_factory=lambda: [1.0, 0.9, 0.8])
+    weights: List[float] = field(default_factory=lambda: [1.0, 0.8, 0.6])
 
     def init_param(self):
         """
@@ -110,7 +110,7 @@ class Trainer(ABC):
 
                     if (epoch + 1) % 10 == 0:
                         # save checkpoint
-                        torch.save(self.model.state_dict(), filename)
+                        torch.save(self.model.state_dict(), filepath)
 
                     # clear variables that are no longer needed
                     del images
@@ -120,12 +120,11 @@ class Trainer(ABC):
                     del top5_val
                     del specificity
 
+        # save model
+        torch.save(self.model.state_dict(), filepath)
         self._post_training()
 
         print("-" * 30)
-
-        # save model
-        torch.save(self.model.state_dict(), filepath)
 
     @abstractmethod
     def _get_output(self, images, labels):
@@ -386,7 +385,7 @@ class TD_HBNTrainer(Trainer):
     """
     # semantic weighting to equalise the value of the losses
     alpha: float = 5.0
-    fine_weighting: float = 1.5
+    fine_weighting: float = 1.02
     def _get_output(self, images, labels):
         """
         _summary_
