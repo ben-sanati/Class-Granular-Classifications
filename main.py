@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # argument parser
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', choices=MODE_MAP.keys(), type=str, default='training')
-    parser.add_argument('--batch_size', type=int, default=256)
+    parser.add_argument('--batch_size', type=int, default=64)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--pt_lr', type=float, default=1e-5)
     parser.add_argument('--weight_decay', type=float, default=1e-4)

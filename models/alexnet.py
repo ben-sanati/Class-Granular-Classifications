@@ -32,12 +32,12 @@ class AlexNet(nn.Module):
         )
         self.classifier = nn.Sequential(
             nn.Dropout(p=dropout),
-            nn.Linear(256 * 2 * 2, 4096),
+            nn.Linear(256 * 2 * 2, 2048),
             nn.ReLU(inplace=True),
             nn.Dropout(p=dropout),
-            nn.Linear(4096, 4096),
+            nn.Linear(2048, 2048),
             nn.ReLU(inplace=True),
-            nn.Linear(4096, num_classes),
+            nn.Linear(2048, num_classes),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
