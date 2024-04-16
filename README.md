@@ -73,12 +73,6 @@ This leads to the development of a model that automatically tunes the classifica
 
 Find the [paper here](/docs/Gran_HBN_Paper.pdf).
 
-### References 
-
-[1] X. Zhu and M. Bain, “B-CNN: branch convolutional neural network for hierarchical classification,” arXiv preprint arXiv:1709.09890, 2017 <br />
-[2] B. Kolisnik, I. Hogan, and F. Zulkernine, “Condition-CNN: A hierarchical multi-label fashion image classification model,” Expert Systems with Applications, vol. 182, p. 115195, 2021. [Online]. Available: https://www.sciencedirect.com/science/article/pii/S0957417421006291 <br />
-[3] R. La Grassa, I. Gallo, and N. Landro, “Learn class hierarchy using convolutional neural networks,” Applied Intelligence, vol. 51, no. 10, pp. 6622–6632, 2021.
-
 ### License
 
 Licensed under the [MIT License](LICENSE).
